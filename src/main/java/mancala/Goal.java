@@ -1,5 +1,9 @@
 package mancala;
 
-public class Goal {
+public class Goal extends Cup{
+	
+	public Goal(){
+		
+	}
 
 }
