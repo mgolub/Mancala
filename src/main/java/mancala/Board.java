@@ -28,19 +28,19 @@ public class Board {
 		int amount = board[start].getCount();
 
 		for (int i = 0, position = start + 1; i < amount; i++, position++) {
-			board[start].removePiece();
+			Piece piece = board[start].removePiece();
 			if (position == 6) {
 				if (currentPlayer == player1) {
 					peicesWon++;
-					board[position].addPiece();
+					board[position].addPiece(piece);
 				}
 			} else if (position == 13) {
 				if (currentPlayer == player2) {
 					peicesWon++;
-					board[position].addPiece();
+					board[position].addPiece(piece);
 				}
 			} else {
-				board[position].addPiece();
+				board[position].addPiece(piece);
 			}
 			if (position == 15) {
 				position = -1;// 0 after increment
