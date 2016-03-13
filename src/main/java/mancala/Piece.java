@@ -2,17 +2,13 @@ package mancala;
 
 public class Piece {
 
-	private String imageName;
+	private String imageSource;
 
-	public Piece(String imageName) {
-		this.imageName = imageName;
+	public Piece(String color) {
+		this.imageSource = color + ".jpg";
 	}
 
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
-	}
-
-	public String getImageName() {
-		return imageName;
+	public String getImage() {
+		return imageSource;
 	}
 }
