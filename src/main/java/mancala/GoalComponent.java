@@ -27,7 +27,7 @@ public class GoalComponent extends JComponent{
 		super.paintComponent(g);
 		
 		g.setColor(Color.YELLOW);
-		g.drawOval(1, 1, 20, 50);
+		g.fillOval(1, 1, 20, 50);
 		
 		for(int i = 0; i < pieces.size(); i++){
 			
