@@ -50,10 +50,9 @@ public class BoardGUI extends JFrame {
 	}
 
 	public void format() {
-		game.setBackground(new Color(156, 93, 82));
 		cupPanel.setLayout(new FlowLayout());
 		cupPanel.setBackground(Color.red);
-		cupPanel
+	
 	}
 
 	public void add() {
