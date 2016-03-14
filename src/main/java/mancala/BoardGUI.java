@@ -18,6 +18,7 @@ public class BoardGUI extends JFrame {
 	private JLabel player1, player2, stats1, stats2, currentTurn;
 	private String player1Name, player2Name;
 	private int wins1, wins2;
+	private JPanel cupPanel;
 
 	public BoardGUI() {
 		setTitle("Mancala");
@@ -30,9 +31,11 @@ public class BoardGUI extends JFrame {
 		options = new JPanel();
 		newGame = new JButton("New Game");
 
+		
 		game = new JPanel(new BorderLayout());
 		goal1 = new GoalComponent();
 		goal2 = new GoalComponent();
+		cupPanel = new JPanel();
 
 		stats = new JPanel(new FlowLayout());
 		player1 = new JLabel("Player1: " + player1Name);
@@ -59,6 +62,7 @@ public class BoardGUI extends JFrame {
 		
 		game.add(goal1, BorderLayout.EAST);
 		game.add(goal2, BorderLayout.WEST);
+		game.add(cupPanel,BorderLayout.CENTER);
 		
 		for (int i = 0; i < 12; i++) {
 			game.add(new CupComponent(i, i % 6), BorderLayout.CENTER);
