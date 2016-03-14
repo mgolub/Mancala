@@ -89,7 +89,7 @@ public class GUI2 extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new BoardGUI().setVisible(true);
+		new GUI2("gfgf","gtdftr").setVisible(true);
 	}
 
 }

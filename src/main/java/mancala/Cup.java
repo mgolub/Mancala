@@ -28,9 +28,9 @@ public class Cup {
 
 	public void reset() {
 		count = 4;
-		pieces.push(new Piece("fakeName"));
+		/*pieces.push(new Piece("fakeName"));
 		pieces.push(new Piece("soIt"));
 		pieces.push(new Piece("will"));
-		pieces.push(new Piece("compile"));
+		pieces.push(new Piece("compile"));*/
 	}
 }

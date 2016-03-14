@@ -46,7 +46,7 @@ public class NameFrame extends JFrame{
 		add(enter2);
 		enter2.setSize(50, 10);
 		add(input2);
-		
+		add(okay);
 	}
 
 	private void addListener() {
@@ -55,8 +55,9 @@ public class NameFrame extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				name1 = input1.getText().trim();
 				name2 = input2.getText().trim();
-				
+				dispose();
 				GUI2 gui = new GUI2(name1, name2);
+				gui.setVisible(true);
 			}
 			
 		});
