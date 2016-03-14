@@ -24,7 +24,7 @@ public class BoardGUI extends JFrame {
 		setTitle("Mancala");
 		setSize(1000, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		//setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 
@@ -51,6 +51,9 @@ public class BoardGUI extends JFrame {
 
 	public void format() {
 		game.setBackground(new Color(156, 93, 82));
+		cupPanel.setLayout(new FlowLayout());
+		cupPanel.setBackground(Color.red);
+		cupPanel
 	}
 
 	public void add() {
@@ -65,7 +68,7 @@ public class BoardGUI extends JFrame {
 		game.add(cupPanel,BorderLayout.CENTER);
 		
 		for (int i = 0; i < 12; i++) {
-			game.add(new CupComponent(i, i % 6), BorderLayout.CENTER);
+			cupPanel.add(new CupComponent(i, i % 6));
 		}
 		
 
