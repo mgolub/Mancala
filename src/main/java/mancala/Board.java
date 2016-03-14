@@ -14,7 +14,12 @@ public class Board {
 		player2 = new Player(name2);
 		peicesWon = 0;
 		for (int i = 0; i < board.length; i++) {
-			board[i] = new Cup();
+
+			if (i == 6 || i == 13) {
+				board[i] = new Goal();
+			} else {
+				board[i] = new Cup();
+			}
 		}
 	}
 
@@ -26,23 +31,23 @@ public class Board {
 
 	public void distribute(int start, int player) {
 		int amount = board[start].getCount();
-
-		for (int i = 0, position = start + 1; i < amount; i++, position++) {
-			Piece piece = board[start].removePiece();
+		board[start].removePieces();
+		for (int i = 0, position = start; i < amount; i++, position++) {
+			// Piece piece = board[start].removePiece();
 			if (position == 6) {
 				if (currentPlayer == player1) {
 					peicesWon++;
-					board[position].addPiece(piece);
+					board[position].addPiece();
 				}
 			} else if (position == 13) {
 				if (currentPlayer == player2) {
 					peicesWon++;
-					board[position].addPiece(piece);
+					board[position].addPiece();
 				}
 			} else {
-				board[position].addPiece(piece);
+				board[position].addPiece();
 			}
-			if (position == 15) {
+			if (position == 13) {
 				position = -1;// 0 after increment
 			}
 		}
@@ -73,5 +78,9 @@ public class Board {
 			player2.addWin();
 			return 1;
 		}
+	}
+
+	public int getContent(int i) {
+		return board[i].getCount();
 	}
 }

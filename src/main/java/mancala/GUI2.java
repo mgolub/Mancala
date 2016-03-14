@@ -2,8 +2,12 @@ package mancala;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,9 +20,9 @@ public class GUI2 extends JFrame {
 	private JLabel player1, player2, stats1, stats2, currentTurn;
 	private String player1Name, player2Name;
 	private int wins1, wins2;
-	private JPanel cupPanel, goalPanel1, goalPanel2;
-	private JButton[] cups;
-	private JLabel goal1, goal2;
+	private JPanel cupsPanel, cupPanel1, cupPanel2, goalPanel1, goalPanel2;
+	private JLabel[] cups;
+	// private JLabel goal1, goal2;
 	private Board board;
 
 	public GUI2(String name1, String name2) {
@@ -34,7 +38,9 @@ public class GUI2 extends JFrame {
 		board = new Board(name1, name2);
 
 		game = new JPanel(new BorderLayout());
-		cupPanel = new JPanel();
+		cupsPanel = new JPanel();
+		cupPanel1 = new JPanel();
+		cupPanel2 = new JPanel();
 		goalPanel1 = new JPanel();
 		goalPanel2 = new JPanel();
 		stats = new JPanel(new FlowLayout());
@@ -44,20 +50,30 @@ public class GUI2 extends JFrame {
 		stats2 = new JLabel("Player2 Wins: " + wins2);
 		currentTurn = new JLabel("Current Player: " + player1Name);
 
-		cups = new JButton[12];
-		goal1 = new JLabel();
-		goal2 = new JLabel();
-		format();
+		cups = new JLabel[14];
+		// goal1 = new JLabel();
+		// goal2 = new JLabel();
 		add();
-
+		format();
+		resetNumbers();
 	}
 
 	public void format() {
 		game.setBackground(new Color(156, 93, 82));
-		cupPanel.setLayout(new FlowLayout());
-		cupPanel.setOpaque(false);
+		cupsPanel.setLayout(new BoxLayout(cupsPanel, BoxLayout.Y_AXIS));
+		cupPanel2.setLayout(new FlowLayout());
+		cupPanel2.setBackground(Color.yellow);
+		cupPanel1.setLayout(new FlowLayout());
+		cupPanel1.setBackground(Color.magenta);
 		goalPanel1.setBackground(Color.green);
 		goalPanel2.setBackground(Color.green);
+		goalPanel1.setLayout(new BoxLayout(goalPanel1, BoxLayout.Y_AXIS));
+		goalPanel2.setLayout(new BoxLayout(goalPanel2, BoxLayout.Y_AXIS));
+
+		for (int i = 0; i < cups.length; i++) {
+			cups[i].setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 165));
+			cups[i].setVerticalAlignment(JLabel.CENTER);
+		}
 	}
 
 	public void add() {
@@ -65,16 +81,27 @@ public class GUI2 extends JFrame {
 		options.add(newGame);
 
 		add(game, BorderLayout.CENTER);
+		game.add(cupsPanel, BorderLayout.CENTER);
 		game.add(goalPanel1, BorderLayout.EAST);
 		game.add(goalPanel2, BorderLayout.WEST);
-		game.add(cupPanel, BorderLayout.CENTER);
+		cupsPanel.add(cupPanel2);
+		cupsPanel.add(cupPanel1);
+		for (int i = 0; i < cups.length; i++) {
+			cups[i] = new JLabel();
+			if ((i + 1) % 7 != 0) {
+				if (i < 6) {
+					cupPanel1.add(cups[i]);
+				} else {
+					cupPanel2.add(cups[i]);
+				}
 
-		goalPanel1.add(goal1);
-		goalPanel2.add(goal2);
-
-		for (int i = 0; i < 12; i++) {
-			cups[i] = new JButton();
+				// add listener
+			}
 		}
+		goalPanel1.add(Box.createRigidArea(new Dimension(1, 185)));
+		goalPanel1.add(cups[6]);
+		goalPanel2.add(Box.createRigidArea(new Dimension(1, 185)));
+		goalPanel2.add(cups[13]);
 
 		add(stats, BorderLayout.SOUTH);
 		stats.add(player1);
@@ -84,12 +111,20 @@ public class GUI2 extends JFrame {
 		stats.add(currentTurn);
 	}
 
-	public void getNames() {
+	// called by action listener
+	public void turn() {
 
+		resetNumbers();
 	}
 
 	public static void main(String[] args) {
-		new GUI2("gfgf","gtdftr").setVisible(true);
+		new GUI2("gfgf", "gtdftr").setVisible(true);
+	}
+
+	public void resetNumbers() {
+		for (int i = 0; i < 14; i++) {
+			cups[i].setText(board.getContent(i) + "");
+		}
 	}
 
 }
