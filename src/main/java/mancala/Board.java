@@ -3,15 +3,19 @@ package mancala;
 public class Board {
 
 	private Cup[] board;
-	private Player player1;
-	private Player player2;
-	private Player currentPlayer;
+	private int player1;
+	private int player2;
+	private int currentPlayer;
 	private int peicesWon;// by both combined
 
 	public Board(String name1, String name2) {
 		board = new Cup[14];
-		player1 = new Player(name1);
-		player2 = new Player(name2);
+		//player1 = new Player(name1);
+		//player2 = new Player(name2);
+		player1 = 1;
+		player2 = 2;
+		currentPlayer = player1;
+		
 		peicesWon = 0;
 		for (int i = 0; i < board.length; i++) {
 
@@ -27,9 +31,10 @@ public class Board {
 		for (int i = 0; i < board.length; i++) {
 			board[i].reset();
 		}
+		currentPlayer = player1;
 	}
 
-	public void distribute(int start, int player) {
+	public void distribute(int start) {
 		int amount = board[start].getCount();
 		board[start].removePieces();
 		for (int i = 0, position = start; i < amount; i++, position++) {
@@ -54,12 +59,17 @@ public class Board {
 
 	}
 
-	public void switchPlayer(int player) {
-		if (player == 0) {
+	public int switchPlayer() {
+		if (currentPlayer == player2) {
 			currentPlayer = player1;
 		} else {
 			currentPlayer = player2;
 		}
+		return currentPlayer;
+	}
+	
+	public int getCurrentPlayer() {
+		return currentPlayer;
 	}
 
 	public boolean checkGame() {
@@ -72,11 +82,9 @@ public class Board {
 
 	public int calculateWinner() {
 		if (board[7].getCount() > board[13].getCount()) {
-			player1.addWin();
-			return 0;
-		} else {
-			player2.addWin();
 			return 1;
+		} else {
+			return 2;
 		}
 	}
 

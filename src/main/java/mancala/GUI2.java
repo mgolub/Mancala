@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,6 +23,7 @@ public class GUI2 extends JFrame {
 	private JButton newGame;
 	private JLabel player1, player2, stats1, stats2, currentTurn;
 	private String player1Name, player2Name;
+	private int currentPlayer;
 	private int wins1, wins2;
 	private JPanel cupsPanel, cupPanel1, cupPanel2, goalPanel1, goalPanel2;
 	private JLabel[] cups;
@@ -33,6 +38,7 @@ public class GUI2 extends JFrame {
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 
+		currentPlayer = 1;
 		options = new JPanel();
 		newGame = new JButton("New Game");
 		board = new Board(name1, name2);
@@ -73,6 +79,18 @@ public class GUI2 extends JFrame {
 		for (int i = 0; i < cups.length; i++) {
 			cups[i].setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 165));
 			cups[i].setVerticalAlignment(JLabel.CENTER);
+
+			if (i != 6 || i != 13) {
+				cups[i].putClientProperty("index", i);
+				cups[i].addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent event) {
+						JLabel label = (JLabel) event.getSource();
+						int index = (Integer) label.getClientProperty("index");
+						turn(index);
+					}
+				});
+			}
+
 		}
 	}
 
@@ -93,9 +111,9 @@ public class GUI2 extends JFrame {
 					cupPanel1.add(cups[i]);
 				} else {
 					cupPanel2.add(cups[i]);
+					cups[i].setEnabled(false);
 				}
 
-				// add listener
 			}
 		}
 		goalPanel1.add(Box.createRigidArea(new Dimension(1, 185)));
@@ -112,9 +130,33 @@ public class GUI2 extends JFrame {
 	}
 
 	// called by action listener
-	public void turn() {
-
+	public void turn(int index) {
+		board.distribute(index);
 		resetNumbers();
+		if (board.checkGame()) {
+			int winner = board.calculateWinner();
+			
+			// display dialog box
+			System.out.println(currentPlayer +"won");
+			
+			board.resetBoard();
+			return;
+		}
+		currentPlayer = board.switchPlayer();
+		disableLabels();
+
+	}
+
+	private void disableLabels() {
+		for (int i = 0; i < 13; i++) {
+			if (cups[i].isEnabled()) {
+				cups[i].setEnabled(false);
+			} else {
+				cups[i].setEnabled(true);
+
+			}
+		}
+
 	}
 
 	public static void main(String[] args) {
