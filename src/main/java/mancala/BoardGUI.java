@@ -55,11 +55,15 @@ public class BoardGUI extends JFrame {
 		options.add(newGame);
 
 		add(game, BorderLayout.CENTER);
+		
+		
 		game.add(goal1, BorderLayout.EAST);
 		game.add(goal2, BorderLayout.WEST);
+		
 		for (int i = 0; i < 12; i++) {
-			game.add(new CupComponent(i, "purple"), BorderLayout.CENTER);
+			game.add(new CupComponent(i, i % 6), BorderLayout.CENTER);
 		}
+		
 
 		add(stats, BorderLayout.SOUTH);
 		stats.add(player1);
