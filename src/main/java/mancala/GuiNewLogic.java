@@ -83,15 +83,6 @@ public class GuiNewLogic extends JFrame {
 		goalPanel1.setLayout(new BoxLayout(goalPanel1, BoxLayout.Y_AXIS));
 		goalPanel2.setLayout(new BoxLayout(goalPanel2, BoxLayout.Y_AXIS));
 
-		newGame.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				resetBoard();
-
-			}
-
-		});
-
 		for (int i = 0; i < cups.length; i++) {
 			cups[i].setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 90));
 			cups[i].setVerticalAlignment(JLabel.CENTER);
@@ -154,8 +145,10 @@ public class GuiNewLogic extends JFrame {
 
 	// called by action listener
 	public void turn(int index) {
-		boolean goalTurn = board.distribute(index); // returns if landed in a goal
+		boolean goalTurn = board.distribute(index); // returns if landed in a
+													// goal
 		resetNumbers();
+		board.checkForMoves();
 
 		if (board.checkGame()) {
 			int winner = board.calculateWinner();
@@ -175,7 +168,7 @@ public class GuiNewLogic extends JFrame {
 			currentPlayer = board.switchPlayer();
 			disableLabels();
 		}
-		
+
 	}
 
 	private void disableLabels() {

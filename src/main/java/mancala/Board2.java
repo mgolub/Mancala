@@ -111,23 +111,22 @@ public class Board2 {
 			}
 		} // end for loop - fin distributing pieces
 
-		//System.out.println(board[start].getCount());
-		
+		// System.out.println(board[start].getCount());
+		amount = 1;
 		if (board[start].getCount() == 1) {
 			if (start > -1 && start < 6 && currentPlayer == player1) {
 				amount = board[start].removePieces();
-				amount += board[start + 7].removePieces();
-				System.out.println("amount is "+amount);
-				peicesWon += amount;
+				amount = amount + board[start + 7].removePieces();
+				System.out.println("amount is " + amount);
+				peicesWon = peicesWon + amount;
 				((Goal) board[6]).addToGoal(amount);
 			} else if (start > 6 && start < 13 && currentPlayer == player2) {
 				amount = board[start].removePieces();
-				amount += board[start - 7].removePieces();
-				System.out.println("amount is "+amount);
-				peicesWon += amount;
+				amount = amount + board[start - 7].removePieces();
+				System.out.println("amount is " + amount);
+				peicesWon = peicesWon + amount;
 				((Goal) board[13]).addToGoal(amount);
 			}
-			amount = 0;
 		}
 		// if ended by a goal returns true;
 		if (start == 6) {
@@ -160,6 +159,7 @@ public class Board2 {
 				amount += board[i].removePieces();
 			}
 			((Goal) board[13]).addToGoal(amount);
+			peicesWon += amount;
 			return;
 		}
 
@@ -176,6 +176,7 @@ public class Board2 {
 				amount += board[i].removePieces();
 			}
 			((Goal) board[6]).addToGoal(amount);
+			peicesWon += amount;
 			return;
 		}
 	}

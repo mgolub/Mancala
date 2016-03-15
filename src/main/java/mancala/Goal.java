@@ -12,7 +12,7 @@ public class Goal extends Cup {
 	}
 
 	public void addToGoal(int amount) {
-		count += amount;
+		count = count + amount;
 	}
 
 }
