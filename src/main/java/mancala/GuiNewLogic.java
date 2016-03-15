@@ -82,14 +82,14 @@ public class GuiNewLogic extends JFrame {
 		goalPanel2.setBackground(Color.green);
 		goalPanel1.setLayout(new BoxLayout(goalPanel1, BoxLayout.Y_AXIS));
 		goalPanel2.setLayout(new BoxLayout(goalPanel2, BoxLayout.Y_AXIS));
-		
-		newGame.addActionListener(new ActionListener(){
+
+		newGame.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
 				resetBoard();
-				
+
 			}
-			
+
 		});
 
 		for (int i = 0; i < cups.length; i++) {
@@ -112,8 +112,7 @@ public class GuiNewLogic extends JFrame {
 			}
 
 		}
-		
-		
+
 	}
 
 	public void add() {
@@ -158,13 +157,9 @@ public class GuiNewLogic extends JFrame {
 	// fix that it switched turn and that enable is correct
 	// debug when land in empty goal
 	public void turn(int index) {
-		boolean goalTurn = false;
-		do {
-			goalTurn = board.distribute(index);
-			//add check if peices left
-			//if statement make it nreak out of hte do while 
-			resetNumbers();
-		} while (goalTurn);
+		boolean goalTurn = board.distribute(index); // returns if landed in a goal
+		resetNumbers();
+		System.out.println("Landed in goal");
 
 		if (board.checkGame()) {
 			int winner = board.calculateWinner();
@@ -180,8 +175,11 @@ public class GuiNewLogic extends JFrame {
 			resetBoard();
 			return;
 		}
-		currentPlayer = board.switchPlayer();
-		disableLabels();
+		if (!goalTurn) {
+			currentPlayer = board.switchPlayer();
+			disableLabels();
+		}
+		
 	}
 
 	private void disableLabels() {
@@ -210,13 +208,13 @@ public class GuiNewLogic extends JFrame {
 
 	public void addActionListeners() {
 		newGame.addActionListener(new ActionListener() {
-			//@Override
+			// @Override
 			public void actionPerformed(ActionEvent e) {
 				resetBoard();
 			}
 		});
 		rules.addActionListener(new ActionListener() {
-			//@Override
+			// @Override
 			public void actionPerformed(ActionEvent e) {
 				RulesFrame rulesFrame = new RulesFrame();
 				rulesFrame.setVisible(true);
