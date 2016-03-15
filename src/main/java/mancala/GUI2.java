@@ -88,6 +88,9 @@ public class GUI2 extends JFrame {
 					public void mouseClicked(MouseEvent event) {
 						JLabel label = (JLabel) event.getSource();
 						int index = (Integer) label.getClientProperty("index");
+						if (!label.isEnabled()|| board.getContent(index)==0){
+							return;
+						}
 						turn(index);
 						System.out.println("Selected " + index);
 					}

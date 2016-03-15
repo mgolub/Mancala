@@ -76,7 +76,7 @@ public class Board {
 		} // end for loop - fin distributing pieces
 
 		// if ended by a goal returns true;
-		if (board[start].getCount() != 1 && (start != 6 && start != 13)) {
+		if (board[start].getCount() != 0 && (start != 6 && start != 13)) {
 			distribute(start);
 		}
 		if (start == 6) {
