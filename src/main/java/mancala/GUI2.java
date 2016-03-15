@@ -87,7 +87,7 @@ public class GUI2 extends JFrame {
 						JLabel label = (JLabel) event.getSource();
 						int index = (Integer) label.getClientProperty("index");
 						turn(index);
-						System.out.println("Selected "+index);
+						System.out.println("Selected " + index);
 					}
 				});
 			}
@@ -105,18 +105,17 @@ public class GUI2 extends JFrame {
 		game.add(goalPanel2, BorderLayout.WEST);
 		cupsPanel.add(cupPanel2);
 		cupsPanel.add(cupPanel1);
-		for (int i = 0; i < cups.length; i++) {
+		for (int i = 0; i < 6; i++) {
 			cups[i] = new JLabel();
-			if ((i + 1) % 7 != 0) {
-				if (i < 6) {
-					cupPanel1.add(cups[i]);
-				} else {
-					cupPanel2.add(cups[i]);
-					cups[i].setEnabled(false);
-				}
-
-			}
+			cupPanel1.add(cups[i]);
 		}
+		for (int i = 12; i > 6; i--) {
+			cups[i] = new JLabel();
+			cupPanel2.add(cups[i]);
+			cups[i].setEnabled(false);
+		}
+		cups[6]= new JLabel();
+		cups[13] = new JLabel();
 		goalPanel1.add(Box.createRigidArea(new Dimension(1, 185)));
 		goalPanel1.add(cups[6]);
 		goalPanel2.add(Box.createRigidArea(new Dimension(1, 185)));
@@ -136,10 +135,10 @@ public class GUI2 extends JFrame {
 		resetNumbers();
 		if (board.checkGame()) {
 			int winner = board.calculateWinner();
-			
+
 			// display dialog box
-			System.out.println(currentPlayer +"won");
-			
+			System.out.println(currentPlayer + "won");
+
 			board.resetBoard();
 			return;
 		}

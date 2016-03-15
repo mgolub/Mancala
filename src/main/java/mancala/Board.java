@@ -10,12 +10,12 @@ public class Board {
 
 	public Board(String name1, String name2) {
 		board = new Cup[14];
-		//player1 = new Player(name1);
-		//player2 = new Player(name2);
+		// player1 = new Player(name1);
+		// player2 = new Player(name2);
 		player1 = 1;
 		player2 = 2;
 		currentPlayer = player1;
-		
+
 		peicesWon = 0;
 		for (int i = 0; i < board.length; i++) {
 
@@ -37,7 +37,7 @@ public class Board {
 	public void distribute(int start) {
 		int amount = board[start].getCount();
 		board[start].removePieces();
-		for (int i = 0, position = start; i < amount; i++, position++) {
+		for (int i = 0, position = start + 1; i < amount; i++, position++) {
 			// Piece piece = board[start].removePiece();
 			if (position == 6) {
 				if (currentPlayer == player1) {
@@ -67,7 +67,7 @@ public class Board {
 		}
 		return currentPlayer;
 	}
-	
+
 	public int getCurrentPlayer() {
 		return currentPlayer;
 	}
