@@ -55,6 +55,8 @@ public class GUI2 extends JFrame {
 		stats1 = new JLabel("Player1 Wins: " + wins1);
 		stats2 = new JLabel("Player2 Wins: " + wins2);
 		currentTurn = new JLabel("Current Player: " + player1Name);
+		wins1 = 0;
+		wins2 = 0;
 
 		cups = new JLabel[14];
 		// goal1 = new JLabel();
@@ -77,7 +79,7 @@ public class GUI2 extends JFrame {
 		goalPanel2.setLayout(new BoxLayout(goalPanel2, BoxLayout.Y_AXIS));
 
 		for (int i = 0; i < cups.length; i++) {
-			cups[i].setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 165));
+			cups[i].setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 90));
 			cups[i].setVerticalAlignment(JLabel.CENTER);
 
 			if (i != 6 || i != 13) {
@@ -114,7 +116,7 @@ public class GUI2 extends JFrame {
 			cupPanel2.add(cups[i]);
 			cups[i].setEnabled(false);
 		}
-		cups[6]= new JLabel();
+		cups[6] = new JLabel();
 		cups[13] = new JLabel();
 		goalPanel1.add(Box.createRigidArea(new Dimension(1, 185)));
 		goalPanel1.add(cups[6]);
@@ -131,15 +133,24 @@ public class GUI2 extends JFrame {
 
 	// called by action listener
 	public void turn(int index) {
-		board.distribute(index);
+		boolean goalTurn = false;
+		do {
+			goalTurn = board.distribute(index);
+		} while (goalTurn);
+
 		resetNumbers();
 		if (board.checkGame()) {
 			int winner = board.calculateWinner();
-
+			if (currentPlayer == 1) {
+				wins1++;
+			} else {
+				wins2++;
+			}
 			// display dialog box
 			System.out.println(currentPlayer + "won");
-
-			board.resetBoard();
+			stats1.setText("Player1 Wins: " + wins1);
+			stats2.setText("Player2 Wins: " + wins2);
+			resetBoard();
 			return;
 		}
 		currentPlayer = board.switchPlayer();
@@ -149,24 +160,41 @@ public class GUI2 extends JFrame {
 
 	private void disableLabels() {
 		for (int i = 0; i < 13; i++) {
-			if (cups[i].isEnabled()) {
-				cups[i].setEnabled(false);
-			} else {
-				cups[i].setEnabled(true);
+			if (i != 6 || i != 13) {
+				if (cups[i].isEnabled()) {
+					cups[i].setEnabled(false);
+				} else {
+					cups[i].setEnabled(true);
 
+				}
 			}
 		}
 
 	}
 
-	public static void main(String[] args) {
-		new GUI2("gfgf", "gtdftr").setVisible(true);
-	}
-
 	public void resetNumbers() {
 		for (int i = 0; i < 14; i++) {
-			cups[i].setText(board.getContent(i) + "");
+			cups[i].setText(board.getContent(i) + "-");
 		}
+	}
+
+	public void addActionListener() {
+		newGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				resetBoard();
+			}
+		});
+	}
+
+	public void resetBoard() {
+		board.resetBoard();
+		resetNumbers();
+		currentPlayer = 1;
+	}
+
+	public static void main(String[] args) {
+		new GUI2("gfgf", "gtdftr").setVisible(true);
 	}
 
 }
