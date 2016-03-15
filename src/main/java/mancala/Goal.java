@@ -11,4 +11,8 @@ public class Goal extends Cup {
 		count = 0;
 	}
 
+	public void addToGoal(int amount) {
+		count += amount;
+	}
+
 }

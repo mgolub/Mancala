@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 public class GUI2 extends JFrame {
 
 	private JPanel options, game, stats;
-	private JButton newGame;
+	private JButton newGame, rules;
 	private JLabel player1, player2, stats1, stats2, currentTurn;
 	private String player1Name, player2Name;
 	private int currentPlayer;
@@ -30,6 +30,9 @@ public class GUI2 extends JFrame {
 	private JLabel[] cups;
 	// private JLabel goal1, goal2;
 	private Board board;
+	// i would like to change it to Board22 - but for both versions logic has to
+	// be completed
+	// still
 
 	public GUI2(String name1, String name2) {
 		setTitle("Mancala");
@@ -42,6 +45,7 @@ public class GUI2 extends JFrame {
 		currentPlayer = 1;
 		options = new JPanel();
 		newGame = new JButton("New Game");
+		rules = new JButton("Rules");
 		board = new Board(name1, name2);
 
 		game = new JPanel(new BorderLayout());
@@ -65,6 +69,7 @@ public class GUI2 extends JFrame {
 		add();
 		format();
 		resetNumbers();
+		addActionListeners();
 	}
 
 	public void format() {
@@ -104,6 +109,7 @@ public class GUI2 extends JFrame {
 	public void add() {
 		add(options, BorderLayout.NORTH);
 		options.add(newGame);
+		options.add(rules);
 
 		add(game, BorderLayout.CENTER);
 		game.add(cupsPanel, BorderLayout.CENTER);
@@ -189,11 +195,18 @@ public class GUI2 extends JFrame {
 		}
 	}
 
-	public void addActionListener() {
+	public void addActionListeners() {
 		newGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				resetBoard();
+			}
+		});
+		rules.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RulesFrame rulesFrame = new RulesFrame();
+				rulesFrame.setVisible(true);
 			}
 		});
 	}
