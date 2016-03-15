@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -88,7 +89,7 @@ public class GUI2 extends JFrame {
 					public void mouseClicked(MouseEvent event) {
 						JLabel label = (JLabel) event.getSource();
 						int index = (Integer) label.getClientProperty("index");
-						if (!label.isEnabled()|| board.getContent(index)==0){
+						if (!label.isEnabled() || board.getContent(index) == 0) {
 							return;
 						}
 						turn(index);
@@ -110,6 +111,9 @@ public class GUI2 extends JFrame {
 		game.add(goalPanel2, BorderLayout.WEST);
 		cupsPanel.add(cupPanel2);
 		cupsPanel.add(cupPanel1);
+
+		cupPanel1.add(Box.createRigidArea(new Dimension(1, 200)));
+		cupPanel2.add(Box.createRigidArea(new Dimension(1, 200)));
 		for (int i = 0; i < 6; i++) {
 			cups[i] = new JLabel();
 			cupPanel1.add(cups[i]);
@@ -121,9 +125,9 @@ public class GUI2 extends JFrame {
 		}
 		cups[6] = new JLabel();
 		cups[13] = new JLabel();
-		goalPanel1.add(Box.createRigidArea(new Dimension(1, 185)));
+		goalPanel1.add(Box.createRigidArea(new Dimension(1, 200)));
 		goalPanel1.add(cups[6]);
-		goalPanel2.add(Box.createRigidArea(new Dimension(1, 185)));
+		goalPanel2.add(Box.createRigidArea(new Dimension(1, 200)));
 		goalPanel2.add(cups[13]);
 
 		add(stats, BorderLayout.SOUTH);
@@ -177,7 +181,11 @@ public class GUI2 extends JFrame {
 
 	public void resetNumbers() {
 		for (int i = 0; i < 14; i++) {
-			cups[i].setText(board.getContent(i) + "-");
+			if ((i + 1) % 7 == 0 || i == 5 || i == 7) {
+				cups[i].setText(board.getContent(i) + "");
+			} else {
+				cups[i].setText(board.getContent(i) + "-");
+			}
 		}
 	}
 

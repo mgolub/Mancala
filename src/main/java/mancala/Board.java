@@ -36,6 +36,39 @@ public class Board {
 		currentPlayer = player1;
 	}
 
+	public int switchPlayer() {
+		if (currentPlayer == player2) {
+			currentPlayer = player1;
+		} else {
+			currentPlayer = player2;
+		}
+		return currentPlayer;
+	}
+
+	public int getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public boolean checkGame() {
+		if (peicesWon == 48) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public int calculateWinner() {
+		if (board[7].getCount() > board[13].getCount()) {
+			return 1;
+		} else {
+			return 2;
+		}
+	}
+
+	public int getContent(int i) {
+		return board[i].getCount();
+	}
+
 	public boolean distribute(int startPosit) {
 		start = startPosit;
 		int amount = board[start].getCount();
@@ -96,36 +129,19 @@ public class Board {
 
 	}
 
-	public int switchPlayer() {
-		if (currentPlayer == player2) {
-			currentPlayer = player1;
-		} else {
-			currentPlayer = player2;
-		}
-		return currentPlayer;
-	}
+	// Rule - for the other version
+	
+	// If you run into your own store, deposit one piece in it.
+	// If you run into your opponent's store, skip it.
+	// If the last piece you drop is in your own store, you get a free turn.If
+	// the last piece you drop is in an empty hole on your side, you capture
+	// that piece and any pieces in the hole directly opposite.
+	// Always place all captured pieces in your store.
+	// The game ends when all six spaces on one side of the Mancala board are
+	// empty.
+	// The player who still has pieces on his side of the board when the game
+	// ends captures all of those pieces.
+	
+	//****will need to check every cell after every turn...
 
-	public int getCurrentPlayer() {
-		return currentPlayer;
-	}
-
-	public boolean checkGame() {
-		if (peicesWon == 48) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public int calculateWinner() {
-		if (board[7].getCount() > board[13].getCount()) {
-			return 1;
-		} else {
-			return 2;
-		}
-	}
-
-	public int getContent(int i) {
-		return board[i].getCount();
-	}
 }
