@@ -29,7 +29,7 @@ public class GuiNewLogic extends JFrame {
 	private JPanel cupsPanel, cupPanel1, cupPanel2, goalPanel1, goalPanel2;
 	private JLabel[] cups;
 	// private JLabel goal1, goal2;
-	private Board board;
+	private Board2 board;
 
 	public GuiNewLogic(String name1, String name2) {
 		setTitle("Mancala");
@@ -45,7 +45,7 @@ public class GuiNewLogic extends JFrame {
 		options = new JPanel();
 		newGame = new JButton("New Game");
 		rules = new JButton("Rules");
-		board = new Board(name1, name2);
+		board = new Board2(name1, name2);
 
 		game = new JPanel(new BorderLayout());
 		cupsPanel = new JPanel();
@@ -87,7 +87,7 @@ public class GuiNewLogic extends JFrame {
 			cups[i].setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 90));
 			cups[i].setVerticalAlignment(JLabel.CENTER);
 
-			if (i != 6 || i != 13) {
+			if (i != 6 && i != 13) {
 				cups[i].putClientProperty("index", i);
 				cups[i].addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent event) {
@@ -150,6 +150,8 @@ public class GuiNewLogic extends JFrame {
 		boolean goalTurn = false;
 		do {
 			goalTurn = board.distribute(index);
+			//add check if peices left
+			//if statement make it nreak out of hte do while 
 			resetNumbers();
 		} while (goalTurn);
 
@@ -169,12 +171,11 @@ public class GuiNewLogic extends JFrame {
 		}
 		currentPlayer = board.switchPlayer();
 		disableLabels();
-
 	}
 
 	private void disableLabels() {
 		for (int i = 0; i < 13; i++) {
-			if (i != 6 || i != 13) {
+			if (i != 6 && i != 13) {
 				if (cups[i].isEnabled()) {
 					cups[i].setEnabled(false);
 				} else {
@@ -219,7 +220,7 @@ public class GuiNewLogic extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new GUI2("gfgf", "gtdftr").setVisible(true);
+		new GuiNewLogic("gfgf", "gtdftr").setVisible(true);
 	}
 
 }
