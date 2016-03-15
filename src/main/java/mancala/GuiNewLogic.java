@@ -106,7 +106,6 @@ public class GuiNewLogic extends JFrame {
 							return;
 						}
 						turn(index);
-						System.out.println("Selected " + index);
 					}
 				});
 			}
@@ -154,12 +153,9 @@ public class GuiNewLogic extends JFrame {
 	}
 
 	// called by action listener
-	// fix that it switched turn and that enable is correct
-	// debug when land in empty goal
 	public void turn(int index) {
 		boolean goalTurn = board.distribute(index); // returns if landed in a goal
 		resetNumbers();
-		System.out.println("Landed in goal");
 
 		if (board.checkGame()) {
 			int winner = board.calculateWinner();
@@ -169,7 +165,7 @@ public class GuiNewLogic extends JFrame {
 				wins2++;
 			}
 			// display dialog box
-			System.out.println(currentPlayer + "won");
+			System.out.println(currentPlayer + " won");
 			stats1.setText("Player1 Wins: " + wins1);
 			stats2.setText("Player2 Wins: " + wins2);
 			resetBoard();
