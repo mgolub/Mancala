@@ -55,6 +55,7 @@ public class Board {
 			if (position == 13) {
 				position = -1;// 0 after increment
 			}
+			
 		}
 
 	}

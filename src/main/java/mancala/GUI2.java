@@ -2,6 +2,7 @@ package mancala;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -9,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,7 +32,9 @@ public class GUI2 extends JFrame {
 	private JLabel[] cups;
 	// private JLabel goal1, goal2;
 	private Board board;
-
+	/*private Component glass1;
+	private Component glass2;*/
+	
 	public GUI2(String name1, String name2) {
 		setTitle("Mancala");
 		setSize(1000, 700);
@@ -42,10 +47,10 @@ public class GUI2 extends JFrame {
 		options = new JPanel();
 		newGame = new JButton("New Game");
 		board = new Board(name1, name2);
-
+		
 		game = new JPanel(new BorderLayout());
 		cupsPanel = new JPanel();
-		cupPanel1 = new JPanel();
+		cupPanel1 = new JPanel();	
 		cupPanel2 = new JPanel();
 		goalPanel1 = new JPanel();
 		goalPanel2 = new JPanel();
@@ -57,8 +62,7 @@ public class GUI2 extends JFrame {
 		currentTurn = new JLabel("Current Player: " + player1Name);
 
 		cups = new JLabel[14];
-		// goal1 = new JLabel();
-		// goal2 = new JLabel();
+				
 		add();
 		format();
 		resetNumbers();
@@ -112,7 +116,7 @@ public class GUI2 extends JFrame {
 		for (int i = 12; i > 6; i--) {
 			cups[i] = new JLabel();
 			cupPanel2.add(cups[i]);
-			cups[i].setEnabled(false);
+			//cups[i].setEnabled(false);
 		}
 		cups[6]= new JLabel();
 		cups[13] = new JLabel();
@@ -127,6 +131,17 @@ public class GUI2 extends JFrame {
 		stats.add(stats1);
 		stats.add(stats2);
 		stats.add(currentTurn);
+		
+		/*glass1 = cupPanel1.getRootPane().getGlassPane();
+		glass2 = cupPanel2.getRootPane().getGlassPane();
+		
+		glass1.addMouseListener(new MouseAdapter(){});
+		glass1.addMouseMotionListener(new MouseMotionAdapter() {});
+		glass2.addMouseListener(new MouseAdapter(){});
+		glass2.addMouseMotionListener(new MouseMotionAdapter() {});
+
+		cupPanel1.getRootPane().setGlassPane(glass1);
+		cupPanel2.getRootPane().setGlassPane(glass2);*/
 	}
 
 	// called by action listener
@@ -148,14 +163,23 @@ public class GUI2 extends JFrame {
 	}
 
 	private void disableLabels() {
-		for (int i = 0; i < 13; i++) {
+		/*if(currentPlayer == 2){
+			glass1.setVisible(true);
+			glass2.setVisible(false);
+		}
+		else{
+			glass2.setVisible(true);
+			glass1.setVisible(false);
+		}*/
+		
+		/*for (int i = 0; i < 13; i++) {
 			if (cups[i].isEnabled()) {
 				cups[i].setEnabled(false);
 			} else {
 				cups[i].setEnabled(true);
 
 			}
-		}
+		}*/
 
 	}
 
