@@ -82,6 +82,15 @@ public class GuiNewLogic extends JFrame {
 		goalPanel2.setBackground(Color.green);
 		goalPanel1.setLayout(new BoxLayout(goalPanel1, BoxLayout.Y_AXIS));
 		goalPanel2.setLayout(new BoxLayout(goalPanel2, BoxLayout.Y_AXIS));
+		
+		newGame.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				resetBoard();
+				
+			}
+			
+		});
 
 		for (int i = 0; i < cups.length; i++) {
 			cups[i].setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 90));
@@ -103,6 +112,8 @@ public class GuiNewLogic extends JFrame {
 			}
 
 		}
+		
+		
 	}
 
 	public void add() {
@@ -199,13 +210,13 @@ public class GuiNewLogic extends JFrame {
 
 	public void addActionListeners() {
 		newGame.addActionListener(new ActionListener() {
-			@Override
+			//@Override
 			public void actionPerformed(ActionEvent e) {
 				resetBoard();
 			}
 		});
 		rules.addActionListener(new ActionListener() {
-			@Override
+			//@Override
 			public void actionPerformed(ActionEvent e) {
 				RulesFrame rulesFrame = new RulesFrame();
 				rulesFrame.setVisible(true);
