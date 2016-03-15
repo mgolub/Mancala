@@ -87,6 +87,7 @@ public class GUI2 extends JFrame {
 						JLabel label = (JLabel) event.getSource();
 						int index = (Integer) label.getClientProperty("index");
 						turn(index);
+						System.out.println("Selected "+index);
 					}
 				});
 			}
