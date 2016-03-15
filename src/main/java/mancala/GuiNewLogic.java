@@ -2,16 +2,14 @@ package mancala;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,10 +18,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GUI2 extends JFrame {
+public class GuiNewLogic extends JFrame {
 
 	private JPanel options, game, stats;
-	private JButton newGame;
+	private JButton newGame, rules;
 	private JLabel player1, player2, stats1, stats2, currentTurn;
 	private String player1Name, player2Name;
 	private int currentPlayer;
@@ -33,38 +31,44 @@ public class GUI2 extends JFrame {
 	// private JLabel goal1, goal2;
 	private Board board;
 
-	
-	public GUI2(String name1, String name2) {
+	public GuiNewLogic(String name1, String name2) {
 		setTitle("Mancala");
 		setSize(1000, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
+		player1Name = name1;
+		player2Name = name2;
 
 		currentPlayer = 1;
 		options = new JPanel();
 		newGame = new JButton("New Game");
+		rules = new JButton("Rules");
 		board = new Board(name1, name2);
-		
+
 		game = new JPanel(new BorderLayout());
 		cupsPanel = new JPanel();
-		cupPanel1 = new JPanel();	
+		cupPanel1 = new JPanel();
 		cupPanel2 = new JPanel();
 		goalPanel1 = new JPanel();
 		goalPanel2 = new JPanel();
 		stats = new JPanel(new FlowLayout());
-		player1 = new JLabel("Player1: " + name1);
-		player2 = new JLabel("Player2: " + name2);
+		player1 = new JLabel("Player1: " + player1Name);
+		player2 = new JLabel("Player2: " + player2Name);
 		stats1 = new JLabel("Player1 Wins: " + wins1);
 		stats2 = new JLabel("Player2 Wins: " + wins2);
 		currentTurn = new JLabel("Current Player: " + player1Name);
+		wins1 = 0;
+		wins2 = 0;
 
 		cups = new JLabel[14];
-				
+		// goal1 = new JLabel();
+		// goal2 = new JLabel();
 		add();
 		format();
 		resetNumbers();
+		addActionListeners();
 	}
 
 	public void format() {
@@ -80,7 +84,7 @@ public class GUI2 extends JFrame {
 		goalPanel2.setLayout(new BoxLayout(goalPanel2, BoxLayout.Y_AXIS));
 
 		for (int i = 0; i < cups.length; i++) {
-			cups[i].setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 165));
+			cups[i].setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 90));
 			cups[i].setVerticalAlignment(JLabel.CENTER);
 
 			if (i != 6 || i != 13) {
@@ -89,6 +93,9 @@ public class GUI2 extends JFrame {
 					public void mouseClicked(MouseEvent event) {
 						JLabel label = (JLabel) event.getSource();
 						int index = (Integer) label.getClientProperty("index");
+						if (!label.isEnabled() || board.getContent(index) == 0) {
+							return;
+						}
 						turn(index);
 						System.out.println("Selected " + index);
 					}
@@ -101,6 +108,7 @@ public class GUI2 extends JFrame {
 	public void add() {
 		add(options, BorderLayout.NORTH);
 		options.add(newGame);
+		options.add(rules);
 
 		add(game, BorderLayout.CENTER);
 		game.add(cupsPanel, BorderLayout.CENTER);
@@ -108,6 +116,9 @@ public class GUI2 extends JFrame {
 		game.add(goalPanel2, BorderLayout.WEST);
 		cupsPanel.add(cupPanel2);
 		cupsPanel.add(cupPanel1);
+
+		cupPanel1.add(Box.createRigidArea(new Dimension(1, 200)));
+		cupPanel2.add(Box.createRigidArea(new Dimension(1, 200)));
 		for (int i = 0; i < 6; i++) {
 			cups[i] = new JLabel();
 			cupPanel1.add(cups[i]);
@@ -115,13 +126,13 @@ public class GUI2 extends JFrame {
 		for (int i = 12; i > 6; i--) {
 			cups[i] = new JLabel();
 			cupPanel2.add(cups[i]);
-			//cups[i].setEnabled(false);
+			cups[i].setEnabled(false);
 		}
-		cups[6]= new JLabel();
+		cups[6] = new JLabel();
 		cups[13] = new JLabel();
-		goalPanel1.add(Box.createRigidArea(new Dimension(1, 185)));
+		goalPanel1.add(Box.createRigidArea(new Dimension(1, 200)));
 		goalPanel1.add(cups[6]);
-		goalPanel2.add(Box.createRigidArea(new Dimension(1, 185)));
+		goalPanel2.add(Box.createRigidArea(new Dimension(1, 200)));
 		goalPanel2.add(cups[13]);
 
 		add(stats, BorderLayout.SOUTH);
@@ -130,20 +141,30 @@ public class GUI2 extends JFrame {
 		stats.add(stats1);
 		stats.add(stats2);
 		stats.add(currentTurn);
-		
 	}
 
 	// called by action listener
+	// fix that it switched turn and that enable is correct
+	// debug when land in empty goal
 	public void turn(int index) {
-		board.distribute(index);
-		resetNumbers();
+		boolean goalTurn = false;
+		do {
+			goalTurn = board.distribute(index);
+			resetNumbers();
+		} while (goalTurn);
+
 		if (board.checkGame()) {
 			int winner = board.calculateWinner();
-
+			if (currentPlayer == 1) {
+				wins1++;
+			} else {
+				wins2++;
+			}
 			// display dialog box
 			System.out.println(currentPlayer + "won");
-
-			board.resetBoard();
+			stats1.setText("Player1 Wins: " + wins1);
+			stats2.setText("Player2 Wins: " + wins2);
+			resetBoard();
 			return;
 		}
 		currentPlayer = board.switchPlayer();
@@ -152,28 +173,53 @@ public class GUI2 extends JFrame {
 	}
 
 	private void disableLabels() {
+		for (int i = 0; i < 13; i++) {
+			if (i != 6 || i != 13) {
+				if (cups[i].isEnabled()) {
+					cups[i].setEnabled(false);
+				} else {
+					cups[i].setEnabled(true);
 
+				}
+			}
+		}
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-	}
-
-	public static void main(String[] args) {
-		new GUI2("gfgf", "gtdftr").setVisible(true);
 	}
 
 	public void resetNumbers() {
 		for (int i = 0; i < 14; i++) {
-			cups[i].setText(board.getContent(i) + "");
+			if ((i + 1) % 7 == 0 || i == 5 || i == 7) {
+				cups[i].setText(board.getContent(i) + "");
+			} else {
+				cups[i].setText(board.getContent(i) + "-");
+			}
 		}
+	}
+
+	public void addActionListeners() {
+		newGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				resetBoard();
+			}
+		});
+		rules.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RulesFrame rulesFrame = new RulesFrame();
+				rulesFrame.setVisible(true);
+			}
+		});
+	}
+
+	public void resetBoard() {
+		board.resetBoard();
+		resetNumbers();
+		currentPlayer = 1;
+	}
+
+	public static void main(String[] args) {
+		new GUI2("gfgf", "gtdftr").setVisible(true);
 	}
 
 }

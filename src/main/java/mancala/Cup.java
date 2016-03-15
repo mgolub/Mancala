@@ -1,3 +1,4 @@
+
 package mancala;
 
 import java.util.Stack;
@@ -26,8 +27,10 @@ public class Cup {
 	 * public Piece removePiece() { count--; return pieces.pop(); }
 	 */
 
-	public void removePieces() {
+	public int removePieces() {
+		int temp = count;
 		count = 0;
+		return temp;
 	}
 
 	public void reset() {
