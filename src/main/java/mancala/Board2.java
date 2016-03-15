@@ -109,6 +109,7 @@ public class Board2 {
 				position = -1;// 0 after increment
 			}
 		} // end for loop - fin distributing pieces
+
 		if (board[start].getCount() == 1) {
 			if (start > -1 && start < 6 && currentPlayer == player1) {
 				amount = board[start].removePieces();
@@ -120,10 +121,8 @@ public class Board2 {
 				amount += board[start - 7].removePieces();
 				peicesWon += amount;
 				((Goal) board[13]).addToGoal(amount);
-
 			}
 		}
-
 		// if ended by a goal returns true;
 		if (start == 6) {
 			if (currentPlayer == player1) {
@@ -139,6 +138,8 @@ public class Board2 {
 		return false;
 	}
 
+	// add to pieces and make it return a boolean
+
 	public void checkForMoves() {
 		boolean found = false;
 		int amount = 0;
@@ -152,7 +153,7 @@ public class Board2 {
 			for (int i = 7; i < 13; i++) {
 				amount += board[i].removePieces();
 			}
-			((Goal) board[6]).addToGoal(amount);
+			((Goal) board[13]).addToGoal(amount);
 			return;
 		}
 
