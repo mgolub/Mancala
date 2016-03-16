@@ -115,13 +115,13 @@ public class Board2 {
 		if (board[start].getCount() == 1) {
 			if (start > -1 && start < 6 && currentPlayer == player1) {
 				amount = board[start].removePieces();
-				amount = amount + board[start + 7].removePieces();
+				amount = amount + board[Math.abs(start-12)].removePieces();
 				System.out.println("amount is " + amount);
 				peicesWon = peicesWon + amount;
 				((Goal) board[6]).addToGoal(amount);
 			} else if (start > 6 && start < 13 && currentPlayer == player2) {
 				amount = board[start].removePieces();
-				amount = amount + board[start - 7].removePieces();
+				amount = amount + board[12-start].removePieces();
 				System.out.println("amount is " + amount);
 				peicesWon = peicesWon + amount;
 				((Goal) board[13]).addToGoal(amount);

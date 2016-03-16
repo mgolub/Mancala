@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GuiNewLogic extends JFrame {
@@ -158,7 +159,7 @@ public class GuiNewLogic extends JFrame {
 				wins2++;
 			}
 			// display dialog box
-			System.out.println(currentPlayer + " won");
+			JOptionPane.showMessageDialog(null, currentPlayer + " won");
 			stats1.setText("Player1 Wins: " + wins1);
 			stats2.setText("Player2 Wins: " + wins2);
 			resetBoard();
@@ -215,6 +216,12 @@ public class GuiNewLogic extends JFrame {
 		board.resetBoard();
 		resetNumbers();
 		currentPlayer = 1;
+		for(int i = 0; i < 6; i++){
+			cups[i].setEnabled(true);
+		}
+		for(int i = 7; i < 13; i++){
+			cups[i].setEnabled(false);
+		}
 	}
 
 	public static void main(String[] args) {
