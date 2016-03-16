@@ -33,6 +33,7 @@ public class NameFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
+		setResizable(false);
 		setBackground(Color.yellow);
 
 		background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/background4.jpg")).getImage()
@@ -48,11 +49,11 @@ public class NameFrame extends JFrame {
 		okay = new JButton();
 
 		addListener();
-		addComponents();
+		addFormat();
 
 	}
 
-	private void addComponents() {
+	private void addFormat() {
 		background.setLayout(new BorderLayout());
 		panel.setLayout(new FlowLayout());
 		// panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -69,7 +70,6 @@ public class NameFrame extends JFrame {
 
 		Font font1 = new Font("Calibri", Font.BOLD, 40);
 		Font font2 = new Font("Calibri", Font.BOLD, 30);
-		Font font3 = new Font("Rockwell Extra Bold", Font.PLAIN, 50);
 
 		label1.setForeground(Color.yellow);
 		label2.setForeground(Color.yellow);
