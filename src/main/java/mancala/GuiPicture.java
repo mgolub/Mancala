@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class BoardGUI extends JFrame {
+public class GuiPicture extends JFrame {
 
 	private JPanel options, game, stats;
 	private JButton newGame;
@@ -20,7 +20,7 @@ public class BoardGUI extends JFrame {
 	private int wins1, wins2;
 	private JPanel cupPanel, goalPanel1, goalPanel2;
 
-	public BoardGUI() {
+	public GuiPicture() {
 		setTitle("Mancala");
 		setSize(1000, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,7 +85,7 @@ public class BoardGUI extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new BoardGUI().setVisible(true);
+		new GuiPicture().setVisible(true);
 	}
 
 }

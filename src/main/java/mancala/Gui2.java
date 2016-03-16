@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class GuiNewLogic extends JFrame {
+public class Gui2 extends JFrame {
 
 	private JPanel options, game, stats;
 	private JButton newGame, rules;
@@ -32,7 +32,7 @@ public class GuiNewLogic extends JFrame {
 	// private JLabel goal1, goal2;
 	private Board2 board;
 
-	public GuiNewLogic(String name1, String name2) {
+	public Gui2(String name1, String name2) {
 		setTitle("Mancala");
 		setSize(1000, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -146,10 +146,14 @@ public class GuiNewLogic extends JFrame {
 
 	// called by action listener
 	public void turn(int index) {
-		boolean goalTurn = board.distribute(index); // returns if landed in a
-													// goal
+		boolean goalTurn = board.distribute(index);
+		// returns if landed in a goal
 		resetNumbers();
-		board.checkForMoves();
+		int check = board.checkForMoves();
+		if (check != 0) {
+			JOptionPane.showMessageDialog(null, "Left over peices added to " + getPlayerName(check) + "'s goal!!");
+			resetNumbers();
+		}
 
 		if (board.checkGame()) {
 			int winner = board.calculateWinner();
@@ -159,7 +163,7 @@ public class GuiNewLogic extends JFrame {
 				wins2++;
 			}
 			// display dialog box
-			JOptionPane.showMessageDialog(null, currentPlayer + " won");
+			JOptionPane.showMessageDialog(null, getPlayerName(currentPlayer) + " won!!");
 			stats1.setText("Player1 Wins: " + wins1);
 			stats2.setText("Player2 Wins: " + wins2);
 			resetBoard();
@@ -216,16 +220,24 @@ public class GuiNewLogic extends JFrame {
 		board.resetBoard();
 		resetNumbers();
 		currentPlayer = 1;
-		for(int i = 0; i < 6; i++){
+		for (int i = 0; i < 6; i++) {
 			cups[i].setEnabled(true);
 		}
-		for(int i = 7; i < 13; i++){
+		for (int i = 7; i < 13; i++) {
 			cups[i].setEnabled(false);
 		}
 	}
 
+	public String getPlayerName(int player) {
+		if (player == 1) {
+			return player1Name;
+		} else {
+			return player2Name;
+		}
+	}
+
 	public static void main(String[] args) {
-		new GuiNewLogic("gfgf", "gtdftr").setVisible(true);
+		new Gui2("gfgf", "gtdftr").setVisible(true);
 	}
 
 }

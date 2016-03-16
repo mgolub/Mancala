@@ -20,7 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GUI2 extends JFrame {
+public class Gui1 extends JFrame {
 
 	private JPanel options, game, stats;
 	private JButton newGame;
@@ -31,10 +31,10 @@ public class GUI2 extends JFrame {
 	private JPanel cupsPanel, cupPanel1, cupPanel2, goalPanel1, goalPanel2;
 	private JLabel[] cups;
 	// private JLabel goal1, goal2;
-	private Board board;
+	private Board1 board;
 
 	
-	public GUI2(String name1, String name2) {
+	public Gui1(String name1, String name2) {
 		setTitle("Mancala");
 		setSize(1000, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,7 +45,7 @@ public class GUI2 extends JFrame {
 		currentPlayer = 1;
 		options = new JPanel();
 		newGame = new JButton("New Game");
-		board = new Board(name1, name2);
+		board = new Board1(name1, name2);
 		
 		game = new JPanel(new BorderLayout());
 		cupsPanel = new JPanel();
@@ -167,7 +167,7 @@ public class GUI2 extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new GUI2("gfgf", "gtdftr").setVisible(true);
+		new Gui1("gfgf", "gtdftr").setVisible(true);
 	}
 
 	public void resetNumbers() {

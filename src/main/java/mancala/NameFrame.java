@@ -1,7 +1,6 @@
 package mancala;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -11,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
-import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -93,7 +90,7 @@ public class NameFrame extends JFrame {
 		okay.setIcon(new ImageIcon(formatIcon(80, 80, getClass().getResource("/yellow.png"))));
 		okay.setBackground(Color.black);
 		okay.setBorder(new LineBorder(Color.yellow, 1, true));
-		
+
 		player1.add(label1);
 		player1.add(field1);
 		player2.add(label2);
@@ -123,7 +120,7 @@ public class NameFrame extends JFrame {
 					return;
 				}
 				dispose();
-				GUI2 gui = new GUI2(name1, name2);
+				Gui1 gui = new Gui1(name1, name2);
 				gui.setVisible(true);
 			}
 

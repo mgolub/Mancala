@@ -1,5 +1,7 @@
 package mancala;
 
+import javax.print.attribute.standard.RequestingUserName;
+
 //logic of a computer mancala game 
 //preferred
 
@@ -115,13 +117,13 @@ public class Board2 {
 		if (board[start].getCount() == 1) {
 			if (start > -1 && start < 6 && currentPlayer == player1) {
 				amount = board[start].removePieces();
-				amount = amount + board[Math.abs(start-12)].removePieces();
+				amount = amount + board[Math.abs(start - 12)].removePieces();
 				System.out.println("amount is " + amount);
 				peicesWon = peicesWon + amount;
 				((Goal) board[6]).addToGoal(amount);
 			} else if (start > 6 && start < 13 && currentPlayer == player2) {
 				amount = board[start].removePieces();
-				amount = amount + board[12-start].removePieces();
+				amount = amount + board[12 - start].removePieces();
 				System.out.println("amount is " + amount);
 				peicesWon = peicesWon + amount;
 				((Goal) board[13]).addToGoal(amount);
@@ -142,9 +144,9 @@ public class Board2 {
 		return false;
 	}
 
-	// add to pieces and make it return a boolean
+	// add to pieces and make it return the player peices added to
 
-	public void checkForMoves() {
+	public int checkForMoves() {
 		boolean found = false;
 		int amount = 0;
 		for (int i = 0; i < 6; i++) {
@@ -159,7 +161,7 @@ public class Board2 {
 			}
 			((Goal) board[13]).addToGoal(amount);
 			peicesWon += amount;
-			return;
+			return 2;
 		}
 
 		found = true;
@@ -176,23 +178,9 @@ public class Board2 {
 			}
 			((Goal) board[6]).addToGoal(amount);
 			peicesWon += amount;
-			return;
+			return 1;
 		}
+		return 0;
 	}
-
-	// Rule - for the other version
-
-	// If you run into your own store, deposit one piece in it.
-	// If you run into your opponent's store, skip it.
-	// If the last piece you drop is in your own store, you get a free turn.If
-	// the last piece you drop is in an empty hole on your side, you capture
-	// that piece and any pieces in the hole directly opposite.
-	// Always place all captured pieces in your store.
-	// The game ends when all six spaces on one side of the Mancala board are
-	// empty.
-	// The player who still has pieces on his side of the board when the game
-	// ends captures all of those pieces.
-
-	// ****will need to check every cell after every turn...
 
 }

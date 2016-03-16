@@ -1,6 +1,6 @@
 package mancala;
 
-public class Board {
+public class Board1 {
 
 	private Cup[] board;
 	private int player1;
@@ -10,7 +10,7 @@ public class Board {
 	private int peicesWon;// by both combined
 	private boolean fin;
 
-	public Board(String name1, String name2) {
+	public Board1(String name1, String name2) {
 		board = new Cup[14];
 		// player1 = new Player(name1);
 		// player2 = new Player(name2);
