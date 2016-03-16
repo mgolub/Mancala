@@ -149,21 +149,22 @@ public class Gui2 extends JFrame {
 		boolean goalTurn = board.distribute(index);
 		// returns if landed in a goal
 		resetNumbers();
-		int check = board.checkForMoves();
-		if (check != 0) {
-			JOptionPane.showMessageDialog(null, "Left over peices added to " + getPlayerName(check) + "'s goal!!");
+		boolean piecesMoved = board.checkForMoves();
+		if (piecesMoved) {
+			currentPlayer = board.switchPlayer();
+			JOptionPane.showMessageDialog(null,
+					"Left over peices added to " + getPlayerName(currentPlayer) + "'s goal!!");
 			resetNumbers();
 		}
-
 		if (board.checkGame()) {
 			int winner = board.calculateWinner();
-			if (currentPlayer == 1) {
+			if (winner == 1) {
 				wins1++;
 			} else {
 				wins2++;
 			}
 			// display dialog box
-			JOptionPane.showMessageDialog(null, getPlayerName(currentPlayer) + " won!!");
+			JOptionPane.showMessageDialog(null, getPlayerName(winner) + " won!!");
 			stats1.setText("Player1 Wins: " + wins1);
 			stats2.setText("Player2 Wins: " + wins2);
 			resetBoard();

@@ -47,7 +47,6 @@ public class Board2 {
 		} else {
 			currentPlayer = player2;
 		}
-		System.out.println("switched players");
 		return currentPlayer;
 	}
 
@@ -64,7 +63,7 @@ public class Board2 {
 	}
 
 	public int calculateWinner() {
-		if (board[7].getCount() > board[13].getCount()) {
+		if (board[6].getCount() > board[13].getCount()) {
 			return 1;
 		} else {
 			return 2;
@@ -146,41 +145,44 @@ public class Board2 {
 
 	// add to pieces and make it return the player peices added to
 
-	public int checkForMoves() {
+	public boolean checkForMoves() {
 		boolean found = false;
 		int amount = 0;
-		for (int i = 0; i < 6; i++) {
-			if (board[i].getCount() != 0) {
-				found = true;
-				break;
+		if (currentPlayer == player1) {
+			for (int i = 0; i < 6; i++) {
+				if (board[i].getCount() != 0) {
+					found = true;
+					break;
+				}
 			}
-		}
-		if (!found) {
+			if (!found) {
+				for (int i = 7; i < 13; i++) {
+					amount += board[i].removePieces();
+				}
+				((Goal) board[13]).addToGoal(amount);
+				peicesWon += amount;
+				return true;
+			}
+		} else { // currentPlayer is player2
+			found = false;
+			amount = 0;
 			for (int i = 7; i < 13; i++) {
-				amount += board[i].removePieces();
+				if (board[i].getCount() != 0) {
+					found = true;
+					break;
+				}
 			}
-			((Goal) board[13]).addToGoal(amount);
-			peicesWon += amount;
-			return 2;
-		}
+			if (!found) {
+				for (int i = 0; i < 6; i++) {
+					amount += board[i].removePieces();
+				}
+				((Goal) board[6]).addToGoal(amount);
+				peicesWon += amount;
+				return true;
+			}
 
-		found = true;
-		amount = 0;
-		for (int i = 7; i < 13; i++) {
-			if (board[i].getCount() != 0) {
-				found = true;
-				break;
-			}
 		}
-		if (!found) {
-			for (int i = 7; i < 13; i++) {
-				amount += board[i].removePieces();
-			}
-			((Goal) board[6]).addToGoal(amount);
-			peicesWon += amount;
-			return 1;
-		}
-		return 0;
+		return false;
+
 	}
-
 }
