@@ -23,10 +23,10 @@ public class Gui2 extends JFrame {
 
 	private JPanel options, game, stats;
 	private JButton newGame, rules;
-	private JLabel player1, player2, stats1, stats2, currentTurn;
+	private JLabel player1, player2, stats1, stats2, currentTurn, description;
 	private String player1Name, player2Name;
 	private int currentPlayer;
-	private int wins1, wins2;
+	private int wins1, wins2, winner;
 	private JPanel cupsPanel, cupPanel1, cupPanel2, goalPanel1, goalPanel2;
 	private JLabel[] cups;
 	// private JLabel goal1, goal2;
@@ -57,8 +57,9 @@ public class Gui2 extends JFrame {
 		stats = new JPanel(new FlowLayout());
 		player1 = new JLabel("Player1: " + player1Name);
 		player2 = new JLabel("Player2: " + player2Name);
-		stats1 = new JLabel("Player1 Wins: " + wins1);
-		stats2 = new JLabel("Player2 Wins: " + wins2);
+		stats1 = new JLabel(getPlayerName(1) + " Wins: " + wins1);
+		stats2 = new JLabel(getPlayerName(2) + " Wins: " + wins2);
+		description = new JLabel();
 		currentTurn = new JLabel("Current Player: " + player1Name);
 		wins1 = 0;
 		wins2 = 0;
@@ -70,6 +71,7 @@ public class Gui2 extends JFrame {
 		format();
 		resetNumbers();
 		addActionListeners();
+		changeDescription(1);
 	}
 
 	public void format() {
@@ -101,9 +103,7 @@ public class Gui2 extends JFrame {
 					}
 				});
 			}
-
 		}
-
 	}
 
 	public void add() {
@@ -137,11 +137,13 @@ public class Gui2 extends JFrame {
 		goalPanel2.add(cups[13]);
 
 		add(stats, BorderLayout.SOUTH);
-		stats.add(player1);
-		stats.add(player2);
+		// stats.add(player1);
+		// stats.add(player2);
 		stats.add(stats1);
 		stats.add(stats2);
-		stats.add(currentTurn);
+		// stats.add(currentTurn);
+		stats.add(Box.createRigidArea(new Dimension(70, 0)));
+		stats.add(description);
 	}
 
 	// called by action listener
@@ -149,32 +151,61 @@ public class Gui2 extends JFrame {
 		boolean goalTurn = board.distribute(index);
 		// returns if landed in a goal
 		resetNumbers();
-		boolean piecesMoved = board.checkForMoves();
-		if (piecesMoved) {
-			currentPlayer = board.switchPlayer();
+		int piecesAdded = board.checkForMoves();
+		if (piecesAdded != 0) {
 			JOptionPane.showMessageDialog(null,
-					"Left over peices added to " + getPlayerName(currentPlayer) + "'s goal!!");
+					"Left over peices added to " + getPlayerName(piecesAdded) + "'s goal!!");
 			resetNumbers();
 		}
 		if (board.checkGame()) {
-			int winner = board.calculateWinner();
-			if (winner == 1) {
+			winner = board.calculateWinner();
+			switch (winner) {
+			case 0:
+				changeDescription(4);
+				break;
+			case 1:
 				wins1++;
-			} else {
+				displayWinner();
+				break;
+			case 2:
 				wins2++;
+				displayWinner();
+				break;
 			}
-			// display dialog box
-			JOptionPane.showMessageDialog(null, getPlayerName(winner) + " won!!");
-			stats1.setText("Player1 Wins: " + wins1);
-			stats2.setText("Player2 Wins: " + wins2);
-			resetBoard();
+			// resetBoard();
 			return;
 		}
 		if (!goalTurn) {
 			currentPlayer = board.switchPlayer();
+			changeDescription(1);
 			disableLabels();
+			return;
 		}
+		changeDescription(3);
+	}
 
+	public void displayWinner() {
+		changeDescription(2);
+		// display dialog box
+		JOptionPane.showMessageDialog(null, getPlayerName(winner) + " won!!");
+		stats1.setText(getPlayerName(1) + " Wins: " + wins1);
+		stats2.setText(getPlayerName(2) + " Wins: " + wins2);
+	}
+
+	public void changeDescription(int code) {
+		switch (code) {
+		case 1:
+			description.setText(getPlayerName(currentPlayer) + "'s Turn...");
+			break;
+		case 2:
+			description.setText("GREAT JOB " + getPlayerName(winner) + "!!!");
+			break;
+		case 3:
+			description.setText(getPlayerName(currentPlayer) + " landed in the goal- player goes again");
+			break;
+		case 4:
+			description.setText("Tie Game no one wins!");
+		}
 	}
 
 	private void disableLabels() {
@@ -221,6 +252,7 @@ public class Gui2 extends JFrame {
 		board.resetBoard();
 		resetNumbers();
 		currentPlayer = 1;
+		changeDescription(1);
 		for (int i = 0; i < 6; i++) {
 			cups[i].setEnabled(true);
 		}
@@ -238,7 +270,7 @@ public class Gui2 extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new Gui2("gfgf", "gtdftr").setVisible(true);
+		new Gui2("leah", "elise").setVisible(true);
 	}
 
 }

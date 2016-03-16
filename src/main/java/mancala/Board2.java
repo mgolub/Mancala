@@ -1,7 +1,5 @@
 package mancala;
 
-import javax.print.attribute.standard.RequestingUserName;
-
 //logic of a computer mancala game 
 //preferred
 
@@ -65,9 +63,10 @@ public class Board2 {
 	public int calculateWinner() {
 		if (board[6].getCount() > board[13].getCount()) {
 			return 1;
-		} else {
+		} else if (board[6].getCount() < board[13].getCount()) {
 			return 2;
 		}
+		return 0;
 	}
 
 	public int getContent(int i) {
@@ -145,44 +144,39 @@ public class Board2 {
 
 	// add to pieces and make it return the player peices added to
 
-	public boolean checkForMoves() {
+	public int checkForMoves() {
 		boolean found = false;
 		int amount = 0;
-		if (currentPlayer == player1) {
-			for (int i = 0; i < 6; i++) {
-				if (board[i].getCount() != 0) {
-					found = true;
-					break;
-				}
+		for (int i = 0; i < 6; i++) {
+			if (board[i].getCount() != 0) {
+				found = true;
+				break;
 			}
-			if (!found) {
-				for (int i = 7; i < 13; i++) {
-					amount += board[i].removePieces();
-				}
-				((Goal) board[13]).addToGoal(amount);
-				peicesWon += amount;
-				return true;
-			}
-		} else { // currentPlayer is player2
-			found = false;
-			amount = 0;
-			for (int i = 7; i < 13; i++) {
-				if (board[i].getCount() != 0) {
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				for (int i = 0; i < 6; i++) {
-					amount += board[i].removePieces();
-				}
-				((Goal) board[6]).addToGoal(amount);
-				peicesWon += amount;
-				return true;
-			}
-
 		}
-		return false;
-
+		if (!found) {
+			for (int i = 7; i < 13; i++) {
+				amount += board[i].removePieces();
+			}
+			((Goal) board[13]).addToGoal(amount);
+			peicesWon += amount;
+			return 2;
+		} // currentPlayer is player2
+		found = false;
+		amount = 0;
+		for (int i = 7; i < 13; i++) {
+			if (board[i].getCount() != 0) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			for (int i = 0; i < 6; i++) {
+				amount += board[i].removePieces();
+			}
+			((Goal) board[6]).addToGoal(amount);
+			peicesWon += amount;
+			return 1;
+		}
+		return 0;
 	}
 }
