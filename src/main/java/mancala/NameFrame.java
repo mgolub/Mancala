@@ -123,7 +123,7 @@ public class NameFrame extends JFrame {
 					return;
 				}
 				dispose();
-				GUI2 gui = new GUI2(name1, name2);
+				GuiNewLogic gui = new GuiNewLogic(name1, name2);
 				gui.setVisible(true);
 			}
 
