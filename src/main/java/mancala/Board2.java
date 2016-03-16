@@ -112,7 +112,6 @@ public class Board2 {
 		} // end for loop - fin distributing pieces
 
 		// System.out.println(board[start].getCount());
-		amount = 1;
 		if (board[start].getCount() == 1) {
 			if (start > -1 && start < 6 && currentPlayer == player1) {
 				amount = board[start].removePieces();
