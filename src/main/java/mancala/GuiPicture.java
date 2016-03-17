@@ -146,7 +146,6 @@ public class GuiPicture extends JFrame {
 		for (int i = 0; i < 14; i++) {
 			if (i != 6 && i != 13) {
 				cups[i] = new CupComponent(i, 0);
-
 			} else {
 				cups[i] = new GoalComponent();
 			}
@@ -159,6 +158,10 @@ public class GuiPicture extends JFrame {
 			cupPanel2.add(cups[i]);
 		}
 
+		for(int i = 0; i < 14; i++){
+			cups[i].setToolTipText(Integer.toString(board.getContent(i)));
+		}
+		
 		goalPanel1.add(cups[6], new GridBagConstraints());
 		goalPanel2.add(cups[13], new GridBagConstraints());
 
@@ -175,7 +178,8 @@ public class GuiPicture extends JFrame {
 		boolean goalTurn = board.distribute(index);// returns if landed in a
 													// goal
 		resetCups();
-		repaint();
+		repaint();		
+				
 		int piecesAdded = board.checkForMoves();
 		if (piecesAdded != 0) {
 			JOptionPane.showMessageDialog(null,
@@ -254,12 +258,13 @@ public class GuiPicture extends JFrame {
 		for (int i = 0; i < 14; i++) {
 			if (i != 6 && i != 13) {
 				((CupComponent) cups[i]).setCount(board.getContent(i));
-				System.out.println(i + " has " + board.getContent(i));
 			} else {
 				((GoalComponent) cups[i]).setCount(board.getContent(i));
-				System.out.println(i + " has " + board.getContent(i));
 			}
 		}
+		for(int i = 0; i < 14; i++){
+			cups[i].setToolTipText(Integer.toString(board.getContent(i)));
+		}		
 		repaint();
 	}
 
