@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -20,31 +21,36 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 public class GuiPicture extends JFrame {
 
 	private JPanel options, game, stats;
 	private JButton newGame, rules;
 	private JComponent[] cups;
-	private JLabel player1, player2, stats1, stats2, description;
+	private JLabel stats1, stats2, description;
 	private String player1Name, player2Name;
 	private int currentPlayer;
 	private int wins1, wins2, winner;
 	private JPanel cupsPanel, cupPanel1, cupPanel2, goalPanel1, goalPanel2;
 	private Board2 board;
+	private LineBorder border;
+	private Font font1, font2;
 
 	public GuiPicture(String name1, String name2) {
 		setTitle("Mancala");
-		setSize(1000, 700);
+		setSize(1200, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// setResizable(false);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
-		
-		/*setContentPane(new JLabel(new ImageIcon(getClass().getResource(
-				"/wood.jpg"))));*/
+		/*
+		 * setContentPane(new JLabel(new ImageIcon(getClass().getResource(
+		 * "/wood.jpg"))));
+		 */
 		this.setIconImage(new ImageIcon(getClass().getResource("/icon.jpg")).getImage());
-		
+
 		player1Name = name1;
 		player2Name = name2;
 
@@ -61,11 +67,12 @@ public class GuiPicture extends JFrame {
 		goalPanel1 = new JPanel();
 		goalPanel2 = new JPanel();
 		stats = new JPanel(new FlowLayout());
-		player1 = new JLabel("Player1: " + player1Name);
-		player2 = new JLabel("Player2: " + player2Name);
 		stats1 = new JLabel(getPlayerName(1) + " Wins: " + wins1);
-		stats2 = new JLabel(getPlayerName(2) + "Wins: " + wins2);
+		stats2 = new JLabel(getPlayerName(2) + " Wins: " + wins2);
 		description = new JLabel();
+		border = new LineBorder(Color.black, 8, true);
+		font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 25);
+		font2 = new Font("Calibri", Font.BOLD, 22);
 
 		wins1 = 0;
 		wins2 = 0;
@@ -80,16 +87,31 @@ public class GuiPicture extends JFrame {
 
 	}
 
-	public void format() {		
+	public void format() {
 		cupsPanel.setLayout(new BoxLayout(cupsPanel, BoxLayout.Y_AXIS));
 		cupPanel2.setLayout(new FlowLayout());
-		cupPanel2.setBackground(new Color(139,69,19));
+		cupPanel2.setBackground(new Color(139, 69, 19));
 		cupPanel1.setLayout(new FlowLayout());
-		cupPanel1.setBackground(new Color(139,69,19));
-		goalPanel1.setBackground(new Color(139,69,19));
+		cupPanel1.setBackground(new Color(139, 69, 19));
+		goalPanel1.setBackground(new Color(139, 69, 19));
 		goalPanel1.setLayout(new GridBagLayout());
-		goalPanel2.setBackground(new Color(139,69,19));
+		goalPanel2.setBackground(new Color(139, 69, 19));
 		goalPanel2.setLayout(new GridBagLayout());
+		game.setBorder(border);
+		stats.setBackground(Color.gray);
+		options.setBackground(Color.gray);
+		stats1.setFont(font1);
+		stats1.setForeground(Color.red);
+		stats2.setForeground(Color.red);
+		stats2.setFont(font1);
+		description.setFont(font2);
+		description.setForeground(Color.red);
+		newGame.setBackground(Color.black);
+		newGame.setForeground(Color.red);
+		newGame.setFont(font1);
+		rules.setBackground(Color.black);
+		rules.setForeground(Color.red);
+		rules.setFont(font1);
 
 		for (int i = 0; i < cups.length; i++) {
 			if (i != 6 && i != 13) {
@@ -143,6 +165,7 @@ public class GuiPicture extends JFrame {
 
 		add(stats, BorderLayout.SOUTH);
 		stats.add(stats1);
+		stats.add(Box.createRigidArea(new Dimension(40, 0)));
 		stats.add(stats2);
 		stats.add(Box.createRigidArea(new Dimension(70, 0)));
 		stats.add(description);
@@ -156,8 +179,8 @@ public class GuiPicture extends JFrame {
 		repaint();
 		int piecesAdded = board.checkForMoves();
 		if (piecesAdded != 0) {
-			JOptionPane.showMessageDialog(null, "Left over peices added to "
-					+ getPlayerName(piecesAdded) + "'s goal!!");
+			JOptionPane.showMessageDialog(null,
+					"Left over peices added to " + getPlayerName(piecesAdded) + "'s goal!!");
 			repaint();
 		}
 		if (board.checkGame()) {
@@ -205,7 +228,8 @@ public class GuiPicture extends JFrame {
 	public void displayWinner() {
 		changeDescription(2);
 		// display dialog box
-		JOptionPane.showMessageDialog(null, getPlayerName(winner) + " won!!");
+		JOptionPane.showMessageDialog(null, getPlayerName(1) + ": " + board.getGoal1() + " points\n" + getPlayerName(2)
+				+ ": " + board.getGoal2() + " points\n\n" + getPlayerName(winner) + " won!!");
 		stats1.setText(getPlayerName(1) + " wins: " + wins1);
 		stats2.setText(getPlayerName(2) + " wins: " + wins2);
 	}
@@ -219,8 +243,7 @@ public class GuiPicture extends JFrame {
 			description.setText("GREAT JOB " + getPlayerName(winner) + "!!!");
 			break;
 		case 3:
-			description.setText(getPlayerName(currentPlayer)
-					+ " landed in the goal - player goes again");
+			description.setText(getPlayerName(currentPlayer) + " landed in the goal - player goes again");
 			break;
 		case 4:
 			description.setText("Tie Game - no one wins!");
@@ -229,14 +252,14 @@ public class GuiPicture extends JFrame {
 	}
 
 	public void resetCups() {
-		for(int i = 0; i < 14; i++){
-			if(i != 6 && i != 13){
+		for (int i = 0; i < 14; i++) {
+			if (i != 6 && i != 13) {
 				((CupComponent) cups[i]).setCount(board.getContent(i));
-				System.out.println(i+" has "+board.getContent(i));
-			} else{
+				System.out.println(i + " has " + board.getContent(i));
+			} else {
 				((GoalComponent) cups[i]).setCount(board.getContent(i));
-				System.out.println(i+" has "+board.getContent(i));
-			}			
+				System.out.println(i + " has " + board.getContent(i));
+			}
 		}
 		repaint();
 	}

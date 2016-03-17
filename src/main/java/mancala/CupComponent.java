@@ -17,44 +17,29 @@ public class CupComponent extends JComponent {
 	private String color;
 	private Image piece;
 	private int count;
-	
+
 	public CupComponent(int cupIndex, int colorVal) {
-		pieces = new ArrayList<Piece>();		
+		pieces = new ArrayList<Piece>();
 		setLayout(new GridLayout(4, 4));
 		setPreferredSize(new Dimension(110, 280));
-		piece =  new ImageIcon(getClass().getResource("/red.png")).getImage();
+		piece = new ImageIcon(getClass().getResource("/red.png")).getImage();
 		count = 4;
-		
-		/*switch(colorVal){
-		case 0:
-			color = "red";
-			break;
-		case 1:
-			color = "orange";
-			break;
-		case 2:
-			color = "green";
-			break;
-		case 3:
-			color = "dark blue";
-			break;
-		case 4:
-			color = "light blue";
-			break;
-		case 5:
-			color = "purple";
-			break;
-		}*/
-				
-			
+
+		/*
+		 * switch(colorVal){ case 0: color = "red"; break; case 1: color =
+		 * "orange"; break; case 2: color = "green"; break; case 3: color =
+		 * "dark blue"; break; case 4: color = "light blue"; break; case 5:
+		 * color = "purple"; break; }
+		 */
+
 	}
 
-	public void setCount(int count){
+	public void setCount(int count) {
 		this.count = count;
 		repaint();
 	}
-	
-	public void emptyCup(){
+
+	public void emptyCup() {
 		count = 0;
 		repaint();
 	}
@@ -63,14 +48,14 @@ public class CupComponent extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		g.setColor(Color.green);
-		g.drawOval(0, 0, 100, 270);
-		
-		for(int i = 0, j = -8; i < count; i++, j++){
-			if(i < 8){
-				g.drawImage(piece, 10, i*27, this);
-			} else{
-				g.drawImage(piece, 40, j*27, this);
+		g.setColor(Color.black);
+		g.fillOval(0, 0, 100, 270);
+
+		for (int i = 0, j = -8; i < count; i++, j++) {
+			if (i < 8) {
+				g.drawImage(piece, 10, i * 27, this);
+			} else {
+				g.drawImage(piece, 40, j * 27, this);
 
 			}
 		}

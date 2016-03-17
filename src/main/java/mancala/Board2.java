@@ -139,64 +139,31 @@ public class Board2 {
 		return false;
 	}
 
-	/*public boolean distribute2(int startPosit) {
-		start = startPosit;
-		int amount = board[start].getCount();
-		board[start].removePieces();
-		// for loop tracks the amount of peices to distrib. and the cup to put
-		// into
-		for (int i = 0, position = start + 1; i < amount; i++, position++) {
-			// Piece piece = board[start].removePiece();
-
-			// put in goal if its the correct player
-			// otherwise it decrements the i to skip and continues with the for
-			// loop
-			if (position == 6) {
-				if (currentPlayer == player1) {
-					peicesWon++;
-					board[position].addPiece();
-				} else {
-					i--;
-				}
-			} else if (position == 13) {
-				if (currentPlayer == player2) {
-					peicesWon++;
-					board[position].addPiece();
-				} else {
-					i--;
-				}
-				// if not a goal it puts the piece in
-			} else {
-				board[position].addPiece();
-			}
-
-			// save final position
-			this.start = position;
-			// to continue with the beginning of the array
-			if (position == 13) {
-				position = -1;// 0 after increment
-			}
-		} // end for loop - fin distributing pieces
-
-		// if ended by a goal returns true;
-		if (board[start].getCount() != 0 && (start != 6 && start != 13)) {
-			distribute(start);
-		}
-		if (start == 6) {
-			if (currentPlayer == 1) {
-				fin = true;
-				return true;
-			}
-		}
-		if (start == 13) {
-			if (currentPlayer == 2) {
-				fin = true;
-				return true;
-			}
-		}
-
-		return false;
-	}*/
+	/*
+	 * public boolean distribute2(int startPosit) { start = startPosit; int
+	 * amount = board[start].getCount(); board[start].removePieces(); // for
+	 * loop tracks the amount of peices to distrib. and the cup to put // into
+	 * for (int i = 0, position = start + 1; i < amount; i++, position++) { //
+	 * Piece piece = board[start].removePiece();
+	 * 
+	 * // put in goal if its the correct player // otherwise it decrements the i
+	 * to skip and continues with the for // loop if (position == 6) { if
+	 * (currentPlayer == player1) { peicesWon++; board[position].addPiece(); }
+	 * else { i--; } } else if (position == 13) { if (currentPlayer == player2)
+	 * { peicesWon++; board[position].addPiece(); } else { i--; } // if not a
+	 * goal it puts the piece in } else { board[position].addPiece(); }
+	 * 
+	 * // save final position this.start = position; // to continue with the
+	 * beginning of the array if (position == 13) { position = -1;// 0 after
+	 * increment } } // end for loop - fin distributing pieces
+	 * 
+	 * // if ended by a goal returns true; if (board[start].getCount() != 0 &&
+	 * (start != 6 && start != 13)) { distribute(start); } if (start == 6) { if
+	 * (currentPlayer == 1) { fin = true; return true; } } if (start == 13) { if
+	 * (currentPlayer == 2) { fin = true; return true; } }
+	 * 
+	 * return false; }
+	 */
 
 	// add to pieces and make it return the player pieces added to
 	public int checkForMoves() {
@@ -233,6 +200,14 @@ public class Board2 {
 			return 1;
 		}
 		return 0;
+	}
+
+	public int getGoal1() {
+		return board[6].getCount();
+	}
+
+	public int getGoal2() {
+		return board[13].getCount();
 	}
 
 }
