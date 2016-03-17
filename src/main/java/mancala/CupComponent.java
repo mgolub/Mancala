@@ -68,9 +68,9 @@ public class CupComponent extends JComponent {
 		
 		for(int i = 0, j = -8; i < count; i++, j++){
 			if(i < 8){
-				g.drawImage(piece, 10, i*27, this);
+				g.drawImage(piece, 10, i*20, this);
 			} else{
-				g.drawImage(piece, 40, j*27, this);
+				g.drawImage(piece, 30, j*20, this);
 
 			}
 		}

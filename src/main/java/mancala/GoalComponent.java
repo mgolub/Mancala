@@ -33,9 +33,9 @@ public class GoalComponent extends JComponent {
 
 		for (int i = 0, j = -13; i < count; i++, j++) {
 			if (i < 13) {
-				g.drawImage(piece, 10, i * 30, this);
+				g.drawImage(piece, 10, i * 25, this);
 			} else {
-				g.drawImage(piece, 40, j * 30, this);
+				g.drawImage(piece, 40, j * 25, this);
 
 			}
 		}
