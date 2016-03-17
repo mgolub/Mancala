@@ -119,8 +119,8 @@ public class NameFrame extends JFrame {
 		okayButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				name1 = playerField1.getText().trim();
-				name2 = playerField2.getText().trim();
+				name1 = playerField1.getText().trim().toUpperCase();
+				name2 = playerField2.getText().trim().toUpperCase();
 				if (name1.length() == 0 || name2.length() == 0) {
 					JOptionPane.showMessageDialog(null, "You must enter a name for both players!!", "WARNING!",
 							JOptionPane.ERROR_MESSAGE);

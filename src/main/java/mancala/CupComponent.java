@@ -43,11 +43,11 @@ public class CupComponent extends JComponent {
 		g.setColor(Color.black);
 		g.fillOval(0, 0, 100, 270);
 
-		for (int i = 0, j = -8; i < count; i++, j++) {
-			if (i < 8) {
-				g.drawImage(piece, 10, i * 20, this);
+		for (int i = 0, j = -14; i < count; i++, j++) {
+			if (i < 14) {
+				g.drawImage(piece, 10, i * 15, this);
 			} else {
-				g.drawImage(piece, 30, j * 20, this);
+				g.drawImage(piece, 30, j * 15, this);
 
 			}
 		}
