@@ -1,9 +1,13 @@
 package mancala;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 public class CupComponent extends JComponent {
@@ -11,10 +15,17 @@ public class CupComponent extends JComponent {
 	private ArrayList<Piece> pieces;
 	private int xCoordinate, yCoordinate;
 	private String color;
+	private Image piece;
+	private int count;
 	
-	public CupComponent(int cupNumber, int colorVal) {
-		pieces = new ArrayList<Piece>();
-		switch(colorVal){
+	public CupComponent(int cupIndex, int colorVal) {
+		pieces = new ArrayList<Piece>();		
+		setLayout(new GridLayout(4, 4));
+		setPreferredSize(new Dimension(110, 280));
+		piece =  new ImageIcon(getClass().getResource("/red.png")).getImage();
+		count = 4;
+		
+		/*switch(colorVal){
 		case 0:
 			color = "red";
 			break;
@@ -33,33 +44,37 @@ public class CupComponent extends JComponent {
 		case 5:
 			color = "purple";
 			break;
-		}
-		
-		for(int i = 0; i < 4; i++){
-			pieces.add(new Piece(color));
-		}		
+		}*/
+				
+			
 	}
-	
-	public void addPiece(Piece piece){
-		pieces.add(piece);
+
+	public void setCount(int count){
+		this.count = count;
+		repaint();
 	}
 	
 	public void emptyCup(){
-		pieces.clear();
+		count = 0;
+		repaint();
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		g.setColor(Color.gray);
-		g.fillOval(10, 10, 30, 30);
+		g.setColor(Color.green);
+		g.drawOval(0, 0, 100, 270);
+		
+		for(int i = 0, j = -8; i < count; i++, j++){
+			if(i < 8){
+				g.drawImage(piece, 10, i*27, this);
+			} else{
+				g.drawImage(piece, 40, j*27, this);
 
-		
-		//for(int i = 0; i < pieces.size(); i++){
-			
-		//}
-		
+			}
+		}
+
 		super.repaint();
 	}
 

@@ -1,7 +1,5 @@
 package mancala;
 
-import javax.print.attribute.standard.RequestingUserName;
-
 //logic of a computer mancala game 
 //preferred
 
@@ -65,9 +63,10 @@ public class Board2 {
 	public int calculateWinner() {
 		if (board[6].getCount() > board[13].getCount()) {
 			return 1;
-		} else {
+		} else if (board[6].getCount() < board[13].getCount()) {
 			return 2;
 		}
+		return 0;
 	}
 
 	public int getContent(int i) {
@@ -77,11 +76,9 @@ public class Board2 {
 	public boolean distribute(int startPosit) {
 		start = startPosit;
 		int amount = board[start].removePieces();
-		// for loop tracks the amount of peices to distrib. and the cup to put
-		// into
-		for (int i = 0, position = start + 1; i < amount; i++, position++) {
-			// Piece piece = board[start].removePiece();
 
+		// tracks the amount of pieces to distribute and the cup to put into
+		for (int i = 0, position = start + 1; i < amount; i++, position++) {
 			// put in goal if its the correct player
 			// otherwise it decrements the i to skip and continues with the for
 			// loop
@@ -110,9 +107,8 @@ public class Board2 {
 			if (position == 13) {
 				position = -1;// 0 after increment
 			}
-		} // end for loop - fin distributing pieces
+		} // end for loop - finished distributing pieces
 
-		// System.out.println(board[start].getCount());
 		if (board[start].getCount() == 1) {
 			if (start > -1 && start < 6 && currentPlayer == player1) {
 				amount = board[start].removePieces();
@@ -143,8 +139,7 @@ public class Board2 {
 		return false;
 	}
 
-	
-	public boolean distribute2(int startPosit) {
+	/*public boolean distribute2(int startPosit) {
 		start = startPosit;
 		int amount = board[start].getCount();
 		board[start].removePieces();
@@ -201,10 +196,8 @@ public class Board2 {
 		}
 
 		return false;
+	}*/
 
-	}
-	
-	
 	// add to pieces and make it return the player pieces added to
 	public int checkForMoves() {
 		boolean found = false;
@@ -221,8 +214,8 @@ public class Board2 {
 			}
 			((Goal) board[13]).addToGoal(amount);
 			peicesWon += amount;
-			return player2;
-		}
+			return 2;
+		} // currentPlayer is player2
 		found = false;
 		amount = 0;
 		for (int i = 7; i < 13; i++) {
@@ -237,10 +230,9 @@ public class Board2 {
 			}
 			((Goal) board[6]).addToGoal(amount);
 			peicesWon += amount;
-			return player1;
+			return 1;
 		}
-
 		return 0;
-
 	}
+
 }
