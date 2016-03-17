@@ -3,25 +3,22 @@ package mancala;
 //logic of a computer mancala game 
 //preferred
 
-public class Board2 {
+public class Board {
 
 	private Cup[] board;
 	private int player1;
 	private int player2;
 	private int currentPlayer;
 	private int start;
-	private int peicesWon;// by both combined
-	private boolean fin;
+	private int piecesWon;// by both combined
 
-	public Board2(String name1, String name2) {
+	public Board() {
 		board = new Cup[14];
-		// player1 = new Player(name1);
-		// player2 = new Player(name2);
 		player1 = 1;
 		player2 = 2;
 		currentPlayer = player1;
+		piecesWon = 0;
 
-		peicesWon = 0;
 		for (int i = 0; i < board.length; i++) {
 			if (i == 6 || i == 13) {
 				board[i] = new Goal();
@@ -36,7 +33,7 @@ public class Board2 {
 			board[i].reset();
 		}
 		currentPlayer = player1;
-		peicesWon = 0;
+		piecesWon = 0;
 	}
 
 	public int switchPlayer() {
@@ -53,7 +50,7 @@ public class Board2 {
 	}
 
 	public boolean checkGame() {
-		if (peicesWon == 48) {
+		if (piecesWon == 48) {
 			return true;
 		} else {
 			return false;
@@ -66,7 +63,7 @@ public class Board2 {
 		} else if (board[6].getCount() < board[13].getCount()) {
 			return 2;
 		}
-		return 0;
+		return 0;// no winner
 	}
 
 	public int getContent(int i) {
@@ -77,50 +74,48 @@ public class Board2 {
 		start = startPosit;
 		int amount = board[start].removePieces();
 
-		// tracks the amount of pieces to distribute and the cup to put into
 		for (int i = 0, position = start + 1; i < amount; i++, position++) {
-			// put in goal if its the correct player
-			// otherwise it decrements the i to skip and continues with the for
-			// loop
 			if (position == 6) {
 				if (currentPlayer == player1) {
-					peicesWon++;
+					piecesWon++;
 					board[position].addPiece();
 				} else {
 					i--;
 				}
 			} else if (position == 13) {
 				if (currentPlayer == player2) {
-					peicesWon++;
+					piecesWon++;
 					board[position].addPiece();
 				} else {
 					i--;
 				}
-				// if not a goal it puts the piece in
 			} else {
 				board[position].addPiece();
 			}
 
-			// save final position
-			// to continue with the beginning of the array
 			start = position;
 			if (position == 13) {
 				position = -1;// 0 after increment
 			}
-		} // end for loop - finished distributing pieces
+		} // pieces done being distributed
+		return checkTurn();
+	}
 
+	// checks to see if landed in a goal our landed in an empty cup
+	private boolean checkTurn() {
+		int amount;
 		if (board[start].getCount() == 1) {
 			if (start > -1 && start < 6 && currentPlayer == player1) {
 				amount = board[start].removePieces();
 				amount = amount + board[Math.abs(start - 12)].removePieces();
 				System.out.println("amount is " + amount);
-				peicesWon = peicesWon + amount;
+				piecesWon = piecesWon + amount;
 				((Goal) board[6]).addToGoal(amount);
 			} else if (start > 6 && start < 13 && currentPlayer == player2) {
 				amount = board[start].removePieces();
 				amount = amount + board[12 - start].removePieces();
 				System.out.println("amount is " + amount);
-				peicesWon = peicesWon + amount;
+				piecesWon = piecesWon + amount;
 				((Goal) board[13]).addToGoal(amount);
 			}
 		}
@@ -137,35 +132,10 @@ public class Board2 {
 		}
 
 		return false;
+
 	}
 
-	/*
-	 * public boolean distribute2(int startPosit) { start = startPosit; int
-	 * amount = board[start].getCount(); board[start].removePieces(); // for
-	 * loop tracks the amount of peices to distrib. and the cup to put // into
-	 * for (int i = 0, position = start + 1; i < amount; i++, position++) { //
-	 * Piece piece = board[start].removePiece();
-	 * 
-	 * // put in goal if its the correct player // otherwise it decrements the i
-	 * to skip and continues with the for // loop if (position == 6) { if
-	 * (currentPlayer == player1) { peicesWon++; board[position].addPiece(); }
-	 * else { i--; } } else if (position == 13) { if (currentPlayer == player2)
-	 * { peicesWon++; board[position].addPiece(); } else { i--; } // if not a
-	 * goal it puts the piece in } else { board[position].addPiece(); }
-	 * 
-	 * // save final position this.start = position; // to continue with the
-	 * beginning of the array if (position == 13) { position = -1;// 0 after
-	 * increment } } // end for loop - fin distributing pieces
-	 * 
-	 * // if ended by a goal returns true; if (board[start].getCount() != 0 &&
-	 * (start != 6 && start != 13)) { distribute(start); } if (start == 6) { if
-	 * (currentPlayer == 1) { fin = true; return true; } } if (start == 13) { if
-	 * (currentPlayer == 2) { fin = true; return true; } }
-	 * 
-	 * return false; }
-	 */
-
-	// add to pieces and make it return the player pieces added to
+	// add to piecesWon and make it return the player pieces added to
 	public int checkForMoves() {
 		boolean found = false;
 		int amount = 0;
@@ -180,7 +150,7 @@ public class Board2 {
 				amount += board[i].removePieces();
 			}
 			((Goal) board[13]).addToGoal(amount);
-			peicesWon += amount;
+			piecesWon += amount;
 			return 2;
 		} // currentPlayer is player2
 		found = false;
@@ -196,18 +166,9 @@ public class Board2 {
 				amount += board[i].removePieces();
 			}
 			((Goal) board[6]).addToGoal(amount);
-			peicesWon += amount;
+			piecesWon += amount;
 			return 1;
 		}
 		return 0;
 	}
-
-	public int getGoal1() {
-		return board[6].getCount();
-	}
-
-	public int getGoal2() {
-		return board[13].getCount();
-	}
-
 }

@@ -21,11 +21,16 @@ import javax.swing.border.LineBorder;
 
 public class NameFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private JPanel playersPanel, playerPanel1, playerPanel2;
+	private JLabel playerLabel1, playerLabel2, backgroundLabel;
+	private JTextField playerField1, playerField2;
+	private JButton okayButton;
 	private String name1, name2;
-	private JLabel label1, label2, background;
-	private JTextField field1, field2;
-	private JButton okay;
-	private JPanel panel, player1, player2;
 
 	public NameFrame() {
 		setTitle("Add Names");
@@ -34,19 +39,18 @@ public class NameFrame extends JFrame {
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setBackground(Color.yellow);
 
-		background = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/background4.jpg")).getImage()
+		backgroundLabel = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/background4.jpg")).getImage()
 				.getScaledInstance(getWidth(), getHeight(), 10)));
 
-		panel = new JPanel();
-		player1 = new JPanel();
-		player2 = new JPanel();
-		label1 = new JLabel("Player 1");
-		label2 = new JLabel("Player 2");
-		field1 = new JTextField();
-		field2 = new JTextField();
-		okay = new JButton();
+		playersPanel = new JPanel();
+		playerPanel1 = new JPanel();
+		playerPanel2 = new JPanel();
+		playerLabel1 = new JLabel("Player 1");
+		playerLabel2 = new JLabel("Player 2");
+		playerField1 = new JTextField();
+		playerField2 = new JTextField();
+		okayButton = new JButton();
 
 		addListener();
 		addFormat();
@@ -54,52 +58,55 @@ public class NameFrame extends JFrame {
 	}
 
 	private void addFormat() {
-		background.setLayout(new BorderLayout());
-		panel.setLayout(new FlowLayout());
-		// panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setOpaque(true);
-		panel.setBackground(Color.black);
-		panel.setPreferredSize(new Dimension(40, 100));
+		backgroundLabel.setLayout(new BorderLayout());
 
-		player1.setOpaque(true);
-		player1.setBackground(Color.black);
-		player2.setOpaque(true);
-		player2.setBackground(Color.black);
-		player1.setLayout(new FlowLayout());
-		player2.setLayout(new FlowLayout());
+		playersPanel.setLayout(new FlowLayout());
+		playersPanel.setOpaque(true);
+		playersPanel.setBackground(Color.black);
+		playersPanel.setPreferredSize(new Dimension(40, 100));
+
+		playerPanel1.setLayout(new FlowLayout());
+		playerPanel1.setOpaque(true);
+		playerPanel1.setBackground(Color.black);
+
+		playerPanel2.setLayout(new FlowLayout());
+		playerPanel2.setOpaque(true);
+		playerPanel2.setBackground(Color.black);
 
 		Font font1 = new Font("Calibri", Font.BOLD, 40);
 		Font font2 = new Font("Calibri", Font.BOLD, 30);
 
-		label1.setForeground(Color.yellow);
-		label2.setForeground(Color.yellow);
-		label1.setFont(font1);
-		label2.setFont(font1);
-		label1.setSize(60, 20);
-		label2.setSize(60, 20);
+		playerLabel1.setSize(60, 20);
+		playerLabel1.setFont(font1);
+		playerLabel1.setForeground(Color.yellow);
 
-		field1.setBackground(Color.darkGray);
-		field2.setBackground(Color.darkGray);
-		field1.setForeground(Color.orange);
-		field2.setForeground(Color.orange);
-		field1.setFont(font2);
-		field2.setFont(font2);
-		field1.setColumns(10);
-		field2.setColumns(10);
+		playerLabel2.setSize(60, 20);
+		playerLabel2.setFont(font1);
+		playerLabel2.setForeground(Color.yellow);
 
-		okay.setIcon(new ImageIcon(formatIcon(80, 80, getClass().getResource("/yellow.png"))));
-		okay.setBackground(Color.black);
-		okay.setBorder(new LineBorder(Color.yellow, 1, true));
+		playerField1.setColumns(10);
+		playerField1.setFont(font2);
+		playerField1.setBackground(Color.darkGray);
+		playerField1.setForeground(Color.orange);
 
-		player1.add(label1);
-		player1.add(field1);
-		player2.add(label2);
-		player2.add(field2);
-		panel.add(player1);
-		panel.add(player2);
-		panel.add(okay);
-		background.add(panel, BorderLayout.PAGE_END);
-		add(background);
+		playerField2.setColumns(10);
+		playerField2.setFont(font2);
+		playerField2.setBackground(Color.darkGray);
+		playerField2.setForeground(Color.orange);
+
+		okayButton.setIcon(new ImageIcon(formatIcon(80, 80, getClass().getResource("/yellow.png"))));
+		okayButton.setBackground(Color.black);
+		okayButton.setBorder(new LineBorder(Color.yellow, 1, true));
+
+		playerPanel1.add(playerLabel1);
+		playerPanel1.add(playerField1);
+		playerPanel2.add(playerLabel2);
+		playerPanel2.add(playerField2);
+		playersPanel.add(playerPanel1);
+		playersPanel.add(playerPanel2);
+		playersPanel.add(okayButton);
+		backgroundLabel.add(playersPanel, BorderLayout.PAGE_END);
+		add(backgroundLabel);
 	}
 
 	public Image formatIcon(int width, Integer height, URL image) {
@@ -109,18 +116,23 @@ public class NameFrame extends JFrame {
 	}
 
 	private void addListener() {
-		okay.addActionListener(new ActionListener() {
+		okayButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				name1 = field1.getText().trim();
-				name2 = field2.getText().trim();
+				name1 = playerField1.getText().trim();
+				name2 = playerField2.getText().trim();
 				if (name1.length() == 0 || name2.length() == 0) {
 					JOptionPane.showMessageDialog(null, "You must enter a name for both players!!", "WARNING!",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
+				if (name1.length() > 10 || name2.length() > 10) {
+					JOptionPane.showMessageDialog(null, "Name can't be longer than 10 digits", "WARNING!",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				dispose();
-				GuiPicture gui = new GuiPicture(name1, name2);
+				BoardGuiPix gui = new BoardGuiPix(name1, name2);
 				gui.setVisible(true);
 			}
 

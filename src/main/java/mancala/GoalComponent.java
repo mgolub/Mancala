@@ -3,25 +3,19 @@ package mancala;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 
-public class GoalComponent extends JComponent {
+public class GoalComponent extends CupComponent {
 
-	private int count;
-	private Image piece;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public GoalComponent() {
-		count = 0;
+		super();
+		originalCount = count = 0;
 		setPreferredSize(new Dimension(120, 455));
-		piece = new ImageIcon(getClass().getResource("/red.png")).getImage();
-	}
-
-	public void emptyGoal() {
-		count = 0;
-		repaint();
 	}
 
 	@Override
@@ -40,11 +34,6 @@ public class GoalComponent extends JComponent {
 			}
 		}
 
-		repaint();
-	}
-
-	public void setCount(int count) {
-		this.count = count;
 		repaint();
 	}
 }

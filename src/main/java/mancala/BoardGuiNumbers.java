@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,54 +18,54 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Gui2 extends JFrame {
+public class BoardGuiNumbers extends JFrame {
 
-	private JPanel options, game, stats;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private JPanel options, game, stats, cupsPanel, cupPanel1, cupPanel2, goalPanel1, goalPanel2;
 	private JButton newGame, rules;
-	private JLabel player1, player2, stats1, stats2, currentTurn, description;
+	private JLabel stats1, stats2, description;
+	private JLabel[] cups;
+
+	private Board board;
 	private String player1Name, player2Name;
 	private int currentPlayer;
 	private int wins1, wins2, winner;
-	private JPanel cupsPanel, cupPanel1, cupPanel2, goalPanel1, goalPanel2;
-	private JLabel[] cups;
-	// private JLabel goal1, goal2;
-	private Board2 board;
 
-	public Gui2(String name1, String name2) {
+	public BoardGuiNumbers(String name1, String name2) {
 		setTitle("Mancala");
 		setSize(1000, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// setResizable(false);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
-		player1Name = name1;
-		player2Name = name2;
 
-		currentPlayer = 1;
 		options = new JPanel();
-		newGame = new JButton("New Game");
-		rules = new JButton("Rules");
-		board = new Board2(name1, name2);
-
 		game = new JPanel(new BorderLayout());
 		cupsPanel = new JPanel();
 		cupPanel1 = new JPanel();
 		cupPanel2 = new JPanel();
 		goalPanel1 = new JPanel();
 		goalPanel2 = new JPanel();
-		stats = new JPanel(new FlowLayout());
-		player1 = new JLabel("Player1: " + player1Name);
-		player2 = new JLabel("Player2: " + player2Name);
+		stats = new JPanel(new BorderLayout());
+
+		cups = new JLabel[14];
+		player1Name = name1;
+		player2Name = name2;
 		stats1 = new JLabel(getPlayerName(1) + " Wins: " + wins1);
 		stats2 = new JLabel(getPlayerName(2) + " Wins: " + wins2);
 		description = new JLabel();
-		currentTurn = new JLabel("Current Player: " + player1Name);
+		newGame = new JButton("New Game");
+		rules = new JButton("Rules");
+
+		board = new Board();
 		wins1 = 0;
 		wins2 = 0;
+		currentPlayer = 1;
 
-		cups = new JLabel[14];
-		// goal1 = new JLabel();
-		// goal2 = new JLabel();
 		add();
 		format();
 		resetNumbers();
@@ -76,18 +75,23 @@ public class Gui2 extends JFrame {
 
 	public void format() {
 		game.setBackground(new Color(156, 93, 82));
+
 		cupsPanel.setLayout(new BoxLayout(cupsPanel, BoxLayout.Y_AXIS));
-		cupPanel2.setLayout(new FlowLayout());
-		cupPanel2.setBackground(Color.yellow);
 		cupPanel1.setLayout(new FlowLayout());
-		cupPanel1.setBackground(Color.magenta);
-		goalPanel1.setBackground(Color.green);
-		goalPanel2.setBackground(Color.green);
+		cupPanel1.setBackground(Color.white);
+		cupPanel2.setLayout(new FlowLayout());
+		cupPanel2.setBackground(Color.white);
+
 		goalPanel1.setLayout(new BoxLayout(goalPanel1, BoxLayout.Y_AXIS));
+		goalPanel1.setBackground(Color.darkGray);
 		goalPanel2.setLayout(new BoxLayout(goalPanel2, BoxLayout.Y_AXIS));
+		goalPanel2.setBackground(Color.darkGray);
+
+		Font font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 90);
 
 		for (int i = 0; i < cups.length; i++) {
-			cups[i].setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 90));
+			cups[i].setFont(font1);
+			cups[i].setForeground(Color.red);
 			cups[i].setVerticalAlignment(JLabel.CENTER);
 
 			if (i != 6 && i != 13) {
@@ -104,19 +108,32 @@ public class Gui2 extends JFrame {
 				});
 			}
 		}
+		Font font2 = new Font("Rockwell Extra Bold", Font.PLAIN, 30);
+
+		options.setBackground(Color.black);
+		newGame.setBackground(Color.red);
+		newGame.setFont(font2);
+		newGame.setForeground(Color.black);
+		rules.setBackground(Color.red);
+		rules.setFont(font2);
+		rules.setForeground(Color.black);
+
+		stats.setBackground(Color.black);
+		stats1.setFont(font2);
+		stats1.setForeground(Color.red);
+		stats2.setFont(font2);
+		stats2.setForeground(Color.red);
+
+		Font font3 = new Font("Calibri", Font.BOLD, 35);
+		description.setFont(font3);
+		description.setHorizontalAlignment(JLabel.CENTER);
+		description.setForeground(Color.red);
 	}
 
 	public void add() {
-		add(options, BorderLayout.NORTH);
 		options.add(newGame);
 		options.add(rules);
-
-		add(game, BorderLayout.CENTER);
-		game.add(cupsPanel, BorderLayout.CENTER);
-		game.add(goalPanel1, BorderLayout.EAST);
-		game.add(goalPanel2, BorderLayout.WEST);
-		cupsPanel.add(cupPanel2);
-		cupsPanel.add(cupPanel1);
+		add(options, BorderLayout.NORTH);
 
 		cupPanel1.add(Box.createRigidArea(new Dimension(1, 200)));
 		cupPanel2.add(Box.createRigidArea(new Dimension(1, 200)));
@@ -129,21 +146,26 @@ public class Gui2 extends JFrame {
 			cupPanel2.add(cups[i]);
 			cups[i].setEnabled(false);
 		}
+
+		cupsPanel.add(cupPanel2);
+		cupsPanel.add(cupPanel1);
+		game.add(cupsPanel, BorderLayout.CENTER);
+
 		cups[6] = new JLabel();
 		cups[13] = new JLabel();
 		goalPanel1.add(Box.createRigidArea(new Dimension(1, 200)));
 		goalPanel1.add(cups[6]);
 		goalPanel2.add(Box.createRigidArea(new Dimension(1, 200)));
 		goalPanel2.add(cups[13]);
+		game.add(goalPanel1, BorderLayout.EAST);
+		game.add(goalPanel2, BorderLayout.WEST);
 
+		add(game, BorderLayout.CENTER);
+
+		stats.add(stats1, BorderLayout.EAST);
+		stats.add(stats2, BorderLayout.WEST);
+		stats.add(description, BorderLayout.NORTH);
 		add(stats, BorderLayout.SOUTH);
-		// stats.add(player1);
-		// stats.add(player2);
-		stats.add(stats1);
-		stats.add(stats2);
-		// stats.add(currentTurn);
-		stats.add(Box.createRigidArea(new Dimension(70, 0)));
-		stats.add(description);
 	}
 
 	// called by action listener
@@ -153,8 +175,8 @@ public class Gui2 extends JFrame {
 		resetNumbers();
 		int piecesAdded = board.checkForMoves();
 		if (piecesAdded != 0) {
-			JOptionPane.showMessageDialog(null, "Left over peices added to "
-					+ getPlayerName(piecesAdded) + "'s goal!!");
+			JOptionPane.showMessageDialog(null,
+					"Left over peices added to " + getPlayerName(piecesAdded) + "'s goal!!");
 			resetNumbers();
 		}
 		if (board.checkGame()) {
@@ -201,8 +223,7 @@ public class Gui2 extends JFrame {
 			description.setText("GREAT JOB " + getPlayerName(winner) + "!!!");
 			break;
 		case 3:
-			description.setText(getPlayerName(currentPlayer)
-					+ " landed in the goal- player goes again");
+			description.setText(getPlayerName(currentPlayer) + " landed in the goal- player goes again");
 			break;
 		case 4:
 			description.setText("Tie Game no one wins!");
@@ -271,7 +292,7 @@ public class Gui2 extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new Gui2("leah", "elise").setVisible(true);
+		new BoardGuiNumbers("LEAH", "ELISE").setVisible(true);
 	}
 
 }

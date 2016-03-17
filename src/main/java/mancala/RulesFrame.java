@@ -2,17 +2,13 @@ package mancala;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
@@ -28,7 +24,7 @@ public class RulesFrame extends JFrame {
 
 	public RulesFrame() {
 		setTitle("HOW TO PLAY!");
-		setSize(1100, 490);
+		setSize(1100, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setResizable(false);
@@ -46,13 +42,10 @@ public class RulesFrame extends JFrame {
 
 	private void addFormat() {
 
-		background.setLayout(new BorderLayout());
-		background.add(textArea, BorderLayout.NORTH);
-		background.add(button, BorderLayout.LINE_START);
-		add(background);
-
 		Font font1 = new Font("Calibri", Font.BOLD, 20);
 		Font font2 = new Font("Rockwell Extra Bold", Font.PLAIN, 30);
+
+		background.setLayout(new BorderLayout());
 
 		textArea.setFont(font1);
 		textArea.setForeground(Color.yellow);
@@ -62,6 +55,10 @@ public class RulesFrame extends JFrame {
 		button.setForeground(Color.yellow);
 		button.setBackground(Color.black);
 		button.setBorder(new LineBorder(Color.orange, 3, true));
+
+		background.add(textArea, BorderLayout.NORTH);
+		background.add(button, BorderLayout.LINE_START);
+		add(background);
 	}
 
 	private void addListener() {
@@ -96,6 +93,7 @@ public class RulesFrame extends JFrame {
 				"\n*  The player who still has pieces on his side of the board when the game ends captures all of those pieces.");
 		builder.append("\n*  All the pieces in each goal is counted. The winner is the player with the most pieces.");
 		builder.append("\n\n			 *** Try to plan two or three moves into the future.");
+		builder.append("			 		 *** Hover the mouse over a hole or goal to see the amount.");
 		textArea.setText(builder.toString());
 
 	}
