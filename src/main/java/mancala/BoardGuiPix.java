@@ -76,8 +76,8 @@ public class BoardGuiPix extends JFrame {
 
 		this.setIconImage(new ImageIcon(getClass().getResource("/icon.jpg")).getImage());
 		border = new LineBorder(Color.black, 8, true);
-		font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 25);
-		font2 = new Font("Calibri", Font.BOLD, 20);
+		font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 28);
+		font2 = new Font("Calibri", Font.PLAIN, 38);
 
 		add();
 		format();
