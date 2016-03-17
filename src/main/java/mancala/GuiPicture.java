@@ -67,8 +67,8 @@ public class GuiPicture extends JFrame {
 		goalPanel1 = new JPanel();
 		goalPanel2 = new JPanel();
 		stats = new JPanel(new FlowLayout());
-		stats1 = new JLabel(getPlayerName(1) + " Wins: " + wins1);
-		stats2 = new JLabel(getPlayerName(2) + " Wins: " + wins2);
+		stats1 = new JLabel(getPlayerName(1) + "'s Score: " + wins1);
+		stats2 = new JLabel(getPlayerName(2) + "'s Score: " + wins2);
 		description = new JLabel();
 		border = new LineBorder(Color.black, 8, true);
 		font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 25);
@@ -104,7 +104,7 @@ public class GuiPicture extends JFrame {
 		stats2.setForeground(Color.red);
 		stats2.setFont(font1);
 		description.setFont(font2);
-		description.setForeground(Color.red);
+		description.setForeground(Color.darkGray);
 		newGame.setBackground(Color.black);
 		newGame.setForeground(Color.red);
 		newGame.setFont(font1);
