@@ -40,7 +40,7 @@ public class GuiPicture extends JFrame {
 
 	public GuiPicture(String name1, String name2) {
 		setTitle("Mancala");
-		setSize(1200, 800);
+		setSize(1100, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -81,10 +81,8 @@ public class GuiPicture extends JFrame {
 
 		add();
 		format();
-		repaint();
 		addActionListeners();
-		changeDescription(1);
-
+		resetBoard();
 	}
 
 	public void format() {
@@ -97,6 +95,7 @@ public class GuiPicture extends JFrame {
 		goalPanel1.setLayout(new GridBagLayout());
 		goalPanel2.setBackground(new Color(139, 69, 19));
 		goalPanel2.setLayout(new GridBagLayout());
+		cupsPanel.setBackground(new Color(139, 69, 19));
 		game.setBorder(border);
 		stats.setBackground(Color.gray);
 		options.setBackground(Color.gray);
