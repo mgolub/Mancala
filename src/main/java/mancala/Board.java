@@ -3,6 +3,7 @@ package mancala;
 //logic of a computer mancala game 
 //preferred
 
+
 public class Board {
 
 	private Cup[] board;
