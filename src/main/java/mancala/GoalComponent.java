@@ -7,9 +7,6 @@ import java.awt.Graphics;
 
 public class GoalComponent extends CupComponent {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public GoalComponent() {
@@ -23,7 +20,7 @@ public class GoalComponent extends CupComponent {
 		super.paintComponent(g);
 
 		g.setColor(Color.black);
-		g.fillOval(0, 0, 115, 450);
+		g.fillOval(0, 0, 115, 215);
 
 		for (int i = 0, j = -25; i < count; i++, j++) {
 			if (i <25) {
