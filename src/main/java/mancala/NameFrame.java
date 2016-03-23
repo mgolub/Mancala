@@ -140,8 +140,6 @@ public class NameFrame extends JFrame {
 
 	}
 
-	public static void main(String[] args) {
-		new NameFrame().setVisible(true);
-	}
+
 
 }
