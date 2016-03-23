@@ -54,6 +54,8 @@ public class GameGui extends JFrame {
 		board = new BoardPanel(this.cupComponents);
 		statsPanel = new JPanel(new BorderLayout());
 
+		setPanels();
+
 		newGameButton = new JButton("New Game");
 		rulesButton = new JButton("Rules");
 		players = new Players(name1, name2);
@@ -65,11 +67,17 @@ public class GameGui extends JFrame {
 
 		this.setIconImage(new ImageIcon(getClass().getResource("/icon.jpg"))
 				.getImage());
-		
+
 		add();
 		format();
 		addActionListeners();
 		resetBoard();
+	}
+
+	private void setPanels() {
+		optionsPanel = new JPanel();
+		
+		statsPanel = new JPanel(new BorderLayout());
 	}
 
 	public void format() {
@@ -103,8 +111,7 @@ public class GameGui extends JFrame {
 					public void mouseClicked(MouseEvent event) {
 						CupComponent cup = (CupComponent) event.getSource();
 						int index = (Integer) cup.getClientProperty("index");
-						if (!cup.isEnabled()
-								|| board.getQtyMarbles(index) == 0) {
+						if (!cup.isEnabled() || board.getQtyMarbles(index) == 0) {
 							return;
 						}
 						turn(index);
@@ -186,7 +193,8 @@ public class GameGui extends JFrame {
 
 	public void displayWinner() {
 		changeDescription(2);
-		JOptionPane.showMessageDialog(null,
+		JOptionPane.showMessageDialog(
+				null,
 				players.playersName(1) + ": " + board.getQtyMarbles(6)
 						+ " points\n" + players.playersName(2) + ": "
 						+ board.getQtyMarbles(13) + " points\n\n"
