@@ -6,7 +6,7 @@ public class Players {
 	private int currentPlayer;
 
 	public Players(String player1Name, String player2Name) {
-		players = new Player[1];
+		players = new Player[2];
 		players[0] = new Player(player1Name, 0);
 		players[1] = new Player(player2Name, 1);
 		currentPlayer = 0;
@@ -17,7 +17,7 @@ public class Players {
 		// play against computer
 	}
 
-	private void switchPlayers() {
+	public void switchPlayers() {
 		currentPlayer = currentPlayer == 1 ? 0 : 1;
 	}
 
