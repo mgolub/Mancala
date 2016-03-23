@@ -51,16 +51,9 @@ public class BoardGuiPix extends JFrame {
 	//	setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
-
-		optionsPanel = new JPanel();
-		gamePanel = new JPanel(new BorderLayout());
-		cupsPanel = new JPanel();
-		cupPanel1 = new JPanel(new FlowLayout());
-		cupPanel2 = new JPanel(new FlowLayout());
-		goalPanel1 = new JPanel(new GridBagLayout());
-		goalPanel2 = new JPanel(new GridBagLayout());
-		statsPanel = new JPanel(new BorderLayout());
-
+		
+		setPanels();
+		
 		newGameButton = new JButton("New Game");
 		rulesButton = new JButton("Rules");
 		playerName1 = name1;
@@ -85,6 +78,17 @@ public class BoardGuiPix extends JFrame {
 		format();
 		addActionListeners();
 		resetBoard();
+	}
+
+	private void setPanels() {
+		optionsPanel = new JPanel();
+		gamePanel = new JPanel(new BorderLayout());
+		cupsPanel = new JPanel();
+		cupPanel1 = new JPanel(new FlowLayout());
+		cupPanel2 = new JPanel(new FlowLayout());
+		goalPanel1 = new JPanel(new GridBagLayout());
+		goalPanel2 = new JPanel(new GridBagLayout());
+		statsPanel = new JPanel(new BorderLayout());	
 	}
 
 	public void format() {
