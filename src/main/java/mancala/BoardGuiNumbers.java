@@ -25,21 +25,20 @@ public class BoardGuiNumbers extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JPanel options, game, stats, cupsPanel, cupPanel1, cupPanel2, goalPanel1, goalPanel2;
+	private JPanel options, game, stats, cupsPanel, cupPanel1, cupPanel2,
+			goalPanel1, goalPanel2;
 	private JButton newGame, rules;
 	private JLabel stats1, stats2, description;
 	private JLabel[] cups;
-
 	private Board board;
-	private String player1Name, player2Name;
-	private int currentPlayer;
-	private int wins1, wins2, winner;
+	private Players players;
+	private int  winner;
 
 	public BoardGuiNumbers(String name1, String name2) {
 		setTitle("Mancala");
-		setSize(1000, 700);
+		setSize(800, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		//setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 
@@ -53,18 +52,16 @@ public class BoardGuiNumbers extends JFrame {
 		stats = new JPanel(new BorderLayout());
 
 		cups = new JLabel[14];
-		player1Name = name1;
-		player2Name = name2;
-		stats1 = new JLabel(getPlayerName(1) + " Wins: " + wins1);
-		stats2 = new JLabel(getPlayerName(2) + " Wins: " + wins2);
+		players = new Players(name1, name2);
+		stats1 = new JLabel(players.playersName(1) + " Wins: " + players.gamesWon(1));
+		stats2 = new JLabel(players.playersName(2) + " Wins: " + players.gamesWon(2));
 		description = new JLabel();
 		newGame = new JButton("New Game");
 		rules = new JButton("Rules");
 
 		board = new Board();
-		wins1 = 0;
-		wins2 = 0;
-		currentPlayer = 1;
+		
+
 
 		add();
 		format();
@@ -173,10 +170,10 @@ public class BoardGuiNumbers extends JFrame {
 		boolean goalTurn = board.distribute(index);
 		// returns if landed in a goal
 		resetNumbers();
-		int piecesAdded = board.checkForMoves();
-		if (piecesAdded != 0) {
-			JOptionPane.showMessageDialog(null,
-					"Left over peices added to " + getPlayerName(piecesAdded) + "'s goal!!");
+		int player = board.checkForMoves();
+		if (player != 0) {
+			JOptionPane.showMessageDialog(null, "Left over peices added to "
+					+ players.playersName(player) + "'s goal!!");
 			resetNumbers();
 		}
 		if (board.checkGame()) {
@@ -186,19 +183,21 @@ public class BoardGuiNumbers extends JFrame {
 				changeDescription(4);
 				break;
 			case 1:
-				wins1++;
+				
+				players.increaseWins(1);
+				System.out.println(players.gamesWon(1));
 				displayWinner();
 				break;
 			case 2:
-				wins2++;
+				players.increaseWins(2);
+				System.out.println(players.gamesWon(2));
+
 				displayWinner();
 				break;
 			}
-			// resetBoard();
 			return;
 		}
 		if (!goalTurn) {
-			currentPlayer = board.switchPlayer();
 			changeDescription(1);
 			disableLabels();
 			return;
@@ -209,21 +208,22 @@ public class BoardGuiNumbers extends JFrame {
 	public void displayWinner() {
 		changeDescription(2);
 		// display dialog box
-		JOptionPane.showMessageDialog(null, getPlayerName(winner) + " won!!");
-		stats1.setText(getPlayerName(1) + " Wins: " + wins1);
-		stats2.setText(getPlayerName(2) + " Wins: " + wins2);
+		JOptionPane.showMessageDialog(null, players.playersName(winner) + " won!!");
+		stats1.setText(players.playersName(1) + " Wins: " + players.gamesWon(1));
+		stats2.setText(players.playersName(2) + " Wins: " + players.gamesWon(2));
 	}
 
 	public void changeDescription(int code) {
 		switch (code) {
 		case 1:
-			description.setText(getPlayerName(currentPlayer) + "'s Turn...");
+			description.setText(players.currenPlayersName() + "'s Turn...");
 			break;
 		case 2:
-			description.setText("GREAT JOB " + getPlayerName(winner) + "!!!");
+			description.setText("GREAT JOB " + players.playersName(winner) + "!!!");
 			break;
 		case 3:
-			description.setText(getPlayerName(currentPlayer) + " landed in the goal- player goes again");
+			description.setText(players.currenPlayersName()
+					+ " landed in the goal- player goes again");
 			break;
 		case 4:
 			description.setText("Tie Game no one wins!");
@@ -273,7 +273,7 @@ public class BoardGuiNumbers extends JFrame {
 	public void resetBoard() {
 		board.resetBoard();
 		resetNumbers();
-		currentPlayer = 1;
+		players.reset();
 		changeDescription(1);
 		for (int i = 0; i < 6; i++) {
 			cups[i].setEnabled(true);
@@ -282,17 +282,5 @@ public class BoardGuiNumbers extends JFrame {
 			cups[i].setEnabled(false);
 		}
 	}
-
-	public String getPlayerName(int player) {
-		if (player == 1) {
-			return player1Name;
-		} else {
-			return player2Name;
-		}
-	}
-
-/*	public static void main(String[] args) {
-		new BoardGuiNumbers("LEAH", "ELISE").setVisible(true);
-	}*/
 
 }

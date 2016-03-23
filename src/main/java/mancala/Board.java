@@ -3,7 +3,6 @@ package mancala;
 //logic of a computer mancala game 
 //preferred
 
-
 public class Board {
 
 	private Cup[] board;
@@ -12,6 +11,8 @@ public class Board {
 	private int currentPlayer;
 	private int start;
 	private int piecesWon;// by both combined
+	private final int GOAL1 = 6;
+	private final int GOAL2 = 13;
 
 	public Board() {
 		board = new Cup[14];
@@ -21,7 +22,7 @@ public class Board {
 		piecesWon = 0;
 
 		for (int i = 0; i < board.length; i++) {
-			if (i == 6 || i == 13) {
+			if (i == GOAL1 || i == GOAL2) {
 				board[i] = new Goal();
 			} else {
 				board[i] = new Cup();
@@ -59,9 +60,9 @@ public class Board {
 	}
 
 	public int calculateWinner() {
-		if (board[6].getCount() > board[13].getCount()) {
+		if (board[GOAL1].getCount() > board[GOAL2].getCount()) {
 			return 1;
-		} else if (board[6].getCount() < board[13].getCount()) {
+		} else if (board[GOAL1].getCount() < board[GOAL2].getCount()) {
 			return 2;
 		}
 		return 0;// no winner
@@ -76,30 +77,29 @@ public class Board {
 		int amount = board[start].removePieces();
 
 		for (int i = 0, position = start + 1; i < amount; i++, position++) {
-			if (position == 6) {
-				if (currentPlayer == player1) {
-					piecesWon++;
-					board[position].addPiece();
-				} else {
-					i--;
-				}
-			} else if (position == 13) {
-				if (currentPlayer == player2) {
-					piecesWon++;
-					board[position].addPiece();
-				} else {
-					i--;
-				}
-			} else {
+			if (position != GOAL1 && position != GOAL2) {
 				board[position].addPiece();
+			} else {
+				if (currentPlayersGoal(position)) {
+					piecesWon++;
+					board[position].addPiece();
+				} else {
+					i--;
+				}
+
 			}
 
 			start = position;
-			if (position == 13) {
+			if (position == board.length-1) {
 				position = -1;// 0 after increment
 			}
 		} // pieces done being distributed
 		return checkTurn();
+	}
+
+	private boolean currentPlayersGoal(int position) {
+		return (position == GOAL1 && currentPlayer == player1)
+				|| (position == GOAL2 && currentPlayer == player2);
 	}
 
 	// checks to see if landed in a goal our landed in an empty cup
