@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -52,14 +53,11 @@ public class GameGui extends JFrame {
 
 		newGameButton = new JButton("New Game");
 		rulesButton = new JButton("Rules");
-		statsLabel1 = new JLabel(players.playersName(1) + " Wins: "
-				+ players.gamesWon(1));
-		statsLabel2 = new JLabel(players.playersName(2) + " Wins: "
-				+ players.gamesWon(2));
+		statsLabel1 = new JLabel(players.playersName(1) + " Wins: " + players.gamesWon(1));
+		statsLabel2 = new JLabel(players.playersName(2) + " Wins: " + players.gamesWon(2));
 		descriptionLabel = new JLabel();
 
-		this.setIconImage(new ImageIcon(getClass().getResource("/icon.jpg"))
-				.getImage());
+		this.setIconImage(new ImageIcon(getClass().getResource("/icon.jpg")).getImage());
 
 		add();
 		format();
@@ -75,8 +73,8 @@ public class GameGui extends JFrame {
 	public void format() {
 		Font font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 28);
 		Font font2 = new Font("Calibri", Font.PLAIN, 38);
-		optionsPanel.setBackground(new Color(128,0,0));
-		optionsPanel.setPreferredSize(new Dimension(1000,80));
+		optionsPanel.setBackground(new Color(128, 0, 0));
+		optionsPanel.setPreferredSize(new Dimension(1000, 80));
 		newGameButton.setFont(font1);
 		newGameButton.setBackground(Color.black);
 		newGameButton.setForeground(Color.red);
@@ -85,7 +83,7 @@ public class GameGui extends JFrame {
 		rulesButton.setForeground(Color.red);
 
 		// statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
-		statsPanel.setBackground(new Color(128,0,0));
+		statsPanel.setBackground(new Color(128, 0, 0));
 
 		statsLabel1.setFont(font1);
 		statsLabel1.setForeground(Color.red);
@@ -98,13 +96,14 @@ public class GameGui extends JFrame {
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		for (int i = 0; i < cupComponents.length; i++) {
-			if (i != Board.GOAL1 && i != Board.GOAL2) {
+			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
 				cupComponents[i].putClientProperty("index", i);
 				cupComponents[i].addMouseListener(new MouseAdapter() {
+					@Override
 					public void mouseClicked(MouseEvent event) {
 						CupComponent cup = (CupComponent) event.getSource();
 						int index = (Integer) cup.getClientProperty("index");
-						if (!cup.isEnabled() || board.getQtyMarbles(index) == 0) {
+						if (!cup.isEnabled() || (board.getQtyMarbles(index) == 0)) {
 							return;
 						}
 						turn(index);
@@ -137,8 +136,8 @@ public class GameGui extends JFrame {
 
 		int piecesAdded = board.checkForMoves();
 		if (piecesAdded != 0) {
-			JOptionPane.showMessageDialog(null, "Left over peices added to "
-					+ players.playersName(piecesAdded) + "'s goal!!");
+			JOptionPane.showMessageDialog(null, "Left over peices added to " + players.playersName(piecesAdded)
+					+ "'s goal!!");
 			repaint();
 		}
 		if (board.checkGame()) {
@@ -171,7 +170,7 @@ public class GameGui extends JFrame {
 
 	private void disableCups() {
 		for (int i = 0; i < 13; i++) {
-			if (i != Board.GOAL1 && i != Board.GOAL2) {
+			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
 				if (cupComponents[i].isEnabled()) {
 					cupComponents[i].setEnabled(false);
 				} else {
@@ -184,31 +183,23 @@ public class GameGui extends JFrame {
 
 	public void displayWinner() {
 		changeDescription(2);
-		JOptionPane.showMessageDialog(
-				null,
-				players.playersName(1) + ": " + board.getQtyMarbles(6)
-						+ " points\n" + players.playersName(2) + ": "
-						+ board.getQtyMarbles(13) + " points\n\n"
-						+ players.playersName(winner) + " won!!");
-		statsLabel1.setText(players.playersName(1) + " Wins: "
-				+ players.gamesWon(1));
-		statsLabel2.setText(players.playersName(2) + " Wins: "
-				+ players.gamesWon(2));
+		JOptionPane.showMessageDialog(null, players.playersName(1) + ": " + board.getQtyMarbles(6) + " points\n"
+				+ players.playersName(2) + ": " + board.getQtyMarbles(13) + " points\n\n" + players.playersName(winner)
+				+ " won!!");
+		statsLabel1.setText(players.playersName(1) + " Wins: " + players.gamesWon(1));
+		statsLabel2.setText(players.playersName(2) + " Wins: " + players.gamesWon(2));
 	}
 
 	public void changeDescription(int code) {
 		switch (code) {
 		case 1:
-			descriptionLabel
-					.setText(players.currenPlayersName() + "'s Turn...");
+			descriptionLabel.setText(players.currentPlayersName() + "'s Turn...");
 			break;
 		case 2:
-			descriptionLabel.setText("**** GREAT JOB "
-					+ players.playersName(winner) + "!!! ****");
+			descriptionLabel.setText("**** GREAT JOB " + players.playersName(winner) + "!!! ****");
 			break;
 		case 3:
-			descriptionLabel.setText(players.currenPlayersName()
-					+ " landed in the goal - player goes again");
+			descriptionLabel.setText(players.currentPlayersName() + " landed in the goal - player goes again");
 			break;
 		case 4:
 			descriptionLabel.setText("Tie Game - no one wins!");
@@ -218,17 +209,14 @@ public class GameGui extends JFrame {
 
 	public void resetCups() {
 		for (int i = 0; i < 14; i++) {
-			if (i != Board.GOAL1 && i != Board.GOAL2) {
-				((CupComponent) cupComponents[i]).setCount(board
-						.getQtyMarbles(i));
+			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
+				((CupComponent) cupComponents[i]).setCount(board.getQtyMarbles(i));
 			} else {
-				((GoalComponent) cupComponents[i]).setCount(board
-						.getQtyMarbles(i));
+				((GoalComponent) cupComponents[i]).setCount(board.getQtyMarbles(i));
 			}
 		}
 		for (int i = 0; i < 14; i++) {
-			cupComponents[i].setToolTipText(Integer.toString(board
-					.getQtyMarbles(i)));
+			cupComponents[i].setToolTipText(Integer.toString(board.getQtyMarbles(i)));
 		}
 		repaint();
 	}

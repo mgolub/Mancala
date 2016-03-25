@@ -22,24 +22,25 @@ public class Players {
 	}
 
 	/*
-	 * @return 1 or 2 to show which players turn it is 
+	 * @return 1 or 2 to show which players turn it is
 	 */
 	public int useCurrentPlayer() {
 		int temp = currentPlayer++;
 		switchPlayers();
 		return temp;
 	}
-	
-	public String currenPlayersName(){
+
+	public String currentPlayersName() {
 		return players[currentPlayer].getName();
 	}
-	public String playersName(int playerNumber){
+
+	public String playersName(int playerNumber) {
 		return players[--playerNumber].getName();
 	}
 
 	public void reset() {
-		currentPlayer =0;
-		
+		currentPlayer = 0;
+
 	}
 
 	public int gamesWon(int playerNumber) {
