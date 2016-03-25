@@ -42,7 +42,7 @@ public class CupComponent extends JComponent {
 
 		Color color = new Color(255, 255,255, 50 );
 		g.setColor(color);
-		g.fillOval(0, 0, 100, 100);
+		g.fillOval(0, 0, 100, 170);
 
 		for (int i = 0, j = -14; i < count; i++, j++) {
 			if (i < 14) {

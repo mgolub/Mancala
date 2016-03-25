@@ -3,17 +3,11 @@ package mancala;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -22,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 
 public class GameGui extends JFrame {
 
@@ -42,7 +35,7 @@ public class GameGui extends JFrame {
 
 	public GameGui(String name1, String name2) {
 		setTitle("Mancala");
-		setSize(1000, 800);
+		setSize(1000, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -50,15 +43,15 @@ public class GameGui extends JFrame {
 
 		optionsPanel = new JPanel();
 		cupComponents = new JComponent[14];
+		players = new Players(name1, name2);
 
-		board = new BoardPanel(this.cupComponents);
+		board = new BoardPanel(this.cupComponents, this.players);
 		statsPanel = new JPanel(new BorderLayout());
 
 		setPanels();
 
 		newGameButton = new JButton("New Game");
 		rulesButton = new JButton("Rules");
-		players = new Players(name1, name2);
 		statsLabel1 = new JLabel(players.playersName(1) + " Wins: "
 				+ players.gamesWon(1));
 		statsLabel2 = new JLabel(players.playersName(2) + " Wins: "
@@ -76,14 +69,14 @@ public class GameGui extends JFrame {
 
 	private void setPanels() {
 		optionsPanel = new JPanel();
-		
 		statsPanel = new JPanel(new BorderLayout());
 	}
 
 	public void format() {
 		Font font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 28);
 		Font font2 = new Font("Calibri", Font.PLAIN, 38);
-		optionsPanel.setBackground(Color.gray);
+		optionsPanel.setBackground(new Color(128,0,0));
+		optionsPanel.setPreferredSize(new Dimension(1000,80));
 		newGameButton.setFont(font1);
 		newGameButton.setBackground(Color.black);
 		newGameButton.setForeground(Color.red);
@@ -92,7 +85,7 @@ public class GameGui extends JFrame {
 		rulesButton.setForeground(Color.red);
 
 		// statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
-		statsPanel.setBackground(Color.gray);
+		statsPanel.setBackground(new Color(128,0,0));
 
 		statsLabel1.setFont(font1);
 		statsLabel1.setForeground(Color.red);
@@ -105,7 +98,7 @@ public class GameGui extends JFrame {
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		for (int i = 0; i < cupComponents.length; i++) {
-			if (i != 6 && i != 13) {
+			if (i != Board.GOAL1 && i != Board.GOAL2) {
 				cupComponents[i].putClientProperty("index", i);
 				cupComponents[i].addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent event) {
@@ -130,9 +123,7 @@ public class GameGui extends JFrame {
 		add(board, BorderLayout.CENTER);
 
 		statsPanel.add(statsLabel1, BorderLayout.EAST);
-		// statsPanel.add(Box.createRigidArea(new Dimension(40, 0)));
 		statsPanel.add(statsLabel2, BorderLayout.WEST);
-		// statsPanel.add(Box.createRigidArea(new Dimension(70, 0)));
 		statsPanel.add(descriptionLabel, BorderLayout.NORTH);
 		add(statsPanel, BorderLayout.SOUTH);
 	}
@@ -180,7 +171,7 @@ public class GameGui extends JFrame {
 
 	private void disableCups() {
 		for (int i = 0; i < 13; i++) {
-			if (i != 6 && i != 13) {
+			if (i != Board.GOAL1 && i != Board.GOAL2) {
 				if (cupComponents[i].isEnabled()) {
 					cupComponents[i].setEnabled(false);
 				} else {
@@ -227,7 +218,7 @@ public class GameGui extends JFrame {
 
 	public void resetCups() {
 		for (int i = 0; i < 14; i++) {
-			if (i != 6 && i != 13) {
+			if (i != Board.GOAL1 && i != Board.GOAL2) {
 				((CupComponent) cupComponents[i]).setCount(board
 						.getQtyMarbles(i));
 			} else {

@@ -1,15 +1,15 @@
 package mancala;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 
 public class BoardPanel extends JPanel {
 
@@ -18,16 +18,32 @@ public class BoardPanel extends JPanel {
 	private JComponent[] cupComponents;
 	private Board board;
 
-	public BoardPanel(JComponent[] cupComponents2) {
+	public BoardPanel(JComponent[] cupComponents2, Players players) {
 		this.cupComponents = cupComponents2;
-		this.setBorder(new LineBorder(Color.black, 8, true));
 		this.setLayout(new BorderLayout());
-		createComponents();
+		createComponents(players);
 		formatComponetents();
 		addComponets();
 
+		
+		
+		
 
-		for (int i = 0; i < 6; i++) {
+
+	}
+
+	private void createComponents(Players players) {
+		cupsPanel = new JPanel();
+		cupPanel1 = new JPanel(new FlowLayout());
+		cupPanel2 = new JPanel(new FlowLayout());
+		goalPanel1 = new JPanel(new GridBagLayout());
+		goalPanel2 = new JPanel(new GridBagLayout());
+		board = new Board(players);
+		createCupComponents();
+
+	}
+	private void createCupComponents(){
+		for (int i = 0; i < Board.GOAL1; i++) {
 			cupComponents[i] = new CupComponent();
 			cupPanel1.add(cupComponents[i]);
 			cupComponents[i].setToolTipText(Integer.toString(board
@@ -40,41 +56,56 @@ public class BoardPanel extends JPanel {
 					.getContent(i)));
 		}
 
-		cupComponents[6] = new GoalComponent();
-		cupComponents[6].setToolTipText(Integer.toString(board.getContent(6)));
-		cupComponents[13] = new GoalComponent();
-		cupComponents[13]
-				.setToolTipText(Integer.toString(board.getContent(13)));
-
-		goalPanel1.add(cupComponents[6], new GridBagConstraints());
-		goalPanel2.add(cupComponents[13], new GridBagConstraints());
-	}
-
-	private void createComponents() {
-		cupsPanel = new JPanel();
-		cupPanel1 = new JPanel(new FlowLayout());
-		cupPanel2 = new JPanel(new FlowLayout());
-		goalPanel1 = new JPanel(new GridBagLayout());
-		goalPanel2 = new JPanel(new GridBagLayout());
-		board = new Board();
+		cupComponents[Board.GOAL1] = new GoalComponent();
+		cupComponents[Board.GOAL1].setToolTipText(Integer.toString(board
+				.getContent(Board.GOAL1)));
+		cupComponents[Board.GOAL2] = new GoalComponent();
+		cupComponents[Board.GOAL2].setToolTipText(Integer.toString(board
+				.getContent(Board.GOAL2)));
 
 	}
 
 	private void formatComponetents() {
 		cupsPanel.setLayout(new BoxLayout(cupsPanel, BoxLayout.Y_AXIS));
-		cupsPanel.setBackground(new Color(139, 69, 19));
-		cupPanel1.setBackground(new Color(139, 69, 19));
-		cupPanel2.setBackground(new Color(139, 69, 19));
-		goalPanel1.setBackground(new Color(139, 69, 19));
-		goalPanel2.setBackground(new Color(139, 69, 19));
+		cupsPanel.setOpaque(false);
+		cupPanel1.setOpaque(false);
+		cupPanel2.setOpaque(false);
+		goalPanel1.setOpaque(false);
+		goalPanel2.setOpaque(false);
+		Dimension goalSize = new Dimension(120,700);
+		goalPanel2.setPreferredSize(goalSize);
+		goalPanel1.setPreferredSize(goalSize);
+
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+
+		super.paintComponent(g);
+		ImageIcon icon = new ImageIcon(getClass().getResource("/board.jpg"));
+		g.drawImage(icon.getImage(), 0, 0, null);
 	}
 
 	private void addComponets() {
+		JPanel spaceHolder = new JPanel();
+		spaceHolder.setPreferredSize(new Dimension(800, 40));
+		spaceHolder.setOpaque(false);
+		cupsPanel.add(spaceHolder);
 		cupsPanel.add(cupPanel2);
 		cupsPanel.add(cupPanel1);
+		
 		add(cupsPanel, BorderLayout.CENTER);
-		add(goalPanel1, BorderLayout.EAST);
-		add(goalPanel2, BorderLayout.WEST);
+
+		goalPanel1.add(cupComponents[Board.GOAL1]);
+		goalPanel2.add(cupComponents[Board.GOAL2]);
+		JPanel west = new JPanel();
+		west.setOpaque(false);
+		west.add(goalPanel2);
+		JPanel east = new JPanel();
+		east.setOpaque(false);
+		east.add(goalPanel1);
+		add(east, BorderLayout.EAST);
+		add(west, BorderLayout.WEST);
 		add(cupsPanel, BorderLayout.CENTER);
 	}
 

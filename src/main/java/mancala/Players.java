@@ -49,4 +49,8 @@ public class Players {
 	public void increaseWins(int playerNumber) {
 		players[--playerNumber].increaseGamesWon();
 	}
+
+	public int currentPlayerNum() {
+		return currentPlayer + 1;
+	}
 }
