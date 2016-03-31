@@ -47,13 +47,12 @@ public class PieceAnimation extends JComponent{
 			
 			//if marbles reach next cup
 			if (xAxis == (cupNumber-1)*100){
+				pieceAmount--;
+				cupNumber--;
 				//if this is the last marble stop timer
 				if (pieceAmount == 0){
 				timer.stop();
-				}
-				else{
-					pieceAmount--;
-					cupNumber--;
+				g.clearRect(0, 0, getWidth(), getHeight());
 				}
 			}
 			xAxis-=2;
