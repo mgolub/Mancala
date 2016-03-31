@@ -7,8 +7,8 @@ public class GoalComponent extends CupComponent {
 
 	private static final long serialVersionUID = 1L;
 
-	public GoalComponent() {
-		super();
+	public GoalComponent(int x, int y) {
+		super(x, y);
 		originalCount = count = 0;
 		setPreferredSize(new Dimension(120, 455));
 	}

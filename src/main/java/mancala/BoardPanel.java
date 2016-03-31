@@ -28,6 +28,7 @@ public class BoardPanel extends JPanel {
 
 	private void createComponents(Players players) {
 		cupsPanel = new JPanel();
+		cupsPanel.setLayout(new BorderLayout());
 		cupPanel1 = new JPanel(new FlowLayout());
 		cupPanel2 = new JPanel(new FlowLayout());
 		goalPanel1 = new JPanel(new GridBagLayout());
@@ -39,19 +40,21 @@ public class BoardPanel extends JPanel {
 
 	private void createCupComponents() {
 		for (int i = 0; i < Board.GOAL1; i++) {
-			cupComponents[i] = new CupComponent();
+			cupComponents[i] = new CupComponent(647, 1010);// For testing the
+															// x,y
 			cupPanel1.add(cupComponents[i]);
 			cupComponents[i].setToolTipText(Integer.toString(board.getContent(i)));
 		}
 		for (int i = 12; i >= 7; i--) {
-			cupComponents[i] = new CupComponent();
+			cupComponents[i] = new CupComponent(639, 1560); // For testing the
+															// x,y
 			cupPanel2.add(cupComponents[i]);
 			cupComponents[i].setToolTipText(Integer.toString(board.getContent(i)));
 		}
 
-		cupComponents[Board.GOAL1] = new GoalComponent();
+		cupComponents[Board.GOAL1] = new GoalComponent(0, 0);
 		cupComponents[Board.GOAL1].setToolTipText(Integer.toString(board.getContent(Board.GOAL1)));
-		cupComponents[Board.GOAL2] = new GoalComponent();
+		cupComponents[Board.GOAL2] = new GoalComponent(0, 0);
 		cupComponents[Board.GOAL2].setToolTipText(Integer.toString(board.getContent(Board.GOAL2)));
 
 	}
@@ -79,13 +82,11 @@ public class BoardPanel extends JPanel {
 
 	private void addComponets() {
 		JPanel spaceHolder = new JPanel();
-		spaceHolder.setPreferredSize(new Dimension(800, 40));
+		spaceHolder.setPreferredSize(new Dimension(200, 50));
 		spaceHolder.setOpaque(false);
-		cupsPanel.add(spaceHolder);
-		cupsPanel.add(cupPanel2);
-		cupsPanel.add(cupPanel1);
-
-		add(cupsPanel, BorderLayout.CENTER);
+		cupsPanel.add(spaceHolder, BorderLayout.NORTH);
+		cupsPanel.add(cupPanel2, BorderLayout.SOUTH);
+		cupsPanel.add(cupPanel1, BorderLayout.CENTER);
 
 		goalPanel1.add(cupComponents[Board.GOAL1]);
 		goalPanel2.add(cupComponents[Board.GOAL2]);

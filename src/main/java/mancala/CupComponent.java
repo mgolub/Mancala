@@ -3,7 +3,6 @@ package mancala;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,16 +21,20 @@ public class CupComponent extends JComponent {
 	protected int count;
 	protected int originalCount;
 	protected Random random;
+	protected int x;
+	protected int y;
 
-	public CupComponent() {
-		setLayout(new GridLayout(4, 4));
-		setPreferredSize(new Dimension(110, 280));
+	public CupComponent(int x, int y) {
+		// setLayout(new GridLayout(4, 4));
+		setPreferredSize(new Dimension(110, 250));
 		marbles = new ArrayList<Image>();
 		originalCount = count = 4;
 
 		random = new Random();
 		randomMarbles();
 		piece = marbles.get(random.nextInt(4));
+		this.x = x;
+		this.y = y;
 	}
 
 	private void randomMarbles() {
@@ -66,7 +69,7 @@ public class CupComponent extends JComponent {
 				g.drawImage(piece = marbles.get(random.nextInt(4)), 10, i * 15, this);
 
 			} else {
-				g.drawImage(piece = marbles.get(random.nextInt(4)), 30, j * 15, this);
+				g.drawImage(piece = marbles.get(random.nextInt(4)), 40, j * 15, this);
 
 			}
 		}
