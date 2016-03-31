@@ -30,7 +30,7 @@ public class PieceAnimation extends JComponent {
 			yAxis = cupNumber * 100 +100;
 			xAxis = 100;
 		} else {
-			xAxis = 400;
+			xAxis = 500;
 			switch (this.cupNumber) {
 			case 13:
 				yAxis = 200;
@@ -52,11 +52,11 @@ public class PieceAnimation extends JComponent {
 				break;
 			case 7:
 				yAxis = 800;
-				xAxis = 250;
+				xAxis = 300;
 				break;
 			case 14:
 				yAxis = 100;
-				xAxis = 250;
+				xAxis = 300;
 			}
 		}
 		yAxisTemp = yAxis;
@@ -112,24 +112,18 @@ public class PieceAnimation extends JComponent {
 			
 			//if in cup 1 to go to GOAL2
 			if (yAxis == 100){
-				yAxis +=100;
 				pieceAmount--;
-				cupNumber--;
+				cupNumber = 14;
 			}
-			//if in GOAL2 to go to cup 13
-			else if (yAxis == 200 && xAxis >= 400){
-				//yAxis += 100;
-				pieceAmount--;
-				cupNumber--;
-			}
-			//if in any cup on top row
+		
+			//if in any cup on top row go left
 			else if (yAxis == yAxisTemp - 100) {
 				yAxisTemp -= 100;
 				pieceAmount--;
 				cupNumber--;
 			
 			}
-			//if in any cup on bottom row
+			//if in any cup on bottom row go right
 			else if (yAxis == yAxisTemp + 100){
 				yAxisTemp += 100;
 				pieceAmount--;

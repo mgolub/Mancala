@@ -10,6 +10,6 @@ public class PlayMancala {
 		NameFrame f = injector.getInstance(NameFrame.class);
 		f.setVisible(true);
 
-	}
+	 }
 
 }
