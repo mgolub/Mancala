@@ -36,7 +36,7 @@ public class GameGui extends JFrame {
 
 	public GameGui(String name1, String name2) {
 		setTitle("Mancala");
-		setSize(1000, 700);
+		setSize(1000, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -57,7 +57,7 @@ public class GameGui extends JFrame {
 		statsLabel2 = new JLabel(players.playersName(2) + " Wins: " + players.gamesWon(2));
 		descriptionLabel = new JLabel();
 
-		this.setIconImage(new ImageIcon(getClass().getResource("/icon.jpg")).getImage());
+		this.setIconImage(new ImageIcon(getClass().getResource("/startButton.png")).getImage());
 
 		add();
 		format();
@@ -73,8 +73,8 @@ public class GameGui extends JFrame {
 	public void format() {
 		Font font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 28);
 		Font font2 = new Font("Calibri", Font.PLAIN, 38);
-		optionsPanel.setBackground(new Color(128, 0, 0));
-		optionsPanel.setPreferredSize(new Dimension(1000, 80));
+		optionsPanel.setBackground(Color.BLACK);
+		optionsPanel.setPreferredSize(new Dimension(1000, 40));
 		newGameButton.setFont(font1);
 		newGameButton.setBackground(Color.black);
 		newGameButton.setForeground(Color.red);
@@ -83,16 +83,17 @@ public class GameGui extends JFrame {
 		rulesButton.setForeground(Color.red);
 
 		// statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
-		statsPanel.setBackground(new Color(128, 0, 0));
+		statsPanel.setBackground(Color.BLACK);
+		statsPanel.setPreferredSize(new Dimension(1000, 40));
 
 		statsLabel1.setFont(font1);
-		statsLabel1.setForeground(Color.red);
+		statsLabel1.setForeground(Color.MAGENTA);
 		statsLabel1.setHorizontalAlignment(SwingConstants.CENTER);
 		statsLabel2.setFont(font1);
-		statsLabel2.setForeground(Color.red);
+		statsLabel2.setForeground(Color.MAGENTA);
 		statsLabel2.setHorizontalAlignment(SwingConstants.CENTER);
 		descriptionLabel.setFont(font2);
-		descriptionLabel.setForeground(Color.YELLOW);
+		descriptionLabel.setForeground(Color.BLUE);
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		for (int i = 0; i < cupComponents.length; i++) {

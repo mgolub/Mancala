@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
@@ -22,7 +23,7 @@ public class CupComponent extends JComponent {
 	public CupComponent() {
 		setLayout(new GridLayout(4, 4));
 		setPreferredSize(new Dimension(110, 280));
-		piece = new ImageIcon(getClass().getResource("/red.png")).getImage();
+		piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
 		originalCount = count = 4;
 	}
 
@@ -40,7 +41,7 @@ public class CupComponent extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		Color color = new Color(255, 255,255, 50 );
+		Color color = new Color(255, 255, 255, 50);
 		g.setColor(color);
 		g.fillOval(0, 0, 100, 170);
 

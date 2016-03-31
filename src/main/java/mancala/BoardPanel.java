@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.GridBagLayout;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -25,11 +24,6 @@ public class BoardPanel extends JPanel {
 		formatComponetents();
 		addComponets();
 
-		
-		
-		
-
-
 	}
 
 	private void createComponents(Players players) {
@@ -42,26 +36,23 @@ public class BoardPanel extends JPanel {
 		createCupComponents();
 
 	}
-	private void createCupComponents(){
+
+	private void createCupComponents() {
 		for (int i = 0; i < Board.GOAL1; i++) {
 			cupComponents[i] = new CupComponent();
 			cupPanel1.add(cupComponents[i]);
-			cupComponents[i].setToolTipText(Integer.toString(board
-					.getContent(i)));
+			cupComponents[i].setToolTipText(Integer.toString(board.getContent(i)));
 		}
 		for (int i = 12; i >= 7; i--) {
 			cupComponents[i] = new CupComponent();
 			cupPanel2.add(cupComponents[i]);
-			cupComponents[i].setToolTipText(Integer.toString(board
-					.getContent(i)));
+			cupComponents[i].setToolTipText(Integer.toString(board.getContent(i)));
 		}
 
 		cupComponents[Board.GOAL1] = new GoalComponent();
-		cupComponents[Board.GOAL1].setToolTipText(Integer.toString(board
-				.getContent(Board.GOAL1)));
+		cupComponents[Board.GOAL1].setToolTipText(Integer.toString(board.getContent(Board.GOAL1)));
 		cupComponents[Board.GOAL2] = new GoalComponent();
-		cupComponents[Board.GOAL2].setToolTipText(Integer.toString(board
-				.getContent(Board.GOAL2)));
+		cupComponents[Board.GOAL2].setToolTipText(Integer.toString(board.getContent(Board.GOAL2)));
 
 	}
 
@@ -72,7 +63,7 @@ public class BoardPanel extends JPanel {
 		cupPanel2.setOpaque(false);
 		goalPanel1.setOpaque(false);
 		goalPanel2.setOpaque(false);
-		Dimension goalSize = new Dimension(120,700);
+		Dimension goalSize = new Dimension(120, 700);
 		goalPanel2.setPreferredSize(goalSize);
 		goalPanel1.setPreferredSize(goalSize);
 
@@ -82,8 +73,8 @@ public class BoardPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-		ImageIcon icon = new ImageIcon(getClass().getResource("/board.jpg"));
-		g.drawImage(icon.getImage(), 0, 0, null);
+		BoardImgPanel imgPanel = new BoardImgPanel();
+		g.drawImage(imgPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
 	}
 
 	private void addComponets() {
@@ -93,7 +84,7 @@ public class BoardPanel extends JPanel {
 		cupsPanel.add(spaceHolder);
 		cupsPanel.add(cupPanel2);
 		cupsPanel.add(cupPanel1);
-		
+
 		add(cupsPanel, BorderLayout.CENTER);
 
 		goalPanel1.add(cupComponents[Board.GOAL1]);

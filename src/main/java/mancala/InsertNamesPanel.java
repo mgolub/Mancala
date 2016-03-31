@@ -25,8 +25,8 @@ public class InsertNamesPanel extends JPanel {
 	private String name1, name2;
 
 	@Inject
-	public InsertNamesPanel(JLabel playerLabel1, JLabel playerLabel2,
-			JTextField playerField1, JTextField playerField2, JButton okayButton) {
+	public InsertNamesPanel(JLabel playerLabel1, JLabel playerLabel2, JTextField playerField1, JTextField playerField2,
+			JButton okayButton) {
 
 		setLayout(new FlowLayout());
 		setOpaque(false);
@@ -35,8 +35,7 @@ public class InsertNamesPanel extends JPanel {
 		Font font1 = new Font("Calibri", Font.BOLD, 40);
 		Font font2 = new Font("Calibri", Font.BOLD, 30);
 
-		format(playerLabel1, playerLabel2, playerField1, playerField2,
-				okayButton, font1, font2);
+		format(playerLabel1, playerLabel2, playerField1, playerField2, okayButton, font1, font2);
 
 		addListener(playerField1, playerField2, okayButton);
 		add(playerLabel1);
@@ -45,11 +44,9 @@ public class InsertNamesPanel extends JPanel {
 		add(playerField2);
 		add(okayButton);
 
-
 	}
 
-	private void format(JLabel playerLabel1, JLabel playerLabel2,
-			JTextField playerField1, JTextField playerField2,
+	private void format(JLabel playerLabel1, JLabel playerLabel2, JTextField playerField1, JTextField playerField2,
 			JButton okayButton, Font font1, Font font2) {
 		formatLabel(playerLabel1, font1);
 		formatLabel(playerLabel2, font1);
@@ -62,8 +59,7 @@ public class InsertNamesPanel extends JPanel {
 		okayButton.setOpaque(false);
 		okayButton.setIcon(new ImageIcon(getClass().getResource("/startButton.png")));
 		okayButton.setBackground(Color.black);
-		okayButton.setPreferredSize(new Dimension(80,80));
-		
+		okayButton.setPreferredSize(new Dimension(80, 80));
 
 	}
 
@@ -82,23 +78,20 @@ public class InsertNamesPanel extends JPanel {
 
 	}
 
-	private void addListener(JTextField playerField1, JTextField playerField2,
-			JButton okayButton) {
+	private void addListener(final JTextField playerField1, final JTextField playerField2, JButton okayButton) {
 
 		okayButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
 				name1 = playerField1.getText().trim().toUpperCase();
 				name2 = playerField2.getText().trim().toUpperCase();
-				if (name1.length() == 0 || name2.length() == 0) {
-					JOptionPane.showMessageDialog(null,
-							"You must enter a name for both players!!",
-							"WARNING!", JOptionPane.ERROR_MESSAGE);
+				if ((name1.length() == 0) || (name2.length() == 0)) {
+					JOptionPane.showMessageDialog(null, "You must enter a name for both players!!", "WARNING!",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (name1.length() > 10 || name2.length() > 10) {
-					JOptionPane.showMessageDialog(null,
-							"Name can't be longer than 10 digits", "WARNING!",
+				if ((name1.length() > 10) || (name2.length() > 10)) {
+					JOptionPane.showMessageDialog(null, "Name can't be longer than 10 digits", "WARNING!",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
