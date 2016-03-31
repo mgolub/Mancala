@@ -37,8 +37,7 @@ public class NameFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		backgroundLabel = new JLabel(new ImageIcon(getClass()
-				.getResource("/startBackground.png")));
+		backgroundLabel = new JLabel(new ImageIcon(getClass().getResource("/startBackground.png")));
 
 		backgroundLabel.setLayout(new BorderLayout());
 
@@ -47,5 +46,4 @@ public class NameFrame extends JFrame {
 
 	}
 
-	
 }

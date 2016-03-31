@@ -5,9 +5,9 @@ package mancala;
 public class Board {
 
 	private Cup[] board;
-	//private int player1;
-	//private int player2;
-	//private int currentPlayer;
+	// private int player1;
+	// private int player2;
+	// private int currentPlayer;
 	private int start;
 	private int piecesWon;// by both combined
 	private Players players;
@@ -32,7 +32,7 @@ public class Board {
 		for (int i = 0; i < board.length; i++) {
 			board[i].reset();
 		}
-		//currentPlayer = player1;
+		// currentPlayer = player1;
 		piecesWon = 0;
 	}
 
@@ -73,10 +73,9 @@ public class Board {
 				}
 
 			}
-			
 
 			start = position;
-			if (position == board.length-1) {
+			if (position == board.length - 1) {
 				position = -1;// 0 after increment
 			}
 		} // pieces done being distributed
@@ -87,7 +86,6 @@ public class Board {
 		return (position == GOAL1 && players.currentPlayerNum() == 1)
 				|| (position == GOAL2 && players.currentPlayerNum() == 2);
 	}
-	
 
 	// checks to see if landed in a goal our landed in an empty cup
 	private boolean checkTurn() {
