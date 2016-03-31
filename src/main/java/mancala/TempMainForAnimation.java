@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 public class TempMainForAnimation {
 
 	public static void main(String[] args) {
-		JComponent animation = new PieceAnimation(12, 14);
+		JComponent animation = new PieceAnimation(12, 15);
 		JFrame app = new JFrame();
 		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		app.add(animation);

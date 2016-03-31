@@ -18,6 +18,8 @@ public class PieceAnimation extends JComponent {
 	private int xAxis;
 	private int yAxisTemp;
 	private Timer timer;
+	private final int GOAL1 = 7;
+	private final int GOAL2 = 14;
 
 	public PieceAnimation(int cupNumber, int pieceAmount) {
 
@@ -25,35 +27,35 @@ public class PieceAnimation extends JComponent {
 		this.pieceAmount = pieceAmount;
 
 		if (this.cupNumber > 0 && this.cupNumber < 7) {
-			yAxis = cupNumber * 100;
+			yAxis = cupNumber * 100 +100;
 			xAxis = 100;
 		} else {
 			xAxis = 400;
 			switch (this.cupNumber) {
 			case 13:
-				yAxis = 100;
-				break;
-			case 12:
 				yAxis = 200;
 				break;
-			case 11:
+			case 12:
 				yAxis = 300;
 				break;
-			case 10:
+			case 11:
 				yAxis = 400;
 				break;
-			case 9:
+			case 10:
 				yAxis = 500;
 				break;
-			case 8:
+			case 9:
 				yAxis = 600;
 				break;
-			case 7:
+			case 8:
 				yAxis = 700;
+				break;
+			case 7:
+				yAxis = 800;
 				xAxis = 250;
 				break;
 			case 14:
-				yAxis = 10;
+				yAxis = 100;
 				xAxis = 250;
 			}
 		}
@@ -78,27 +80,30 @@ public class PieceAnimation extends JComponent {
 
 		for (int i = 0; i < pieceAmount; i++) {
 			Image piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
-			if (cupNumber > 0 && cupNumber < 7) {// top row
+			
+			//if in top row
+			if (cupNumber > 0 && cupNumber < GOAL1) {// top row
 				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
 				yAxis -= 2;
-			} 
-			else if (cupNumber > 7 && cupNumber < 14){// bottom row
+			} //if in bottom row
+			else if (cupNumber > GOAL1 && cupNumber < GOAL2){// bottom row
 				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
 				yAxis += 2;
 			}
-			else if (cupNumber == 7){
+			else if (cupNumber == GOAL1){
 				g.drawImage(piece, yAxis, (i * 15)+ xAxis, this);
 				yAxis--;
 				xAxis--;
 			}
-			else if (cupNumber == 14){
+			else if (cupNumber == GOAL2){
 				g.drawImage(piece, yAxis, (i * 15)+ xAxis, this);
 				yAxis++;
 				xAxis++;
 			}
+			
 
 			// if marbles reach next cup
-			if (yAxis == yAxisTemp- 100) {
+			if (yAxis == yAxisTemp - 100) {
 				yAxisTemp -= 100;
 				pieceAmount--;
 				cupNumber--;
