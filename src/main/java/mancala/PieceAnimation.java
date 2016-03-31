@@ -48,6 +48,13 @@ public class PieceAnimation extends JComponent {
 			case 8:
 				yAxis = 600;
 				break;
+			case 7:
+				yAxis = 700;
+				xAxis = 250;
+				break;
+			case 14:
+				yAxis = 10;
+				xAxis = 250;
 			}
 		}
 		yAxisTemp = yAxis;
@@ -74,9 +81,20 @@ public class PieceAnimation extends JComponent {
 			if (cupNumber > 0 && cupNumber < 7) {// top row
 				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
 				yAxis -= 2;
-			} else {// bottom row
+			} 
+			else if (cupNumber > 7 && cupNumber < 14){// bottom row
 				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
 				yAxis += 2;
+			}
+			else if (cupNumber == 7){
+				g.drawImage(piece, yAxis, (i * 15)+ xAxis, this);
+				yAxis--;
+				xAxis--;
+			}
+			else if (cupNumber == 14){
+				g.drawImage(piece, yAxis, (i * 15)+ xAxis, this);
+				yAxis++;
+				xAxis++;
 			}
 
 			// if marbles reach next cup
@@ -92,6 +110,8 @@ public class PieceAnimation extends JComponent {
 				cupNumber--;
 				
 			}
+			
+		
 			// if this is the last marble stop timer
 			if (pieceAmount == 0) {
 				timer.stop();
