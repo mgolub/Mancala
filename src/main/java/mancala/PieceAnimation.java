@@ -81,34 +81,55 @@ public class PieceAnimation extends JComponent {
 		for (int i = 0; i < pieceAmount; i++) {
 			Image piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
 			
-			//if in top row
-			if (cupNumber > 0 && cupNumber < GOAL1) {// top row
+			
+			if (cupNumber == 1){
 				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
-				yAxis -= 2;
-			} //if in bottom row
-			else if (cupNumber > GOAL1 && cupNumber < GOAL2){// bottom row
-				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
-				yAxis += 2;
-			}
-			else if (cupNumber == GOAL1){
-				g.drawImage(piece, yAxis, (i * 15)+ xAxis, this);
 				yAxis--;
-				xAxis--;
+				xAxis++;
 			}
 			else if (cupNumber == GOAL2){
 				g.drawImage(piece, yAxis, (i * 15)+ xAxis, this);
 				yAxis++;
 				xAxis++;
 			}
+			else if (cupNumber > 0 && cupNumber < GOAL1) {// top row
+				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
+				yAxis--;
+			} 
+			else if (cupNumber > GOAL1 && cupNumber < GOAL2){// bottom row
+				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
+				yAxis++;
+			}
+			else if (cupNumber == GOAL1){
+				g.drawImage(piece, yAxis, (i * 15)+ xAxis, this);
+				yAxis--;
+				xAxis--;
+			}
+			
 			
 
 			// if marbles reach next cup
-			if (yAxis == yAxisTemp - 100) {
+			
+			//if in cup 1 to go to GOAL2
+			if (yAxis == 100){
+				yAxis +=100;
+				pieceAmount--;
+				cupNumber--;
+			}
+			//if in GOAL2 to go to cup 13
+			else if (yAxis == 200 && xAxis >= 400){
+				//yAxis += 100;
+				pieceAmount--;
+				cupNumber--;
+			}
+			//if in any cup on top row
+			else if (yAxis == yAxisTemp - 100) {
 				yAxisTemp -= 100;
 				pieceAmount--;
 				cupNumber--;
 			
 			}
+			//if in any cup on bottom row
 			else if (yAxis == yAxisTemp + 100){
 				yAxisTemp += 100;
 				pieceAmount--;
