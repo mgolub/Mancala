@@ -82,7 +82,7 @@ public class BoardPanel extends JPanel {
 
 	private void addComponets() {
 		JPanel spaceHolder = new JPanel();
-		spaceHolder.setPreferredSize(new Dimension(200, 50));
+		spaceHolder.setPreferredSize(new Dimension(200, 385));
 		spaceHolder.setOpaque(false);
 		cupsPanel.add(spaceHolder, BorderLayout.NORTH);
 		cupsPanel.add(cupPanel2, BorderLayout.SOUTH);

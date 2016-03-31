@@ -59,9 +59,7 @@ public class CupComponent extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		Color color = new Color(255, 255, 255, 50);
-		g.setColor(color);
-		g.fillOval(0, 0, 100, 120);
+	
 
 		for (int i = 0, j = -14; i < count; i++, j++) {
 
