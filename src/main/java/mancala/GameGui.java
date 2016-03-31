@@ -57,7 +57,7 @@ public class GameGui extends JFrame {
 		statsLabel2 = new JLabel(players.playersName(2) + " Wins: " + players.gamesWon(2));
 		descriptionLabel = new JLabel();
 
-		this.setIconImage(new ImageIcon(getClass().getResource("/startButton.png")).getImage());
+		this.setIconImage(new ImageIcon(getClass().getResource("/MancalaBoard.png")).getImage());
 
 		add();
 		format();
