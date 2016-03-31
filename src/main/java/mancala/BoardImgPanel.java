@@ -14,7 +14,7 @@ public class BoardImgPanel extends JPanel {
 	public BoardImgPanel() {
 
 		try {
-			image = ImageIO.read(getClass().getResourceAsStream("/MancalaBoard.png"));
+			image = ImageIO.read(getClass().getResourceAsStream("/MancalaBoardFinal.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
