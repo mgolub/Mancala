@@ -20,7 +20,7 @@ public class PieceAnimation extends JPanel {
 	private Timer timer;
 	private Image piece;
 
-	public PieceAnimation(CupComponent[] cupComponents,int cupNumber, int pieceAmount) {
+	public PieceAnimation(Cup[] cupComponents,int cupNumber, int pieceAmount) {
 
 		piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
 		this.cupNumber = cupNumber + 1;// assume cupNumber starts at 0

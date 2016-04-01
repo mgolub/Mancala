@@ -27,12 +27,10 @@ public class GameGui extends JFrame {
 
 	private JPanel optionsPanel, statsPanel;
 	private JButton newGameButton, rulesButton;
-	private JComponent[] cupComponents;
 	private JLabel statsLabel1, statsLabel2, descriptionLabel;
 
 	private Players players;
 	private BoardPanel board;
-	private int winner;
 
 	public GameGui(String name1, String name2) {
 		setTitle("Mancala");
@@ -43,26 +41,46 @@ public class GameGui extends JFrame {
 		setLayout(new BorderLayout());
 
 		optionsPanel = new JPanel();
-		cupComponents = new JComponent[14];
 		players = new Players(name1, name2);
-
-		board = new BoardPanel(this.cupComponents, this.players);
+		board = new BoardPanel(this.players);
 		statsPanel = new JPanel(new BorderLayout());
 
 		setPanels();
 
 		newGameButton = new JButton("New Game");
 		rulesButton = new JButton("Rules");
-		statsLabel1 = new JLabel(players.playersName(1) + " Wins: " + players.gamesWon(1));
-		statsLabel2 = new JLabel(players.playersName(2) + " Wins: " + players.gamesWon(2));
-		descriptionLabel = new JLabel();
+		//statsLabel1 = new JLabel(players.playersName(1) + " Wins: "
+		//		+ players.gamesWon(1));
+		//statsLabel2 = new JLabel(players.playersName(2) + " Wins: "
+		//		+ players.gamesWon(2));
+		descriptionLabel = new JLabel(board.description());
 
-		this.setIconImage(new ImageIcon(getClass().getResource("/MancalaBoard.png")).getImage());
+
+		this.setIconImage(new ImageIcon(getClass().getResource(
+				"/MancalaBoard.png")).getImage());
 
 		add();
 		format();
 		addActionListeners();
-		resetBoard();
+		for (int i = 0; i < 14; i++) {
+			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
+				
+				board.getCup(i).putClientProperty("index", i);
+				board.getCup(i).addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent event) {
+						Cup cup = (Cup) event.getSource();
+						int index = (Integer) cup.getClientProperty("index");
+						if (!cup.isEnabled() || (board.getQtyMarbles(index) == 0)) {
+							return;
+						}
+						board.turn(index);
+						descriptionLabel.setText(board.description());
+						
+					}
+				});
+			}
+		}
 	}
 
 	private void setPanels() {
@@ -82,36 +100,18 @@ public class GameGui extends JFrame {
 		rulesButton.setBackground(Color.black);
 		rulesButton.setForeground(Color.red);
 
-		// statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
 		statsPanel.setBackground(Color.BLACK);
 		statsPanel.setPreferredSize(new Dimension(1000, 40));
 
-		statsLabel1.setFont(font1);
-		statsLabel1.setForeground(Color.MAGENTA);
-		statsLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-		statsLabel2.setFont(font1);
-		statsLabel2.setForeground(Color.MAGENTA);
-		statsLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+		//statsLabel1.setFont(font1);
+		//statsLabel1.setForeground(Color.MAGENTA);
+		//statsLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+		//statsLabel2.setFont(font1);
+		//statsLabel2.setForeground(Color.MAGENTA);
+		//statsLabel2.setHorizontalAlignment(SwingConstants.CENTER);
 		descriptionLabel.setFont(font2);
 		descriptionLabel.setForeground(Color.BLUE);
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
-		for (int i = 0; i < cupComponents.length; i++) {
-			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
-				cupComponents[i].putClientProperty("index", i);
-				cupComponents[i].addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent event) {
-						CupComponent cup = (CupComponent) event.getSource();
-						int index = (Integer) cup.getClientProperty("index");
-						if (!cup.isEnabled() || (board.getQtyMarbles(index) == 0)) {
-							return;
-						}
-						turn(index);
-					}
-				});
-			}
-		}
 
 	}
 
@@ -122,113 +122,20 @@ public class GameGui extends JFrame {
 
 		add(board, BorderLayout.CENTER);
 
-		statsPanel.add(statsLabel1, BorderLayout.EAST);
-		statsPanel.add(statsLabel2, BorderLayout.WEST);
+		//statsPanel.add(statsLabel1, BorderLayout.EAST);
+		//statsPanel.add(statsLabel2, BorderLayout.WEST);
 		statsPanel.add(descriptionLabel, BorderLayout.NORTH);
 		add(statsPanel, BorderLayout.SOUTH);
-	}
-
-	// called by action listener
-	public void turn(int index) {
-		boolean goalTurn = board.distributePieces(index);
-		// returns true if landed in a goal
-		resetCups();
-		repaint();
-
-		int piecesAdded = board.checkForMoves();
-		if (piecesAdded != 0) {
-			JOptionPane.showMessageDialog(null, "Left over peices added to " + players.playersName(piecesAdded)
-					+ "'s goal!!");
-			repaint();
-		}
-		if (board.checkGame()) {
-			winner = board.calculateWinner();
-			switch (winner) {
-			case 0:
-				changeDescription(4);
-				break;
-			case 1:
-				players.increaseWins(1);
-				displayWinner();
-				break;
-			case 2:
-				players.increaseWins(2);
-				displayWinner();
-				break;
-			}
-			repaint();
-			return;
-		}
-		if (!goalTurn) {
-			players.switchPlayers();
-			changeDescription(1);
-			disableCups();
-			repaint();
-			return;
-		}
-		changeDescription(3);
-	}
-
-	private void disableCups() {
-		for (int i = 0; i < 13; i++) {
-			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
-				if (cupComponents[i].isEnabled()) {
-					cupComponents[i].setEnabled(false);
-				} else {
-					cupComponents[i].setEnabled(true);
-				}
-			}
-		}
-
-	}
-
-	public void displayWinner() {
-		changeDescription(2);
-		JOptionPane.showMessageDialog(null, players.playersName(1) + ": " + board.getQtyMarbles(6) + " points\n"
-				+ players.playersName(2) + ": " + board.getQtyMarbles(13) + " points\n\n" + players.playersName(winner)
-				+ " won!!");
-		statsLabel1.setText(players.playersName(1) + " Wins: " + players.gamesWon(1));
-		statsLabel2.setText(players.playersName(2) + " Wins: " + players.gamesWon(2));
-	}
-
-	public void changeDescription(int code) {
-		switch (code) {
-		case 1:
-			descriptionLabel.setText(players.currentPlayersName() + "'s Turn...");
-			break;
-		case 2:
-			descriptionLabel.setText("**** GREAT JOB " + players.playersName(winner) + "!!! ****");
-			break;
-		case 3:
-			descriptionLabel.setText(players.currentPlayersName() + " landed in the goal - player goes again");
-			break;
-		case 4:
-			descriptionLabel.setText("Tie Game - no one wins!");
-		}
-		resetCups();
-	}
-
-	public void resetCups() {
-		for (int i = 0; i < 14; i++) {
-			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
-				((CupComponent) cupComponents[i]).setCount(board.getQtyMarbles(i));
-			} else {
-				((GoalComponent) cupComponents[i]).setCount(board.getQtyMarbles(i));
-			}
-		}
-		for (int i = 0; i < 14; i++) {
-			cupComponents[i].setToolTipText(Integer.toString(board.getQtyMarbles(i)));
-		}
-		repaint();
 	}
 
 	public void addActionListeners() {
 		newGameButton.addActionListener(new ActionListener() {
 			// @Override
 			public void actionPerformed(ActionEvent e) {
-				resetBoard();
-				resetCups();
+				board.resetBoard();
+				board.resetCups();
 			}
+
 		});
 		rulesButton.addActionListener(new ActionListener() {
 			// @Override
@@ -237,19 +144,15 @@ public class GameGui extends JFrame {
 				rulesFrame.setVisible(true);
 			}
 		});
+		
+		
+		
+		
 	}
+	
+	
 
-	public void resetBoard() {
-		board.resetBoard();
-		repaint();
-		changeDescription(1);
-		for (int i = 0; i < 6; i++) {
-			cupComponents[i].setEnabled(true);
-		}
-		for (int i = 7; i < 13; i++) {
-			cupComponents[i].setEnabled(false);
-		}
-	}
+	
 
 	public static void main(String[] args) {
 		GameGui test = new GameGui("one", "two");

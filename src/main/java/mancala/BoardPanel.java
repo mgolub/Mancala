@@ -6,28 +6,93 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class BoardPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel cupPanel1, cupPanel2, cupsPanel, goalPanel1, goalPanel2;
-	private JComponent[] cupComponents;
 	private Board board;
+	private Players players;
+	private int winner;
+	private String turnDescriptioin;
 
-	public BoardPanel(JComponent[] cupComponents2, Players players) {
-		this.cupComponents = cupComponents2;
+	public BoardPanel(Players players) {
+		this.players = players;
 		this.setLayout(new BorderLayout());
-		createComponents(players);
+		createComponents();
 		formatComponetents();
 		addComponets();
+		this.changeDescription(1);
 
 	}
 
-	private void createComponents(Players players) {
+	// called by action listener
+	public void turn(int index) {
+		boolean goalTurn = board.distribute(index);
+		// returns true if landed in a goal
+		//this.resetBoard();
+		repaint();
+
+		int piecesAdded = board.checkForMoves();
+		if (piecesAdded != 0) {
+			JOptionPane.showMessageDialog(null, "Left over peices added to "
+					+ players.playersName(piecesAdded) + "'s goal!!");
+			repaint();
+		}
+		if (board.checkGame()) {
+			winner = board.calculateWinner();
+			switch (winner) {
+			case 0:
+				changeDescription(4);
+				break;
+			case 1:
+				players.increaseWins(1);
+				displayWinner();
+				break;
+			case 2:
+				players.increaseWins(2);
+				displayWinner();
+				break;
+			}
+			repaint();
+			return;
+		}
+		if (!goalTurn) {
+			players.switchPlayers();
+			changeDescription(1);
+			disableCups();
+			repaint();
+			return;
+		}
+		
+		changeDescription(3);
+	}
+	
+
+	private void disableCups() {
+		for (int i = 0; i < 13; i++) {
+			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
+				if (board.getCup(i).isEnabled()) {
+					board.getCup(i).setEnabled(false);
+				} else {
+					board.getCup(i).setEnabled(true);
+				}
+			}
+		}
+
+	}
+
+	private void createComponents() {
 		cupsPanel = new JPanel();
 		cupsPanel.setLayout(new BorderLayout());
 		cupPanel1 = new JPanel(new FlowLayout());
@@ -35,28 +100,20 @@ public class BoardPanel extends JPanel {
 		goalPanel1 = new JPanel(new GridBagLayout());
 		goalPanel2 = new JPanel(new GridBagLayout());
 		board = new Board(players);
-		createCupComponents();
+		addCups();
 
 	}
 
-	private void createCupComponents() {
+	private void addCups() {
 		for (int i = 0; i < Board.GOAL1; i++) {
-			cupComponents[i] = new CupComponent(647, 1010);// For testing the
-															// x,y
-			cupPanel1.add(cupComponents[i]);
-			cupComponents[i].setToolTipText(Integer.toString(board.getContent(i)));
+
+			cupPanel1.add(board.getCup(i));
+
 		}
 		for (int i = 12; i >= 7; i--) {
-			cupComponents[i] = new CupComponent(639, 1560); // For testing the
-															// x,y
-			cupPanel2.add(cupComponents[i]);
-			cupComponents[i].setToolTipText(Integer.toString(board.getContent(i)));
-		}
 
-		cupComponents[Board.GOAL1] = new GoalComponent(0, 0);
-		cupComponents[Board.GOAL1].setToolTipText(Integer.toString(board.getContent(Board.GOAL1)));
-		cupComponents[Board.GOAL2] = new GoalComponent(0, 0);
-		cupComponents[Board.GOAL2].setToolTipText(Integer.toString(board.getContent(Board.GOAL2)));
+			cupPanel2.add(board.getCup(i));
+		}
 
 	}
 
@@ -89,8 +146,8 @@ public class BoardPanel extends JPanel {
 		cupsPanel.add(cupPanel2, BorderLayout.SOUTH);
 		cupsPanel.add(cupPanel1, BorderLayout.CENTER);
 		addSpaceHolder(cupsPanel, 200, 10);
-		goalPanel1.add(cupComponents[Board.GOAL1]);
-		goalPanel2.add(cupComponents[Board.GOAL2]);
+		goalPanel1.add(board.getGoal(Board.GOAL1));
+		goalPanel2.add(board.getGoal(Board.GOAL2));
 		JPanel west = new JPanel();
 		west.setLayout(new FlowLayout());
 		west.setPreferredSize(new Dimension(159, 50));
@@ -136,7 +193,74 @@ public class BoardPanel extends JPanel {
 		return board.calculateWinner();
 	}
 
+	
+	
+	
+
+	public void resetCups() {
+		for (int i = 0; i < 14; i++) {
+			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
+				 board.getCup(i).setCount(board.getContent(i));
+			} else {
+				board.getGoal(i).setCount(board.getContent(i));
+			}
+		}
+		for (int i = 0; i < 14; i++) {
+			board.getCup(i).setToolTipText(Integer.toString(board.getContent(i)));
+		}
+		repaint();
+	}
+
+
+
 	public void resetBoard() {
 		board.resetBoard();
+		changeDescription(1);
+
+		repaint();
+		for (int i = 0; i < 6; i++) {
+			board.getCup(i).setEnabled(true);
+		}
+		for (int i = 7; i < 13; i++) {
+			board.getCup(i).setEnabled(false);
+		}
+	}
+
+	public int getWinner() {
+		return winner;
+	}
+	
+	public void changeDescription(int code) {
+		switch (code) {
+		case 1:
+			turnDescriptioin = players.currentPlayersName() + "'s Turn...";
+			break;
+		case 2:
+			turnDescriptioin ="**** GREAT JOB " + players.playersName(winner) + "!!! ****";
+			break;
+		case 3:
+			turnDescriptioin = players.currentPlayersName() + " landed in the goal - player goes again";
+			break;
+		case 4:
+			turnDescriptioin  = "Tie Game - no one wins!";
+		}
+		resetCups();
+	}
+	
+	public void displayWinner() {
+		changeDescription(2);
+		JOptionPane.showMessageDialog(null, players.playersName(1) + ": " + board.getContent(6) + " points\n"
+				+ players.playersName(2) + ": " + board.getContent(13) + " points\n\n" + players.playersName(winner)
+				+ " won!!");
+		//statsLabel1.setText(players.playersName(1) + " Wins: " + players.gamesWon(1));
+		//statsLabel2.setText(players.playersName(2) + " Wins: " + players.gamesWon(2));
+	}
+
+	public String description() {
+		return this.turnDescriptioin;
+	}
+
+	public Cup getCup(int cupNum){
+		return board.getCup(cupNum);
 	}
 }
