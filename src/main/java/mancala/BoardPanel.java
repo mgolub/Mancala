@@ -1,6 +1,7 @@
 package mancala;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -61,14 +62,16 @@ public class BoardPanel extends JPanel {
 
 	private void formatComponetents() {
 		cupsPanel.setLayout(new BoxLayout(cupsPanel, BoxLayout.Y_AXIS));
+		Dimension cupPanelDimension = new Dimension(700, 20);
 		cupsPanel.setOpaque(false);
 		cupPanel1.setOpaque(false);
 		cupPanel2.setOpaque(false);
+		cupPanel1.setPreferredSize(cupPanelDimension);
+		cupPanel2.setPreferredSize(cupPanelDimension);
 		goalPanel1.setOpaque(false);
 		goalPanel2.setOpaque(false);
-		Dimension goalSize = new Dimension(120, 700);
-		goalPanel2.setPreferredSize(goalSize);
-		goalPanel1.setPreferredSize(goalSize);
+		goalPanel2.setPreferredSize(new Dimension(159, 700));
+		goalPanel1.setPreferredSize(new Dimension(125, 700));
 
 	}
 
@@ -81,24 +84,36 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void addComponets() {
-		JPanel spaceHolder = new JPanel();
-		spaceHolder.setPreferredSize(new Dimension(200, 385));
-		spaceHolder.setOpaque(false);
-		cupsPanel.add(spaceHolder, BorderLayout.NORTH);
+
+		addSpaceHolder(cupsPanel, 200, 190);
 		cupsPanel.add(cupPanel2, BorderLayout.SOUTH);
 		cupsPanel.add(cupPanel1, BorderLayout.CENTER);
-
+		addSpaceHolder(cupsPanel, 200, 10);
 		goalPanel1.add(cupComponents[Board.GOAL1]);
 		goalPanel2.add(cupComponents[Board.GOAL2]);
 		JPanel west = new JPanel();
+		west.setLayout(new FlowLayout());
+		west.setPreferredSize(new Dimension(159, 50));
 		west.setOpaque(false);
+		addSpaceHolder(west, 159, 200);
 		west.add(goalPanel2);
 		JPanel east = new JPanel();
+		east.setPreferredSize(new Dimension(125, 50));
+
 		east.setOpaque(false);
+		addSpaceHolder(east, 125, 200);
 		east.add(goalPanel1);
 		add(east, BorderLayout.EAST);
 		add(west, BorderLayout.WEST);
 		add(cupsPanel, BorderLayout.CENTER);
+	}
+
+	private void addSpaceHolder(JPanel panel, int width, int height) {
+		JPanel spaceHolder = new JPanel();
+		spaceHolder.setPreferredSize(new Dimension(width, height));
+		spaceHolder.setOpaque(false);
+		panel.add(spaceHolder);
+
 	}
 
 	public int getQtyMarbles(int cup) {
