@@ -24,15 +24,17 @@ public class BoardPanel extends JPanel {
 	private Board board;
 	private Players players;
 	private int winner;
-	private String turnDescriptioin;
+	private String turnDescription;
+	private boolean mouseEnabled;
 
 	public BoardPanel(Players players) {
 		this.players = players;
 		this.setLayout(new BorderLayout());
 		createComponents();
-		formatComponetents();
-		addComponets();
+		formatComponents();
+		addComponents();
 		this.changeDescription(1);
+		this.mouseEnabled = true;
 
 	}
 
@@ -44,8 +46,8 @@ public class BoardPanel extends JPanel {
 
 		int piecesAdded = board.checkForMoves();
 		if (piecesAdded != 0) {
-			JOptionPane.showMessageDialog(null, "Left over peices added to "
-					+ players.playersName(piecesAdded) + "'s goal!!");
+			JOptionPane.showMessageDialog(null,
+					"Left over peices added to " + players.playersName(piecesAdded) + "'s goal!!");
 			repaint();
 		}
 		if (board.checkGame()) {
@@ -67,7 +69,15 @@ public class BoardPanel extends JPanel {
 			return;
 		}
 		if (!goalTurn) {
+			mouseEnabled = true;
 			players.switchPlayers();
+			// TODO AI
+			if (players.getCurrentPlayer() == 1) {
+				mouseEnabled = false;
+				// Disable mouse listener
+				// calculate the best move for the computer.
+				// Pass that cup component value back to the gameGUI to be used as index 
+			}
 			changeDescription(1);
 			disableCups();
 			repaint();
@@ -115,7 +125,7 @@ public class BoardPanel extends JPanel {
 
 	}
 
-	private void formatComponetents() {
+	private void formatComponents() {
 		cupsPanel.setLayout(new BoxLayout(cupsPanel, BoxLayout.Y_AXIS));
 		Dimension cupPanelDimension = new Dimension(700, 20);
 		cupsPanel.setOpaque(false);
@@ -138,7 +148,7 @@ public class BoardPanel extends JPanel {
 		g.drawImage(imgPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
 	}
 
-	private void addComponets() {
+	private void addComponents() {
 
 		addSpaceHolder(cupsPanel, 200, 190);
 		cupsPanel.add(cupPanel2, BorderLayout.SOUTH);
@@ -200,8 +210,7 @@ public class BoardPanel extends JPanel {
 			}
 		}
 		for (int i = 0; i < 14; i++) {
-			board.getCup(i).setToolTipText(
-					Integer.toString(board.getContent(i)));
+			board.getCup(i).setToolTipText(Integer.toString(board.getContent(i)));
 		}
 		repaint();
 	}
@@ -226,30 +235,25 @@ public class BoardPanel extends JPanel {
 	public void changeDescription(int code) {
 		switch (code) {
 		case 1:
-			turnDescriptioin = players.currentPlayersName() + "'s Turn...";
+			turnDescription = players.currentPlayersName() + "'s Turn...";
 			break;
 		case 2:
-			turnDescriptioin = "**** GREAT JOB " + players.playersName(winner)
-					+ "!!! ****";
+			turnDescription = "**** GREAT JOB " + players.playersName(winner) + "!!! ****";
 			break;
 		case 3:
-			turnDescriptioin = players.currentPlayersName()
-					+ " landed in the goal - player goes again";
+			turnDescription = players.currentPlayersName() + " landed in the goal - player goes again";
 			break;
 		case 4:
-			turnDescriptioin = "Tie Game - no one wins!";
+			turnDescription = "Tie Game - no one wins!";
 		}
 		resetCups();
 	}
 
 	public void displayWinner() {
 		changeDescription(2);
-		JOptionPane.showMessageDialog(
-				null,
-				players.playersName(1) + ": " + board.getContent(6)
-						+ " points\n" + players.playersName(2) + ": "
-						+ board.getContent(13) + " points\n\n"
-						+ players.playersName(winner) + " won!!");
+		JOptionPane.showMessageDialog(null,
+				players.playersName(1) + ": " + board.getContent(6) + " points\n" + players.playersName(2) + ": "
+						+ board.getContent(13) + " points\n\n" + players.playersName(winner) + " won!!");
 		// statsLabel1.setText(players.playersName(1) + " Wins: " +
 		// players.gamesWon(1));
 		// statsLabel2.setText(players.playersName(2) + " Wins: " +
@@ -257,10 +261,19 @@ public class BoardPanel extends JPanel {
 	}
 
 	public String description() {
-		return this.turnDescriptioin;
+		return this.turnDescription;
 	}
 
 	public Cup getCup(int cupNum) {
 		return board.getCup(cupNum);
+	}
+
+	public boolean isMouseEnabled() {
+		return this.mouseEnabled;
+	}
+
+	public int computerAI() {
+		ComputerAI ai = new ComputerAI(board.getCups());
+		return ai.calculateBestMove();
 	}
 }

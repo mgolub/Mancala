@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import java.util.Random;
 
 public class GameGui extends JFrame {
 
@@ -64,6 +65,7 @@ public class GameGui extends JFrame {
 		addActionListeners();
 		board.resetBoard();
 
+		final Random rand = new Random();
 		for (int i = 0; i < 14; i++) {
 			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
 
@@ -71,12 +73,21 @@ public class GameGui extends JFrame {
 				board.getCup(i).addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent event) {
+						int index;
+					if((board.isMouseEnabled())){
 						Cup cup = (Cup) event.getSource();
-						int index = (Integer) cup.getClientProperty("index");
+						index = (Integer) cup.getClientProperty("index");
+				
 						if (!cup.isEnabled()
 								|| (board.getQtyMarbles(index) == 0)) {
 							return;
 						}
+					}
+					
+					else{
+					index = board.computerAI();
+					}
+					//	index = rand.nextInt(4);} //pass in temporary arbitrary number 
 						board.turn(index);
 						descriptionLabel.setText(board.description());
 

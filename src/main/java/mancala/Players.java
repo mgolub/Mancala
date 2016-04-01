@@ -15,12 +15,19 @@ public class Players {
 
 	public Players(String player1Name) {
 		// play against computer
+		players = new Player[2];
+		players[0] = new Player(player1Name, 0);
+		players[1] = new Player("Computer", 1);
+		currentPlayer = 0;
 	}
 
 	public void switchPlayers() {
 		currentPlayer = currentPlayer == 1 ? 0 : 1;
 	}
 
+	public int getCurrentPlayer(){
+		return this.currentPlayer;
+	}
 	/*
 	 * @return 1 or 2 to show which players turn it is
 	 */

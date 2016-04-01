@@ -95,7 +95,7 @@ public class Board {
 				|| (position == GOAL2 && players.currentPlayerNum() == 2);
 	}
 
-	// checks to see if landed in a goal our landed in an empty cup
+	// checks to see if landed in a goal or landed in an empty cup
 	private boolean checkTurn() {
 		int amount;
 		if (getContent(start) == 1) {
@@ -169,6 +169,10 @@ public class Board {
 	
 	public Cup getCup(int cupNum){
 		return cups[cupNum];
+	}
+	
+	public Cup[] getCups(){
+		return this.cups;
 	}
 	
 	public Goal getGoal(int cupNum){
