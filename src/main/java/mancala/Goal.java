@@ -17,7 +17,7 @@ public class Goal extends Cup {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		for (int i = 0, j = -15; i < count; i++, j++) {
+	/*	for (int i = 0, j = -15; i < count; i++, j++) {
 			if (i < 15) {
 				g.drawImage(piece = marbles.get(random.nextInt(4)), 10, i * 15,
 						this);
@@ -27,7 +27,7 @@ public class Goal extends Cup {
 
 			}
 		}
-
+*/
 		// repaint();
 	}
 	

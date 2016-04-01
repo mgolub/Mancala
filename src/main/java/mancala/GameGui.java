@@ -33,6 +33,7 @@ public class GameGui extends JFrame {
 	private BoardPanel board;
 
 	public GameGui(String name1, String name2) {
+
 		setTitle("Mancala");
 		setSize(1000, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,12 +50,11 @@ public class GameGui extends JFrame {
 
 		newGameButton = new JButton("New Game");
 		rulesButton = new JButton("Rules");
-		//statsLabel1 = new JLabel(players.playersName(1) + " Wins: "
-		//		+ players.gamesWon(1));
-		//statsLabel2 = new JLabel(players.playersName(2) + " Wins: "
-		//		+ players.gamesWon(2));
+		// statsLabel1 = new JLabel(players.playersName(1) + " Wins: "
+		// + players.gamesWon(1));
+		// statsLabel2 = new JLabel(players.playersName(2) + " Wins: "
+		// + players.gamesWon(2));
 		descriptionLabel = new JLabel(board.description());
-
 
 		this.setIconImage(new ImageIcon(getClass().getResource(
 				"/MancalaBoard.png")).getImage());
@@ -62,21 +62,24 @@ public class GameGui extends JFrame {
 		add();
 		format();
 		addActionListeners();
+		board.resetBoard();
+
 		for (int i = 0; i < 14; i++) {
 			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
-				
+
 				board.getCup(i).putClientProperty("index", i);
 				board.getCup(i).addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent event) {
 						Cup cup = (Cup) event.getSource();
 						int index = (Integer) cup.getClientProperty("index");
-						if (!cup.isEnabled() || (board.getQtyMarbles(index) == 0)) {
+						if (!cup.isEnabled()
+								|| (board.getQtyMarbles(index) == 0)) {
 							return;
 						}
 						board.turn(index);
 						descriptionLabel.setText(board.description());
-						
+
 					}
 				});
 			}
@@ -103,12 +106,12 @@ public class GameGui extends JFrame {
 		statsPanel.setBackground(Color.BLACK);
 		statsPanel.setPreferredSize(new Dimension(1000, 40));
 
-		//statsLabel1.setFont(font1);
-		//statsLabel1.setForeground(Color.MAGENTA);
-		//statsLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-		//statsLabel2.setFont(font1);
-		//statsLabel2.setForeground(Color.MAGENTA);
-		//statsLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+		// statsLabel1.setFont(font1);
+		// statsLabel1.setForeground(Color.MAGENTA);
+		// statsLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+		// statsLabel2.setFont(font1);
+		// statsLabel2.setForeground(Color.MAGENTA);
+		// statsLabel2.setHorizontalAlignment(SwingConstants.CENTER);
 		descriptionLabel.setFont(font2);
 		descriptionLabel.setForeground(Color.BLUE);
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -122,8 +125,8 @@ public class GameGui extends JFrame {
 
 		add(board, BorderLayout.CENTER);
 
-		//statsPanel.add(statsLabel1, BorderLayout.EAST);
-		//statsPanel.add(statsLabel2, BorderLayout.WEST);
+		// statsPanel.add(statsLabel1, BorderLayout.EAST);
+		// statsPanel.add(statsLabel2, BorderLayout.WEST);
 		statsPanel.add(descriptionLabel, BorderLayout.NORTH);
 		add(statsPanel, BorderLayout.SOUTH);
 	}
@@ -144,15 +147,8 @@ public class GameGui extends JFrame {
 				rulesFrame.setVisible(true);
 			}
 		});
-		
-		
-		
-		
-	}
-	
-	
 
-	
+	}
 
 	public static void main(String[] args) {
 		GameGui test = new GameGui("one", "two");

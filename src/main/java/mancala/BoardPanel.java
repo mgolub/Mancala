@@ -40,7 +40,6 @@ public class BoardPanel extends JPanel {
 	public void turn(int index) {
 		boolean goalTurn = board.distribute(index);
 		// returns true if landed in a goal
-		//this.resetBoard();
 		repaint();
 
 		int piecesAdded = board.checkForMoves();
@@ -74,14 +73,13 @@ public class BoardPanel extends JPanel {
 			repaint();
 			return;
 		}
-		
+
 		changeDescription(3);
 	}
-	
 
 	private void disableCups() {
 		for (int i = 0; i < 13; i++) {
-			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
+			if (!(i == Board.GOAL1) || (i == Board.GOAL2)) {
 				if (board.getCup(i).isEnabled()) {
 					board.getCup(i).setEnabled(false);
 				} else {
@@ -193,25 +191,20 @@ public class BoardPanel extends JPanel {
 		return board.calculateWinner();
 	}
 
-	
-	
-	
-
 	public void resetCups() {
 		for (int i = 0; i < 14; i++) {
 			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
-				 board.getCup(i).setCount(board.getContent(i));
+				board.getCup(i).setCount(board.getContent(i));
 			} else {
 				board.getGoal(i).setCount(board.getContent(i));
 			}
 		}
 		for (int i = 0; i < 14; i++) {
-			board.getCup(i).setToolTipText(Integer.toString(board.getContent(i)));
+			board.getCup(i).setToolTipText(
+					Integer.toString(board.getContent(i)));
 		}
 		repaint();
 	}
-
-
 
 	public void resetBoard() {
 		board.resetBoard();
@@ -229,38 +222,45 @@ public class BoardPanel extends JPanel {
 	public int getWinner() {
 		return winner;
 	}
-	
+
 	public void changeDescription(int code) {
 		switch (code) {
 		case 1:
 			turnDescriptioin = players.currentPlayersName() + "'s Turn...";
 			break;
 		case 2:
-			turnDescriptioin ="**** GREAT JOB " + players.playersName(winner) + "!!! ****";
+			turnDescriptioin = "**** GREAT JOB " + players.playersName(winner)
+					+ "!!! ****";
 			break;
 		case 3:
-			turnDescriptioin = players.currentPlayersName() + " landed in the goal - player goes again";
+			turnDescriptioin = players.currentPlayersName()
+					+ " landed in the goal - player goes again";
 			break;
 		case 4:
-			turnDescriptioin  = "Tie Game - no one wins!";
+			turnDescriptioin = "Tie Game - no one wins!";
 		}
 		resetCups();
 	}
-	
+
 	public void displayWinner() {
 		changeDescription(2);
-		JOptionPane.showMessageDialog(null, players.playersName(1) + ": " + board.getContent(6) + " points\n"
-				+ players.playersName(2) + ": " + board.getContent(13) + " points\n\n" + players.playersName(winner)
-				+ " won!!");
-		//statsLabel1.setText(players.playersName(1) + " Wins: " + players.gamesWon(1));
-		//statsLabel2.setText(players.playersName(2) + " Wins: " + players.gamesWon(2));
+		JOptionPane.showMessageDialog(
+				null,
+				players.playersName(1) + ": " + board.getContent(6)
+						+ " points\n" + players.playersName(2) + ": "
+						+ board.getContent(13) + " points\n\n"
+						+ players.playersName(winner) + " won!!");
+		// statsLabel1.setText(players.playersName(1) + " Wins: " +
+		// players.gamesWon(1));
+		// statsLabel2.setText(players.playersName(2) + " Wins: " +
+		// players.gamesWon(2));
 	}
 
 	public String description() {
 		return this.turnDescriptioin;
 	}
 
-	public Cup getCup(int cupNum){
+	public Cup getCup(int cupNum) {
 		return board.getCup(cupNum);
 	}
 }
