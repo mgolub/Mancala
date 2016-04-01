@@ -1,5 +1,11 @@
 package mancala;
 
+import java.applet.Applet;
+import java.io.File;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 //logic of a computer mancala game 
 
@@ -69,14 +75,16 @@ public class Board {
 		for (int i = 0, position = start + 1; i < amount; i++, position++) {
 			if (position != GOAL1 && position != GOAL2) {
 				cups[position].addPiece();
+				//dropPieceSound();
 			} else {
 				if (currentPlayersGoal(position)) {
 					piecesWon++;
 					((Goal) cups[position]).addPiece();
+
 				} else {
 					i--;
 				}
-				//board[position].repaint();
+				// board[position].repaint();
 			}
 
 			start = position;
@@ -84,7 +92,7 @@ public class Board {
 				position = -1;// 0 after increment
 			}
 		} // pieces done being distributed
-		
+
 		return checkTurn();
 	}
 
@@ -166,16 +174,16 @@ public class Board {
 		}
 		return 0;
 	}
-	
-	public Cup getCup(int cupNum){
+
+	public Cup getCup(int cupNum) {
 		return cups[cupNum];
 	}
-	
-	public Goal getGoal(int cupNum){
-		if(cupNum == GOAL1 || cupNum == GOAL2){
+
+	public Goal getGoal(int cupNum) {
+		if (cupNum == GOAL1 || cupNum == GOAL2) {
 			return (Goal) cups[cupNum];
 		}
 		return null;
-		
+
 	}
 }
