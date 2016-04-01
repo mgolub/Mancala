@@ -58,21 +58,20 @@ public class CupComponent extends JComponent {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-	
-
-		for (int i = 0, j = -14; i < count; i++, j++) {
-
-			if (i < 14) {
-				g.drawImage(piece = marbles.get(random.nextInt(4)), 10, i * 15, this);
-
-			} else {
-				g.drawImage(piece = marbles.get(random.nextInt(4)), 40, j * 15, this);
-
+		int piecesDrawn = 0;
+		int loacation = 0;
+		int rows = 1;
+		for (int i = 0; i < count; i++) {
+			if (piecesDrawn % 4 == 0) {
+				rows++;
+				loacation = 0;
 			}
+			g.drawImage(piece = marbles.get(random.nextInt(4)), 10 * rows, loacation * 15, this);
+			piecesDrawn++;
+			loacation++;
+
 		}
 
-		// super.repaint();
 
 	}
 
