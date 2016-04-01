@@ -45,7 +45,7 @@ public class PieceAnimation extends JPanel {
 			}
 
 		};
-		timer = new Timer(50, animater);
+		timer = new Timer(10, animater);
 		timer.start();
 
 	}
@@ -81,38 +81,39 @@ public class PieceAnimation extends JPanel {
 				timer.stop();
 				g.clearRect(0, 0, getWidth(), getHeight());
 			}
-
-			// if its not the last marble need to move marble(s)
-			// if in cup 2-6 or 9-13 just move left/right
-			if (cupNumber > 1 && cupNumber < 7) {
-				yAxis--;
-			} else if (cupNumber > 8 && cupNumber < 14) {
-				yAxis++;
-			}
-			// if in goal1 move upper left
-			else if (cupNumber == 7) {
-				yAxis--;
-				xAxis--;
-			}
-			// if in goal2 move lower right
-			else if (cupNumber == 14) {
-				yAxis++;
-				xAxis++;
-			}
-			// if in cup one move lower left
-			else if (cupNumber == 1) {
-				yAxis--;
-				xAxis++;
-			}
-			// if in cup eight move upper right
-			else if (cupNumber == 8) {
-				yAxis++;
-				xAxis--;
-			}
-			
-
 		}
 
+		// if its not the last marble need to move marble(s)
+		// if in cup 2-6 or 9-13 just move left/right
+		if (cupNumber > 1 && cupNumber < 7) {
+			yAxis--;
+		} else if (cupNumber > 8 && cupNumber < 14) {
+			yAxis++;
+		}
+		// if in goal1 move upper left
+		else if (cupNumber == 7) {
+			yAxis--;
+			xAxis--;
+		}
+		// if in goal2 move lower right
+		else if (cupNumber == 14) {
+			yAxis++;
+			xAxis++;
+		}
+		// if in cup one move lower left
+		else if (cupNumber == 1) {
+			yAxis--;
+			xAxis++;
+		}
+		// if in cup eight move upper right
+		else if (cupNumber == 8) {
+			yAxis++;
+			xAxis--;
+		}
+		
+		
+		
+		
 	}
 	private void dropPieceSound() {
 
