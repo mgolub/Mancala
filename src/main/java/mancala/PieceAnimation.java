@@ -7,9 +7,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class PieceAnimation extends JComponent {
+public class PieceAnimation extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private int cupNumber;
@@ -20,45 +21,16 @@ public class PieceAnimation extends JComponent {
 	private Timer timer;
 	private final int GOAL1 = 7;
 	private final int GOAL2 = 14;
+	private Image piece;
 
-	public PieceAnimation(int cupNumber, int pieceAmount) {
+	public PieceAnimation(CupComponent[] cupComponents,int cupNumber, int pieceAmount) {
 
+		piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
 		this.cupNumber = cupNumber + 1;// assume cupNumber starts at 0
 		this.pieceAmount = pieceAmount;
-
-		if (this.cupNumber > 0 && this.cupNumber < 7) {
-			yAxis = cupNumber * 100 +100;
-			xAxis = 100;
-		} else {
-			xAxis = 400;
-			switch (this.cupNumber) {
-			case 13:
-				yAxis = 200;
-				break;
-			case 12:
-				yAxis = 300;
-				break;
-			case 11:
-				yAxis = 400;
-				break;
-			case 10:
-				yAxis = 500;
-				break;
-			case 9:
-				yAxis = 600;
-				break;
-			case 8:
-				yAxis = 700;
-				break;
-			case 7:
-				yAxis = 800;
-				xAxis = 250;
-				break;
-			case 14:
-				yAxis = 100;
-				xAxis = 250;
-			}
-		}
+		
+		xAxis = cupComponents[cupNumber].getX();
+		yAxis = cupComponents[cupNumber].getY();
 		yAxisTemp = yAxis;
 		repaint();
 		ActionListener animater = new ActionListener() {
@@ -79,57 +51,25 @@ public class PieceAnimation extends JComponent {
 		super.paintComponent(g);
 
 		for (int i = 0; i < pieceAmount; i++) {
-			Image piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
 			
+			g.drawImage(piece, yAxis, (i * 15)+ xAxis, this);
 			
-			if (cupNumber == 1){
-				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
-				yAxis--;
-				xAxis++;
-			}
-			else if (cupNumber == GOAL2){
-				g.drawImage(piece, yAxis, (i * 15)+ xAxis, this);
-				yAxis++;
-				xAxis++;
-			}
-			else if (cupNumber > 0 && cupNumber < GOAL1) {// top row
-				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
-				yAxis--;
-			} 
-			else if (cupNumber > GOAL1 && cupNumber < GOAL2){// bottom row
-				g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
-				yAxis++;
-			}
-			else if (cupNumber == GOAL1){
-				g.drawImage(piece, yAxis, (i * 15)+ xAxis, this);
-				yAxis--;
-				xAxis--;
-			}
-			
-			
-
 			// if marbles reach next cup
 			
 			//if in cup 1 to go to GOAL2
 			if (yAxis == 100){
-				yAxis +=100;
 				pieceAmount--;
-				cupNumber--;
+				cupNumber = 14;
 			}
-			//if in GOAL2 to go to cup 13
-			else if (yAxis == 200 && xAxis >= 400){
-				//yAxis += 100;
-				pieceAmount--;
-				cupNumber--;
-			}
-			//if in any cup on top row
+		
+			//if in any cup on top row go left
 			else if (yAxis == yAxisTemp - 100) {
 				yAxisTemp -= 100;
 				pieceAmount--;
 				cupNumber--;
 			
 			}
-			//if in any cup on bottom row
+			//if in any cup on bottom row go right
 			else if (yAxis == yAxisTemp + 100){
 				yAxisTemp += 100;
 				pieceAmount--;
@@ -143,6 +83,30 @@ public class PieceAnimation extends JComponent {
 				timer.stop();
 				g.clearRect(0, 0, getWidth(), getHeight());
 			}
+		}
+		
+		//if in cup 1 go lower left to GOAL2
+		if (cupNumber == 1){
+			yAxis--;
+			xAxis++;
+		}
+		//if in GOAL2 go lower right to cup 13
+		else if (cupNumber == GOAL2){
+			yAxis++;
+			xAxis++;
+		}
+		//if in top row go left
+		else if (cupNumber > 0 && cupNumber < GOAL1) {
+			yAxis--;
+		} 
+		//if in bottom row go right
+		else if (cupNumber > GOAL1 && cupNumber < GOAL2){
+			yAxis++;
+		}
+		//if in GOAL1 up upper left
+		else if (cupNumber == GOAL1){
+			yAxis--;
+			xAxis--;
 		}
 
 	}
