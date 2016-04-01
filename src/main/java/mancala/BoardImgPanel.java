@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 public class BoardImgPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 
 	public BoardImgPanel() {
@@ -18,7 +19,6 @@ public class BoardImgPanel extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -27,11 +27,9 @@ public class BoardImgPanel extends JPanel {
 		super.paintComponent(g);
 
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-
 	}
 
 	public BufferedImage getImage() {
 		return this.image;
 	}
-
 }

@@ -1,6 +1,5 @@
 package mancala;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -12,9 +11,7 @@ import javax.swing.JComponent;
 
 public class CupComponent extends JComponent {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	protected Image piece;
 	protected ArrayList<Image> marbles;
@@ -59,8 +56,6 @@ public class CupComponent extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-	
-
 		for (int i = 0, j = -14; i < count; i++, j++) {
 
 			if (i < 14) {
@@ -68,12 +63,7 @@ public class CupComponent extends JComponent {
 
 			} else {
 				g.drawImage(piece = marbles.get(random.nextInt(4)), 40, j * 15, this);
-
 			}
 		}
-
-		// super.repaint();
-
 	}
-
 }
