@@ -15,22 +15,21 @@ public class Goal extends Cup {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-	/*	for (int i = 0, j = -15; i < count; i++, j++) {
-			if (i < 15) {
-				g.drawImage(piece = marbles.get(random.nextInt(4)), 10, i * 15,
-						this);
-			} else {
-				g.drawImage(piece = marbles.get(random.nextInt(4)), 40, j * 15,
-						this);
-
+		int piecesDrawn = 0, piecesPerRow = 10, location = 0, rows = 1;
+		for (int i = 0; i < count; i++) {
+			if (piecesDrawn % piecesPerRow == 0) {
+				rows++;
+				location = 0;
 			}
+			g.drawImage(piece = marbles.get(random.nextInt(4)), (rows * 5)-10,
+					location * 15, this);
+			piecesDrawn++;
+			location++;
+
 		}
-*/
-		// repaint();
+
 	}
-	
+
 	public void reset() {
 		count = 0;
 	}
