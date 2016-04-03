@@ -2,12 +2,14 @@ package mancala;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -85,6 +87,37 @@ public class GameGui extends JFrame {
 			}
 		}
 	}
+
+	/*
+	 * board.addMouseListener(new MouseListener() {
+	 * 
+	 * @Override public void mouseClicked(MouseEvent arg0) { // TODO
+	 * Auto-generated method stub
+	 * 
+	 * }
+	 * 
+	 * @Override public void mouseEntered(MouseEvent arg0) { // TODO
+	 * Auto-generated method stub
+	 * 
+	 * }
+	 * 
+	 * @Override public void mouseExited(MouseEvent arg0) { // TODO
+	 * Auto-generated method stub
+	 * 
+	 * }
+	 * 
+	 * @Override public void mousePressed(MouseEvent e) { System.out.print("X "
+	 * +e.getX()); System.out.println(" Y " +e.getY());
+	 * 
+	 * }
+	 * 
+	 * @Override public void mouseReleased(MouseEvent arg0) { // TODO
+	 * Auto-generated method stub
+	 * 
+	 * }
+	 * 
+	 * }); }
+	 */
 
 	private void setPanels() {
 		optionsPanel = new JPanel();
