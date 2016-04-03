@@ -28,7 +28,7 @@ public class TempMainForAnimation {
 
 		
 		
-		JComponent animation = new PieceAnimation(cupComponents,12, 4);
+		JComponent animation = new PieceAnimation(cupComponents, 7, 14);
 		JFrame app = new JFrame();
 		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		app.add(animation);

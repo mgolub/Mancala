@@ -88,4 +88,12 @@ public class Cup extends JComponent {
 	public void reset() {
 		count = 4;
 	}
+
+	public int getComponentX() {
+		return this.x;
+	}
+
+	public int getComponentY() {
+		return this.y;
+	}
 }

@@ -1,22 +1,13 @@
 package mancala;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -131,7 +122,6 @@ public class BoardPanel extends JPanel {
 		goalPanel1.setMinimumSize(new Dimension(150, 700));
 		goalPanel2.setMinimumSize(new Dimension(120, 700));
 
-
 	}
 
 	@Override
@@ -155,14 +145,14 @@ public class BoardPanel extends JPanel {
 		west.setLayout(new GridBagLayout());
 		west.setOpaque(false);
 		c.insets = new Insets(380, 150, 0, 0);
-		west.setPreferredSize(new Dimension(152,700));
+		west.setPreferredSize(new Dimension(152, 700));
 		west.add(goalPanel2, c);
-		
+
 		JPanel east = new JPanel();
 		east.setLayout(new GridBagLayout());
 		east.setOpaque(false);
-		c.insets = new Insets(380,0,0,20);
-		east.add(goalPanel1,c);
+		c.insets = new Insets(380, 0, 0, 20);
+		east.add(goalPanel1, c);
 		add(east, BorderLayout.EAST);
 		add(west, BorderLayout.WEST);
 		add(cupsPanel, BorderLayout.CENTER);

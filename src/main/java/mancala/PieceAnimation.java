@@ -31,9 +31,9 @@ public class PieceAnimation extends JPanel {
 				.getImage();
 		this.cupNumber = cupNumber + 1;// assume cupNumber starts at 0
 		this.pieceAmount = pieceAmount;
-
 		xAxis = cupComponents[cupNumber].getX();
-		yAxis = cupComponents[cupNumber].getY();
+		xAxis += cupComponents[cupNumber].getComponentY();
+		yAxis = cupComponents[cupNumber].getY() + 200;
 		yAxisTemp = yAxis;
 		repaint();
 
@@ -55,12 +55,12 @@ public class PieceAnimation extends JPanel {
 		super.paintComponent(g);
 
 		for (int i = 0; i < pieceAmount; i++) {
-
+		
 			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
 
 			// if marbles reach next cup to the left(assume each cup is 100
 			// away)
-			if (yAxis == yAxisTemp - 100) {
+			if (yAxis == yAxisTemp - 113) {
 				yAxisTemp -= 100;
 				pieceAmount--;
 				cupNumber--;
@@ -68,7 +68,7 @@ public class PieceAnimation extends JPanel {
 
 			}// if marbles reach next cup to the right (assume each cup is 100
 				// away)
-			else if (yAxis == yAxisTemp + 100) {
+			else if (yAxis == yAxisTemp + 113) {
 				yAxisTemp += 100;
 				pieceAmount--;
 				cupNumber--;
@@ -110,11 +110,9 @@ public class PieceAnimation extends JPanel {
 			yAxis++;
 			xAxis--;
 		}
-		
-		
-		
-		
+
 	}
+
 	private void dropPieceSound() {
 
 		new Thread(new Runnable() {
@@ -125,5 +123,5 @@ public class PieceAnimation extends JPanel {
 			}
 		}).start();
 	}
-	
+
 }
