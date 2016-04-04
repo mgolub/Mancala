@@ -2,6 +2,7 @@ package mancala;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 
 public class Goal extends Cup {
 
@@ -21,7 +22,7 @@ public class Goal extends Cup {
 				rows++;
 				location = 0;
 			}
-			g.drawImage(piece = marbles.get(random.nextInt(4)), (rows * 5)-10,
+			g.drawImage(piece = cupsMarbles.get(piecesDrawn), (rows * 5) - 10,
 					location * 15, this);
 			piecesDrawn++;
 			location++;
@@ -32,9 +33,13 @@ public class Goal extends Cup {
 
 	public void reset() {
 		count = 0;
+		cupsMarbles.clear();
 	}
 
-	public void addToGoal(int amount) {
-		count = count + amount;
+	public void addToGoal(Image[] pieces) {
+		count = count + pieces.length;
+		for (int i = 0; i < pieces.length; i++) {
+			cupsMarbles.add(pieces[i]);
+		}
 	}
 }
