@@ -57,8 +57,7 @@ public class GameGui extends JFrame {
 		// + players.gamesWon(2));
 		descriptionLabel = new JLabel(board.description());
 
-		this.setIconImage(new ImageIcon(getClass().getResource(
-				"/MancalaBoard.png")).getImage());
+		this.setIconImage(new ImageIcon(getClass().getResource("/MancalaBoard.png")).getImage());
 
 		add();
 		format();
@@ -71,26 +70,24 @@ public class GameGui extends JFrame {
 
 				board.getCup(i).putClientProperty("index", i);
 				board.getCup(i).addMouseListener(new MouseAdapter() {
+
 					@Override
 					public void mouseClicked(MouseEvent event) {
-						int index;
-					if((board.isMouseEnabled())){
-						Cup cup = (Cup) event.getSource();
-						index = (Integer) cup.getClientProperty("index");
-				
-						if (!cup.isEnabled()
-								|| (board.getQtyMarbles(index) == 0)) {
-							return;
+						if ((board.isMouseEnabled())) {
+							Cup cup = (Cup) event.getSource();
+							int humanIndex = (Integer) cup.getClientProperty("index");
+							board.turn(humanIndex);
+							board.setMouseEnabled(false);
+							descriptionLabel.setText(board.description());
+							if (!cup.isEnabled() || (board.getQtyMarbles(humanIndex) == 0)) {
+								return;
+							}
+						} else {
+						int compIndex = board.computerAI();
+							board.setMouseEnabled(true);
+							board.turn(compIndex);
+							descriptionLabel.setText(board.description());
 						}
-					}
-					
-					else{
-					index = board.computerAI();
-					}
-					//	index = rand.nextInt(4);} //pass in temporary arbitrary number 
-						board.turn(index);
-						descriptionLabel.setText(board.description());
-
 					}
 				});
 			}

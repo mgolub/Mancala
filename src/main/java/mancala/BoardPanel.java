@@ -1,6 +1,8 @@
 package mancala;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -40,51 +42,50 @@ public class BoardPanel extends JPanel {
 
 	// called by action listener
 	public void turn(int index) {
-		boolean goalTurn = board.distribute(index);
-		// returns true if landed in a goal
-		repaint();
 
-		int piecesAdded = board.checkForMoves();
-		if (piecesAdded != 0) {
-			JOptionPane.showMessageDialog(null,
-					"Left over peices added to " + players.playersName(piecesAdded) + "'s goal!!");
-			repaint();
-		}
-		if (board.checkGame()) {
-			winner = board.calculateWinner();
-			switch (winner) {
-			case 0:
-				changeDescription(4);
-				break;
-			case 1:
-				players.increaseWins(1);
-				displayWinner();
-				break;
-			case 2:
-				players.increaseWins(2);
-				displayWinner();
-				break;
-			}
-			repaint();
-			return;
-		}
-		if (!goalTurn) {
-			mouseEnabled = true;
-			players.switchPlayers();
-			// TODO AI
-			if (players.getCurrentPlayer() == 1) {
-				mouseEnabled = false;
-				// Disable mouse listener
-				// calculate the best move for the computer.
-				// Pass that cup component value back to the gameGUI to be used as index 
-			}
-			changeDescription(1);
-			disableCups();
-			repaint();
-			return;
-		}
+			boolean goalTurn = board.distribute(index);
 
-		changeDescription(3);
+			repaint();
+
+			int piecesAdded = board.checkForMoves();
+			if (piecesAdded != 0) {
+				JOptionPane.showMessageDialog(null,
+						"Left over peices added to " + players.playersName(piecesAdded) + "'s goal!!");
+				repaint();
+			}
+			if (board.checkGame()) {
+				winner = board.calculateWinner();
+				switch (winner) {
+				case 0:
+					changeDescription(4);
+					break;
+				case 1:
+					players.increaseWins(1);
+					displayWinner();
+					break;
+				case 2:
+					players.increaseWins(2);
+					displayWinner();
+					break;
+				}
+				repaint();
+				return;
+
+			}
+			if (goalTurn) {
+				changeDescription(3);
+			} else if (!goalTurn) {
+				
+				players.switchPlayers();
+		
+				if (players.getCurrentPlayer()==1) {
+					mouseEnabled = false;
+				}
+			}
+		
+		changeDescription(1);
+		disableCups();
+	
 	}
 
 	private void disableCups() {
@@ -271,9 +272,24 @@ public class BoardPanel extends JPanel {
 	public boolean isMouseEnabled() {
 		return this.mouseEnabled;
 	}
+	
+	public void setMouseEnabled(boolean isEnabled){
+		this.mouseEnabled = isEnabled;
+	}
 
 	public int computerAI() {
-		ComputerAI ai = new ComputerAI(board.getCups());
-		return ai.calculateBestMove();
+
+		ArrayList<Cup> cups = new ArrayList();
+		for (int i = 0; i < board.getCups().length; i++) {
+			cups.add(board.getCups()[i]);
+		}
+		List<Cup> computerCups = cups.subList(cups.indexOf(cups.get(1)), cups.indexOf(cups.get(7)));
+		System.out.println(computerCups);
+		System.out.println(computerCups.size());
+		ComputerAI ai = new ComputerAI(computerCups);
+		int move = ai.calculateBestMove();
+		System.out.println(move);
+		return move;
+
 	}
 }
