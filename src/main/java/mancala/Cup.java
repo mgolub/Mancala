@@ -12,43 +12,26 @@ import javax.swing.JComponent;
 public class Cup extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	protected Image piece;
-	//create class called marbleBag
-	protected ArrayList<Image> possibleMarbles;
+	
 	protected ArrayList<Image> cupsMarbles;
 	protected int count;
-	protected Random random;
 	protected int x;
 	protected int y;
 
-	public Cup(int x, int y) {
+	public Cup(int x, int y, Marbles possibleMarbles) {
 		setPreferredSize(new Dimension(110, 250));
-		possibleMarbles = new ArrayList<Image>();
 		cupsMarbles = new ArrayList<Image>();
 		count = 4;
-		random = new Random();
-		randomMarbles();
-		cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
-		cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
-		cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
-		cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+		cupsMarbles.add(possibleMarbles.getRandom());
+		cupsMarbles.add(possibleMarbles.getRandom());
+		cupsMarbles.add(possibleMarbles.getRandom());
+		cupsMarbles.add(possibleMarbles.getRandom());
 
 		this.x = x;
 		this.y = y;
 	}
 
-	private void randomMarbles() {
-
-		possibleMarbles.add(new ImageIcon(getClass().getResource("/BlueMarble.png"))
-				.getImage());
-		possibleMarbles.add(new ImageIcon(getClass().getResource("/YellowMarble.png"))
-				.getImage());
-		possibleMarbles.add(new ImageIcon(getClass().getResource("/PinkMarble.png"))
-				.getImage());
-		possibleMarbles.add(new ImageIcon(getClass().getResource("/GreenMarble.png"))
-				.getImage());
-	}
-
+	
 	public void setCount(int count) {
 		this.count = count;
 		repaint();
@@ -68,7 +51,7 @@ public class Cup extends JComponent {
 				rows++;
 				location = 0;
 			}
-			g.drawImage(piece = this.cupsMarbles.get(piecesDrawn), rows * 10,
+			g.drawImage(this.cupsMarbles.get(piecesDrawn), rows * 10,
 					location * 15, this);
 			piecesDrawn++;
 			location++;
@@ -102,11 +85,12 @@ public class Cup extends JComponent {
 	public void reset() {
 		count = 4;
 		if(cupsMarbles.size() != 4){
-			cupsMarbles.clear();
-			cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
-			cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
-			cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
-			cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+			System.out.println("in methodd reset of sups");
+		//	cupsMarbles.clear();
+	//		cupsMarbles.add();
+		//	cupsMarbles.add();
+			//cupsMarbles.add();
+			//cupsMarbles.add();
 		}
 		
 		

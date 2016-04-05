@@ -73,7 +73,7 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void setPlayersEnabled() {
-		//if its palyer 1s turn first 6 are enbaled if its palyer 2s turn second 6 are enabled
+		//if its playeres 1s turn first 6 are enabled if its players 2s turn second 6 are enabled
 		boolean enabled = (players.currentPlayerNum() == 1);
 		for (int i = 0; i < 6; i++) {
 			board.getCup(i).setEnabled(enabled);

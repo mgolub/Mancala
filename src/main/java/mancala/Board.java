@@ -22,20 +22,22 @@ public class Board {
 	private Players players;
 	protected static final int GOAL1 = 6;
 	protected static final int GOAL2 = 13;
+	private Marbles marbles;
 
 	public Board(Players players) {
 		this.players = players;
 		piecesWon = 0;
+		marbles = new Marbles();
 		// create cups/goals
 		cups = new Cup[14];
 		for (int i = 0; i < cups.length; i++) {
 			if (i == GOAL1 || i == GOAL2) {
-				cups[i] = new Goal(647, 1010);
+				cups[i] = new Goal(647, 1010, marbles);
 			} else {
 				if (i < GOAL1) {
-					cups[i] = new Cup(639, 1560);
+					cups[i] = new Cup(639, 1560, marbles);
 				} else {
-					cups[i] = new Cup(639, 1560);
+					cups[i] = new Cup(639, 1560, marbles);
 				}
 			}
 			cups[i].setToolTipText(Integer.toString(getContent(i)));
