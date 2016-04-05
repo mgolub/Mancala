@@ -79,6 +79,7 @@ public class GameGui extends JFrame {
 								|| (board.getQtyMarbles(index) == 0)) {
 							return;
 						}
+						board.disableAllCups();
 						board.turn(index);
 						descriptionLabel.setText(board.description());
 

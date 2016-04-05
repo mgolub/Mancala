@@ -205,4 +205,12 @@ public class Board {
 		return null;
 
 	}
+
+	public void disableAllCups() {
+		
+		for(Cup cup: cups){
+			cup.setEnabled(false);;
+		}
+		
+	}
 }

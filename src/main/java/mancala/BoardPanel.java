@@ -34,6 +34,7 @@ public class BoardPanel extends JPanel {
 	public void turn(int index) {
 		boolean goalTurn = board.distribute(index);
 		// returns true if landed in a goal
+		setPlayersEnabled();
 		repaint();
 
 		int piecesAdded = board.checkForMoves();
@@ -63,7 +64,7 @@ public class BoardPanel extends JPanel {
 		if (!goalTurn) {
 			players.switchPlayers();
 			changeDescription(1);
-			disableCups();
+			setPlayersEnabled();
 			repaint();
 			return;
 		}
@@ -71,15 +72,14 @@ public class BoardPanel extends JPanel {
 		changeDescription(3);
 	}
 
-	private void disableCups() {
-		for (int i = 0; i < 13; i++) {
-			if (!(i == Board.GOAL1) || (i == Board.GOAL2)) {
-				if (board.getCup(i).isEnabled()) {
-					board.getCup(i).setEnabled(false);
-				} else {
-					board.getCup(i).setEnabled(true);
-				}
-			}
+	private void setPlayersEnabled() {
+		//if its palyer 1s turn first 6 are enbaled if its palyer 2s turn second 6 are enabled
+		boolean enabled = (players.currentPlayerNum() == 1);
+		for (int i = 0; i < 6; i++) {
+			board.getCup(i).setEnabled(enabled);
+		}
+		for (int i = 7; i < 13; i++) {
+			board.getCup(i).setEnabled(!enabled);
 		}
 
 	}
@@ -257,5 +257,10 @@ public class BoardPanel extends JPanel {
 
 	public Cup getCup(int cupNum) {
 		return board.getCup(cupNum);
+	}
+
+	// disable all cups when a turn is in progress so no events can happen
+	public void disableAllCups() {
+		board.disableAllCups();
 	}
 }
