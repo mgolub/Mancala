@@ -1,5 +1,16 @@
 package mancala;
 
+import java.applet.Applet;
+import java.awt.Image;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
+import org.mockito.internal.util.collections.ArrayUtils;
 
 //logic of a computer mancala game 
 
@@ -64,19 +75,20 @@ public class Board {
 
 	public boolean distribute(int startPosit) {
 		start = startPosit;
-		int amount = cups[start].removePieces();
+		Image[] pieces = cups[start].removePieces();
 
-		for (int i = 0, position = start + 1; i < amount; i++, position++) {
+		for (int i = 0, position = start + 1; i < pieces.length; i++, position++) {
 			if (position != GOAL1 && position != GOAL2) {
-				cups[position].addPiece();
+				cups[position].addPiece(pieces[i]);
 			} else {
 				if (currentPlayersGoal(position)) {
 					piecesWon++;
-					((Goal) cups[position]).addPiece();
+					((Goal) cups[position]).addPiece(pieces[i]);
+
 				} else {
 					i--;
 				}
-				//board[position].repaint();
+				// board[position].repaint();
 			}
 
 			start = position;
@@ -84,11 +96,9 @@ public class Board {
 				position = -1;// 0 after increment
 			}
 		} // pieces done being distributed
-		
+
 		return checkTurn();
 	}
-
-	
 
 	private boolean currentPlayersGoal(int position) {
 		return (position == GOAL1 && players.currentPlayerNum() == 1)
@@ -100,18 +110,22 @@ public class Board {
 		int amount;
 		if (getContent(start) == 1) {
 			if (start > -1 && start < 6 && players.currentPlayerNum() == 1) {
-				amount = cups[start].removePieces();
-				amount = amount + cups[Math.abs(start - 12)].removePieces();
-				System.out.println("amount is " + amount);
-				piecesWon = piecesWon + amount;
-				((Goal) cups[6]).addToGoal(amount);
+				Image[] pieces = cups[start].removePieces();
+				Image[] otherPieces = cups[Math.abs(start - 12)].removePieces();
+				Image[] allPieces = Arrays.copyOf(pieces, pieces.length
+						+ otherPieces.length);
+				System.arraycopy(otherPieces, 0, allPieces, pieces.length,
+						otherPieces.length);
+				// System.out.println("amount is " + amount);
+				piecesWon = piecesWon + allPieces.length;
+				((Goal) cups[6]).addToGoal(allPieces);
 			} else if (start > 6 && start < 13
 					&& players.currentPlayerNum() == 2) {
-				amount = cups[start].removePieces();
-				amount = amount + cups[12 - start].removePieces();
-				System.out.println("amount is " + amount);
-				piecesWon = piecesWon + amount;
-				((Goal) cups[13]).addToGoal(amount);
+				Image[] pieces = cups[start].removePieces();
+				Image[] otherPieces = cups[Math.abs(start - 12)].removePieces();
+				Image[] allPieces = this.combineTwoArrays(pieces, otherPieces);
+				piecesWon = piecesWon + allPieces.length;
+				((Goal) cups[13]).addToGoal(allPieces);
 			}
 		}
 		// if ended by a goal returns true;
@@ -141,10 +155,12 @@ public class Board {
 			}
 		}
 		if (!found) {
+			Image[] pieces = null;
 			for (int i = 7; i < 13; i++) {
-				amount += cups[i].removePieces();
+				pieces = cups[i].removePieces();
+				amount += pieces.length;
 			}
-			((Goal) cups[GOAL2]).addToGoal(amount);
+			((Goal) cups[GOAL2]).addToGoal(pieces);
 			piecesWon += amount;
 			return 2;
 		} // currentPlayer is player2
@@ -157,29 +173,42 @@ public class Board {
 			}
 		}
 		if (!found) {
+			Image[] pieces = null;
 			for (int i = 0; i < 6; i++) {
-				amount += cups[i].removePieces();
+				Image[] otherPieces = cups[i].removePieces();
+				pieces = combineTwoArrays(pieces, otherPieces);
 			}
-			((Goal) cups[GOAL1]).addToGoal(amount);
-			piecesWon += amount;
+			((Goal) cups[GOAL1]).addToGoal(pieces);
+			piecesWon += pieces.length;
 			return 1;
 		}
 		return 0;
 	}
-	
-	public Cup getCup(int cupNum){
+
+	private Image[] combineTwoArrays(Image[] pieces, Image[] otherPieces) {
+		Image[] allPieces = Arrays.copyOf(pieces, pieces.length
+				+ otherPieces.length);
+		System.arraycopy(otherPieces, 0, allPieces, pieces.length,
+				otherPieces.length);
+		return allPieces;
+
+	}
+
+	public Cup getCup(int cupNum) {
 		return cups[cupNum];
 	}
+
 	
 	public Cup[] getCups(){
 		return this.cups;
 	}
-	
-	public Goal getGoal(int cupNum){
-		if(cupNum == GOAL1 || cupNum == GOAL2){
+
+
+	public Goal getGoal(int cupNum) {
+		if (cupNum == GOAL1 || cupNum == GOAL2) {
 			return (Goal) cups[cupNum];
 		}
 		return null;
-		
+
 	}
 }

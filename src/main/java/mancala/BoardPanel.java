@@ -1,21 +1,17 @@
 package mancala;
 
 import java.awt.BorderLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
+import java.awt.Insets;
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -136,8 +132,8 @@ public class BoardPanel extends JPanel {
 		cupPanel2.setPreferredSize(cupPanelDimension);
 		goalPanel1.setOpaque(false);
 		goalPanel2.setOpaque(false);
-		goalPanel2.setPreferredSize(new Dimension(159, 700));
-		goalPanel1.setPreferredSize(new Dimension(125, 700));
+		goalPanel1.setMinimumSize(new Dimension(150, 700));
+		goalPanel2.setMinimumSize(new Dimension(120, 700));
 
 	}
 
@@ -150,25 +146,26 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void addComponents() {
-
+		GridBagConstraints c = new GridBagConstraints();
 		addSpaceHolder(cupsPanel, 200, 190);
 		cupsPanel.add(cupPanel2, BorderLayout.SOUTH);
 		cupsPanel.add(cupPanel1, BorderLayout.CENTER);
 		addSpaceHolder(cupsPanel, 200, 10);
 		goalPanel1.add(board.getGoal(Board.GOAL1));
 		goalPanel2.add(board.getGoal(Board.GOAL2));
-		JPanel west = new JPanel();
-		west.setLayout(new FlowLayout());
-		west.setPreferredSize(new Dimension(159, 50));
-		west.setOpaque(false);
-		addSpaceHolder(west, 159, 200);
-		west.add(goalPanel2);
-		JPanel east = new JPanel();
-		east.setPreferredSize(new Dimension(125, 50));
 
+		JPanel west = new JPanel();
+		west.setLayout(new GridBagLayout());
+		west.setOpaque(false);
+		c.insets = new Insets(380, 150, 0, 0);
+		west.setPreferredSize(new Dimension(152, 700));
+		west.add(goalPanel2, c);
+
+		JPanel east = new JPanel();
+		east.setLayout(new GridBagLayout());
 		east.setOpaque(false);
-		addSpaceHolder(east, 125, 200);
-		east.add(goalPanel1);
+		c.insets = new Insets(380, 0, 0, 20);
+		east.add(goalPanel1, c);
 		add(east, BorderLayout.EAST);
 		add(west, BorderLayout.WEST);
 		add(cupsPanel, BorderLayout.CENTER);
@@ -283,7 +280,7 @@ public class BoardPanel extends JPanel {
 		for (int i = 0; i < board.getCups().length; i++) {
 			cups.add(board.getCups()[i]);
 		}
-		List<Cup> computerCups = cups.subList(cups.indexOf(cups.get(1)), cups.indexOf(cups.get(7)));
+		List<Cup> computerCups = cups.subList(cups.indexOf(cups.get(7)), cups.indexOf(cups.get(13)));
 		System.out.println(computerCups);
 		System.out.println(computerCups.size());
 		ComputerAI ai = new ComputerAI(computerCups);

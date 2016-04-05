@@ -13,33 +13,39 @@ public class Cup extends JComponent {
 
 	private static final long serialVersionUID = 1L;
 	protected Image piece;
-	protected ArrayList<Image> marbles;
+	//create class called marbleBag
+	protected ArrayList<Image> possibleMarbles;
+	protected ArrayList<Image> cupsMarbles;
 	protected int count;
-	// protected int originalCount;
 	protected Random random;
 	protected int x;
 	protected int y;
 
 	public Cup(int x, int y) {
 		setPreferredSize(new Dimension(110, 250));
-		marbles = new ArrayList<Image>();
+		possibleMarbles = new ArrayList<Image>();
+		cupsMarbles = new ArrayList<Image>();
 		count = 4;
 		random = new Random();
 		randomMarbles();
-		piece = marbles.get(random.nextInt(4));
+		cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+		cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+		cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+		cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+
 		this.x = x;
 		this.y = y;
 	}
 
 	private void randomMarbles() {
 
-		marbles.add(new ImageIcon(getClass().getResource("/BlueMarble.png"))
+		possibleMarbles.add(new ImageIcon(getClass().getResource("/BlueMarble.png"))
 				.getImage());
-		marbles.add(new ImageIcon(getClass().getResource("/YellowMarble.png"))
+		possibleMarbles.add(new ImageIcon(getClass().getResource("/YellowMarble.png"))
 				.getImage());
-		marbles.add(new ImageIcon(getClass().getResource("/PinkMarble.png"))
+		possibleMarbles.add(new ImageIcon(getClass().getResource("/PinkMarble.png"))
 				.getImage());
-		marbles.add(new ImageIcon(getClass().getResource("/GreenMarble.png"))
+		possibleMarbles.add(new ImageIcon(getClass().getResource("/GreenMarble.png"))
 				.getImage());
 	}
 
@@ -55,38 +61,64 @@ public class Cup extends JComponent {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		int piecesDrawn = 0;
-		int loacation = 0;
-		int rows = 1;
+
+		int piecesDrawn = 0, piecesPerRow = 4, location = 0, rows = 1;
 		for (int i = 0; i < count; i++) {
-			if (piecesDrawn % 4 == 0) {
+			if (piecesDrawn % piecesPerRow == 0) {
 				rows++;
-				loacation = 0;
+				location = 0;
 			}
-			g.drawImage(piece = marbles.get(random.nextInt(4)), rows * 10,
-					loacation * 15, this);
+			g.drawImage(piece = this.cupsMarbles.get(piecesDrawn), rows * 10,
+					location * 15, this);
 			piecesDrawn++;
-			loacation++;
+			location++;
 
 		}
+
 	}
 
-	public void addPiece() {
+	public void addPiece(Image piece) {
 		count++;
+		//cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+		cupsMarbles.add(piece);
+
 	}
 
 	public int getCount() {
 		return count;
 	}
 
-	public int removePieces() {
-		int temp = count;
+	public Image[] removePieces() {
+		Image[] pieces = new Image[count];
+		int upTo =0;
+		for(Image marble: cupsMarbles){
+			pieces[upTo++] = marble;
+		}
 		count = 0;
-		return temp;
+		cupsMarbles.clear();
+		return pieces;
 	}
 
 	public void reset() {
 		count = 4;
+		if(cupsMarbles.size() != 4){
+			cupsMarbles.clear();
+			cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+			cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+			cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+			cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
+		}
+		
+		
+		
+
+	}
+
+	public int getComponentX() {
+		return this.x;
+	}
+
+	public int getComponentY() {
+		return this.y;
 	}
 }
