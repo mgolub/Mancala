@@ -20,24 +20,27 @@ public class ComputerAI {
 
 	public int calculateBestMove() {
 		List<Integer> counts = new ArrayList<Integer>();
-
-		for (int j = 0; j < cups.size(); j++) {
-			cupAmounts.put(cups.get(j), cups.get(j).getCount());
-
-			if (cups.get(j).getCount() == j) {
-				return j;
-			}
-		}
+		int move = 0;
 
 		for (int i = 0; i < cups.size(); i++) {
-			if (cups.get(i).getCount() > i) {
+			cupAmounts.put(cups.get(i), cups.get(i).getCount());
+			if (cups.get(i).getCount() == i) {
+				return i;
+			} else if (cups.get(i).getCount() > i) {
 				counts.add(cups.get(i).getCount());
+
+				for (Map.Entry entry : cupAmounts.entrySet()) {
+					if (counts.get(0).equals(entry.getValue())) {
+						move = cups.indexOf((Cup) entry.getKey());
+					}
+				}
 			}
 		}
+
 		System.out.println(counts + "b4");
 		Collections.sort(counts);
 		System.out.println(counts + "after");
-		return (int) cups.indexOf(counts.get(0));
+		return move;
 
 	}
 }
