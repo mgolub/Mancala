@@ -1,16 +1,9 @@
 package mancala;
 
-import java.applet.Applet;
 import java.awt.Image;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
-import org.mockito.internal.util.collections.ArrayUtils;
 
 //logic of a computer mancala game 
 
@@ -47,7 +40,6 @@ public class Board {
 		for (int i = 0; i < cups.length; i++) {
 			cups[i].reset();
 		}
-		// currentPlayer = player1;
 		piecesWon = 0;
 	}
 
@@ -107,7 +99,7 @@ public class Board {
 
 	// checks to see if landed in a goal our landed in an empty cup
 	private boolean checkTurn() {
-		int amount;
+		
 		if (getContent(start) == 1) {
 			if (start > -1 && start < 6 && players.currentPlayerNum() == 1) {
 				Image[] pieces = cups[start].removePieces();
