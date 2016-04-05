@@ -8,8 +8,8 @@ public class Goal extends Cup {
 
 	private static final long serialVersionUID = 1L;
 
-	public Goal(int x, int y) {
-		super(x, y);
+	public Goal(int x, int y, Marbles marbles) {
+		super(x, y,marbles);
 		count = 0;
 		setPreferredSize(new Dimension(120, 455));
 	}
@@ -22,7 +22,7 @@ public class Goal extends Cup {
 				rows++;
 				location = 0;
 			}
-			g.drawImage(piece = cupsMarbles.get(piecesDrawn), (rows * 5) - 10,
+			g.drawImage(cupsMarbles.get(piecesDrawn), (rows * 5) - 10,
 					location * 15, this);
 			piecesDrawn++;
 			location++;
