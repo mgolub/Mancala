@@ -4,9 +4,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.Random;
-
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 public class Cup extends JComponent {
@@ -62,7 +59,6 @@ public class Cup extends JComponent {
 
 	public void addPiece(Image piece) {
 		count++;
-		//cupsMarbles.add(possibleMarbles.get(random.nextInt(4)));
 		cupsMarbles.add(piece);
 
 	}
