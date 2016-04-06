@@ -1,6 +1,10 @@
 package mancala;
 
 import java.awt.BorderLayout;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,49 +43,49 @@ public class BoardPanel extends JPanel {
 	// called by action listener
 	public void turn(int index) {
 
-			boolean goalTurn = board.distribute(index);
+		boolean goalTurn = board.distribute(index);
 
+		repaint();
+
+		int piecesAdded = board.checkForMoves();
+		if (piecesAdded != 0) {
+			JOptionPane.showMessageDialog(null,
+					"Left over peices added to " + players.playersName(piecesAdded) + "'s goal!!");
 			repaint();
+		}
+		if (board.checkGame()) {
+			winner = board.calculateWinner();
+			switch (winner) {
+			case 0:
+				changeDescription(4);
+				break;
+			case 1:
+				players.increaseWins(1);
+				displayWinner();
+				break;
+			case 2:
+				players.increaseWins(2);
+				displayWinner();
+				break;
+			}
+			repaint();
+			return;
 
-			int piecesAdded = board.checkForMoves();
-			if (piecesAdded != 0) {
-				JOptionPane.showMessageDialog(null,
-						"Left over peices added to " + players.playersName(piecesAdded) + "'s goal!!");
-				repaint();
-			}
-			if (board.checkGame()) {
-				winner = board.calculateWinner();
-				switch (winner) {
-				case 0:
-					changeDescription(4);
-					break;
-				case 1:
-					players.increaseWins(1);
-					displayWinner();
-					break;
-				case 2:
-					players.increaseWins(2);
-					displayWinner();
-					break;
-				}
-				repaint();
-				return;
+		}
+		if (goalTurn) {
+			changeDescription(3);
+		} else if (!goalTurn) {
 
+			players.switchPlayers();
+
+			if (players.getCurrentPlayer() == 1) {
+				mouseEnabled = false;
 			}
-			if (goalTurn) {
-				changeDescription(3);
-			} else if (!goalTurn) {
-				
-				players.switchPlayers();
-		
-				if (players.getCurrentPlayer()==1) {
-					mouseEnabled = false;
-				}
-			}
-		
+		}
+
 		changeDescription(1);
 		disableCups();
-	
+
 	}
 
 	private void disableCups() {
@@ -178,7 +182,25 @@ public class BoardPanel extends JPanel {
 		panel.add(spaceHolder);
 
 	}
+	public int computerAI() {
 
+		final ExecutorService service = Executors.newFixedThreadPool(1);
+		final Future<Integer> task = service.submit(new ComputerAI(board.getCups()));
+
+		try {
+			// waits the 5 seconds for the Callable.call to finish.
+			final Integer move = task.get(); //   ExecutionException if thread dies
+			System.out.println(move);
+			return move;
+		} catch (final InterruptedException ex) {
+			ex.printStackTrace();
+		} catch (final ExecutionException ex) {
+			ex.printStackTrace();
+		}
+		service.shutdownNow();
+		return 0;
+
+	}
 	public int getQtyMarbles(int cup) {
 		return board.getContent(cup);
 	}
@@ -269,24 +291,10 @@ public class BoardPanel extends JPanel {
 	public boolean isMouseEnabled() {
 		return this.mouseEnabled;
 	}
-	
-	public void setMouseEnabled(boolean isEnabled){
+
+	public void setMouseEnabled(boolean isEnabled) {
 		this.mouseEnabled = isEnabled;
 	}
 
-	public int computerAI() {
 
-		ArrayList<Cup> cups = new ArrayList();
-		for (int i = 0; i < board.getCups().length; i++) {
-			cups.add(board.getCups()[i]);
-		}
-		List<Cup> computerCups = cups.subList(cups.indexOf(cups.get(7)), cups.indexOf(cups.get(13)));
-		System.out.println(computerCups);
-		System.out.println(computerCups.size());
-		ComputerAI ai = new ComputerAI(computerCups);
-		int move = ai.calculateBestMove();
-		System.out.println(move);
-		return move;
-
-	}
 }
