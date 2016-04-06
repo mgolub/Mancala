@@ -75,21 +75,15 @@ public class GameGui extends JFrame {
 
 					@Override
 					public void mouseClicked(MouseEvent event) {
-						if ((board.isMouseEnabled())) {
-							Cup cup = (Cup) event.getSource();
-							int humanIndex = (Integer) cup.getClientProperty("index");
-							board.turn(humanIndex);
-							board.setMouseEnabled(false);
-							descriptionLabel.setText(board.description());
-							if (!cup.isEnabled() || (board.getQtyMarbles(humanIndex) == 0)) {
-								return;
-							}
-						} else {
+						Cup cup = (Cup) event.getSource();
+						int humanIndex = (Integer) cup.getClientProperty("index");
+						if ((!cup.isEnabled() || board.getQtyMarbles(humanIndex) == 0)) {
+							return;	}
+						board.turn(humanIndex);
+						descriptionLabel.setText(board.description());
 						int compIndex = board.computerAI();
-							board.setMouseEnabled(true);
-							board.turn(compIndex);
-							descriptionLabel.setText(board.description());
-						}
+						board.turn(compIndex);
+						descriptionLabel.setText(board.description());
 					}
 				});
 			}

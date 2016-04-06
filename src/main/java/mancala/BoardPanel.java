@@ -53,6 +53,49 @@ public class BoardPanel extends JPanel {
 					"Left over peices added to " + players.playersName(piecesAdded) + "'s goal!!");
 			repaint();
 		}
+		winner();
+
+		if (goalTurn) {
+			changeDescription(3);
+			if (mouseEnabled == false) {
+				index = computerAI();
+				board.distribute(index);
+			}
+		} else if (!goalTurn) {
+
+			players.switchPlayers();
+			mouseEnabled = true;
+
+			if (players.getCurrentPlayer() == 1) {
+				mouseEnabled = false;
+			}
+		}
+		changeDescription(1);
+		disableCups();
+
+	}
+
+	public int computerAI() {
+		// To ensure that the task finishes before the value is returned
+
+		final ExecutorService service = Executors.newFixedThreadPool(1);
+		final Future<Integer> task = service.submit(new ComputerAI(board.getCups()));
+
+		try {
+			// waits the 3 seconds for the Callable.call to finish.
+			final Integer move = task.get();
+			System.out.println(move);
+			return move;
+		} catch (final InterruptedException ex) {
+			ex.printStackTrace();
+		} catch (final ExecutionException ex) {
+			ex.printStackTrace();
+		}
+		service.shutdownNow();
+		return 0;
+	}
+
+	private void winner() {
 		if (board.checkGame()) {
 			winner = board.calculateWinner();
 			switch (winner) {
@@ -72,20 +115,6 @@ public class BoardPanel extends JPanel {
 			return;
 
 		}
-		if (goalTurn) {
-			changeDescription(3);
-		} else if (!goalTurn) {
-
-			players.switchPlayers();
-
-			if (players.getCurrentPlayer() == 1) {
-				mouseEnabled = false;
-			}
-		}
-
-		changeDescription(1);
-		disableCups();
-
 	}
 
 	private void disableCups() {
@@ -182,25 +211,7 @@ public class BoardPanel extends JPanel {
 		panel.add(spaceHolder);
 
 	}
-	public int computerAI() {
 
-		final ExecutorService service = Executors.newFixedThreadPool(1);
-		final Future<Integer> task = service.submit(new ComputerAI(board.getCups()));
-
-		try {
-			// waits the 5 seconds for the Callable.call to finish.
-			final Integer move = task.get(); //   ExecutionException if thread dies
-			System.out.println(move);
-			return move;
-		} catch (final InterruptedException ex) {
-			ex.printStackTrace();
-		} catch (final ExecutionException ex) {
-			ex.printStackTrace();
-		}
-		service.shutdownNow();
-		return 0;
-
-	}
 	public int getQtyMarbles(int cup) {
 		return board.getContent(cup);
 	}
@@ -295,6 +306,5 @@ public class BoardPanel extends JPanel {
 	public void setMouseEnabled(boolean isEnabled) {
 		this.mouseEnabled = isEnabled;
 	}
-
 
 }

@@ -20,28 +20,31 @@ public class ComputerAI implements Callable<Integer> {
 			cupsList.add(cupsArray[i]);
 		}
 		cups = cupsList.subList(cupsList.indexOf(cupsList.get(7)), cupsList.indexOf(cupsList.get(13)));
-		// Collections.reverse(cups);
+		 Collections.reverse(cups);
 		cupAmounts = new HashMap<Cup, Integer>();
 	}
 
 	public Integer call() {
 		try {
-			// sleep for 5 seconds
-			Thread.sleep(5 * 1000);
+			// sleep for 3 seconds
+			Thread.sleep(2 * 1000);
 		} catch (final InterruptedException ex) {
 			ex.printStackTrace();
 		}
-		
+
 		List<Integer> counts = new ArrayList<Integer>();
 		int move = 0;
 
 		for (int i = 0; i < cups.size(); i++) {
-			cupAmounts.put(cups.get(i), cups.get(i).getCount());
-			if (cups.get(i).getCount() == cups.indexOf(cups.get(i)) + 1) {
+			Cup cupIndx = cups.get(i);
+			cupAmounts.put(cupIndx, cupIndx.getCount());
+
+			if (cupIndx.getCount() == cups.indexOf(cupIndx) + 1) {
 				return switchMove(i);
 
-			} else if (cups.get(i).getCount() > i) {
-				counts.add(cups.get(i).getCount());
+			} else if (cupIndx.getCount() > i && cupIndx.getCount() > 0) {
+				counts.add(cupIndx.getCount());
+				System.out.println(counts);
 
 				for (Map.Entry entry : cupAmounts.entrySet()) {
 					if (counts.get(0).equals(entry.getValue())) {
@@ -54,7 +57,9 @@ public class ComputerAI implements Callable<Integer> {
 		System.out.println(counts + "b4");
 		Collections.sort(counts);
 		System.out.println(counts + "after");
-		return switchMove(move);
+		return
+
+		switchMove(move);
 	}
 
 	private int switchMove(int move) {
