@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -28,7 +29,7 @@ public class GameGui extends JFrame {
 	private JPanel optionsPanel, statsPanel;
 	private JButton newGameButton, rulesButton;
 	private JLabel statsLabel1, statsLabel2, descriptionLabel;
-
+	private PieceAnimation animation;
 	private Players players;
 	private BoardPanel board;
 
@@ -43,9 +44,10 @@ public class GameGui extends JFrame {
 
 		optionsPanel = new JPanel();
 		players = new Players(name1, name2);
-		board = new BoardPanel(this.players);
+		animation = new PieceAnimation();
+		board = new BoardPanel(this.players, animation);
 		statsPanel = new JPanel(new BorderLayout());
-
+		
 		setPanels();
 
 		newGameButton = new JButton("New Game");
@@ -85,6 +87,9 @@ public class GameGui extends JFrame {
 				});
 			}
 		}
+		setGlassPane(animation);
+		getGlassPane().setVisible(true);
+		pack();
 	}
 
 	/*
@@ -155,8 +160,12 @@ public class GameGui extends JFrame {
 		optionsPanel.add(rulesButton);
 		add(optionsPanel, BorderLayout.NORTH);
 
+		//JLayeredPane boardMid = new JLayeredPane();
+		JPanel boardMid = new JPanel();
+		//boardMid.add(animation);
+		//boardMid.add(board);
 		add(board, BorderLayout.CENTER);
-
+		
 		// statsPanel.add(statsLabel1, BorderLayout.EAST);
 		// statsPanel.add(statsLabel2, BorderLayout.WEST);
 		statsPanel.add(descriptionLabel, BorderLayout.NORTH);
@@ -185,6 +194,7 @@ public class GameGui extends JFrame {
 	public static void main(String[] args) {
 		GameGui test = new GameGui("one", "two");
 		test.setVisible(true);
+	
 
 	}
 

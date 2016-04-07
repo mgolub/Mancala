@@ -1,6 +1,7 @@
 package mancala;
 
 import java.applet.Applet;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -25,15 +27,72 @@ public class PieceAnimation extends JPanel {
 	private Timer timer;
 	private Image piece;
 
-	public PieceAnimation(Cup[] cupComponents, int cupNumber, int pieceAmount) {
+	public PieceAnimation() {
+	
+	}
 
+	public void animate(int cupNumber, int pieceAmount){	
 		piece = new ImageIcon(getClass().getResource("/BlueMarble.png"))
 				.getImage();
+		//cupComponents[cupNumber].cupsMarbles();
 		this.cupNumber = cupNumber + 1;// assume cupNumber starts at 0
 		this.pieceAmount = pieceAmount;
-		xAxis = cupComponents[cupNumber].getX();
-		xAxis += cupComponents[cupNumber].getComponentY();
-		yAxis = cupComponents[cupNumber].getY() + 200;
+
+		switch(this.cupNumber){
+		case 1:
+			xAxis = 215;
+			yAxis = 423;
+			break;
+		case 2:
+			xAxis = 328;
+			yAxis = 423;
+			break;
+		case 3:
+			xAxis = 441;
+			yAxis = 423;
+			break;
+		case 4:
+			xAxis = 554;
+			yAxis = 423;
+			break;
+		case 5:
+			xAxis = 667;
+			yAxis = 423;
+			break;
+		case 6:
+			xAxis = 780;
+			yAxis = 423;
+			break;
+		case 7: //goal
+			xAxis=880;
+		case 8:
+			xAxis = 780;
+			yAxis = 290;
+			break;
+		case 9:
+			xAxis = 667;
+			yAxis = 290;
+			break;
+		case 10:
+			xAxis = 554;
+			yAxis = 290;
+			break;
+		case 11:
+			xAxis = 441;
+			yAxis = 290;
+			break;
+		case 12:
+			xAxis = 328;
+			yAxis = 290;
+			break;
+		case 13:
+			xAxis = 215;
+			yAxis = 290;
+			break;
+		case 14://goal 2
+			xAxis = 115;
+		}
+		
 		yAxisTemp = yAxis;
 		repaint();
 
@@ -45,7 +104,7 @@ public class PieceAnimation extends JPanel {
 			}
 
 		};
-		timer = new Timer(10, animater);
+		timer = new Timer(2, animater);
 		timer.start();
 
 	}
@@ -53,23 +112,29 @@ public class PieceAnimation extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+		setOpaque(false);
 		for (int i = 0; i < pieceAmount; i++) {
-		
-			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
 
+			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
+			setOpaque(false);
+
+			if (cupNumber == 1 && yAxis == yAxisTemp + 100){
+				pieceAmount--;
+				yAxisTemp -=100;
+				dropPieceSound();
+			}
 			// if marbles reach next cup to the left(assume each cup is 100
 			// away)
 			if (yAxis == yAxisTemp - 113) {
-				yAxisTemp -= 100;
+				yAxisTemp -= 113;
 				pieceAmount--;
 				cupNumber--;
 				dropPieceSound();
 
-			}// if marbles reach next cup to the right (assume each cup is 100
+			} // if marbles reach next cup to the right (assume each cup is 100
 				// away)
 			else if (yAxis == yAxisTemp + 113) {
-				yAxisTemp += 100;
+				yAxisTemp += 113;
 				pieceAmount--;
 				cupNumber--;
 				dropPieceSound();
@@ -99,11 +164,13 @@ public class PieceAnimation extends JPanel {
 		else if (cupNumber == 14) {
 			yAxis++;
 			xAxis++;
+			
 		}
 		// if in cup one move lower left
 		else if (cupNumber == 1) {
 			yAxis--;
 			xAxis++;
+			cupNumber = 14;
 		}
 		// if in cup eight move upper right
 		else if (cupNumber == 8) {
@@ -118,8 +185,7 @@ public class PieceAnimation extends JPanel {
 		new Thread(new Runnable() {
 
 			public void run() {
-				Applet.newAudioClip(getClass().getResource("/marbleDrop.wav"))
-						.play();
+				Applet.newAudioClip(getClass().getResource("/marbleDrop.wav")).play();
 			}
 		}).start();
 	}

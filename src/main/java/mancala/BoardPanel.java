@@ -19,9 +19,11 @@ public class BoardPanel extends JPanel {
 	private Players players;
 	private int winner;
 	private String turnDescriptioin;
-
-	public BoardPanel(Players players) {
+	private PieceAnimation animation;
+	
+	public BoardPanel(Players players, PieceAnimation animate) {
 		this.players = players;
+		this.animation = animate;
 		this.setLayout(new BorderLayout());
 		createComponents();
 		formatComponetents();
@@ -33,6 +35,7 @@ public class BoardPanel extends JPanel {
 	// called by action listener
 	public void turn(int index) {
 		boolean goalTurn = board.distribute(index);
+		animation.animate(12, 14);
 		// returns true if landed in a goal
 		setPlayersEnabled();
 		repaint();
