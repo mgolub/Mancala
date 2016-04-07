@@ -90,42 +90,9 @@ public class GameGui extends JFrame {
 		setGlassPane(animation);
 		getGlassPane().setVisible(true);
 		animation.setOpaque(false);
-		getGlassPane().repaint();
-		//repaint();
+		repaint();
 		pack();
 	}
-
-	/*
-	 * board.addMouseListener(new MouseListener() {
-	 * 
-	 * @Override public void mouseClicked(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void mouseEntered(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void mouseExited(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void mousePressed(MouseEvent e) { System.out.print("X "
-	 * +e.getX()); System.out.println(" Y " +e.getY());
-	 * 
-	 * }
-	 * 
-	 * @Override public void mouseReleased(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * }); }
-	 */
-
 	private void setPanels() {
 		optionsPanel = new JPanel();
 		statsPanel = new JPanel(new BorderLayout());

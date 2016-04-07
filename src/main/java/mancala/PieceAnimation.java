@@ -1,18 +1,11 @@
 package mancala;
 
 import java.applet.Applet;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -31,65 +24,80 @@ public class PieceAnimation extends JPanel {
 	
 	}
 
-	public void animate(int cupNumber, int pieceAmount){	
+	public void animate(int cupNumberIndex, int pieceAmount){	
 		piece = new ImageIcon(getClass().getResource("/BlueMarble.png"))
 				.getImage();
 		//cupComponents[cupNumber].cupsMarbles();
-		this.cupNumber = cupNumber + 1;// assume cupNumber starts at 0
+		
+		this.cupNumber = cupNumberIndex + 1;// assume cupNumber starts at 0
 		this.pieceAmount = pieceAmount;
 
 		switch(this.cupNumber){
 		case 1:
+			cupNumber= 13;
 			xAxis = 215;
 			yAxis = 423;
 			break;
 		case 2:
+			cupNumber = 12;
 			xAxis = 328;
 			yAxis = 423;
 			break;
 		case 3:
+			cupNumber = 11;
 			xAxis = 441;
 			yAxis = 423;
 			break;
 		case 4:
+			cupNumber = 10;
 			xAxis = 554;
 			yAxis = 423;
 			break;
 		case 5:
+			cupNumber = 9;
 			xAxis = 667;
 			yAxis = 423;
 			break;
 		case 6:
+			cupNumber = 8;
 			xAxis = 780;
 			yAxis = 423;
 			break;
 		case 7: //goal
+			cupNumber = 7;
 			xAxis=880;
 		case 8:
+			cupNumber = 6;
 			xAxis = 780;
 			yAxis = 290;
 			break;
 		case 9:
+			cupNumber = 5;
 			xAxis = 667;
 			yAxis = 290;
 			break;
 		case 10:
+			cupNumber = 4;
 			xAxis = 554;
 			yAxis = 290;
 			break;
 		case 11:
+			cupNumber = 3;
 			xAxis = 441;
 			yAxis = 290;
 			break;
 		case 12:
+			cupNumber = 2;
 			xAxis = 328;
 			yAxis = 290;
 			break;
 		case 13:
+			cupNumber = 1;
 			xAxis = 215;
 			yAxis = 290;
 			break;
 		case 14://goal 2
+			cupNumber = 14;
 			xAxis = 115;
 		}
 		
@@ -112,7 +120,6 @@ public class PieceAnimation extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setOpaque(false);
 		for (int i = 0; i < pieceAmount; i++) {
 
 			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
@@ -177,7 +184,6 @@ public class PieceAnimation extends JPanel {
 			yAxis++;
 			xAxis--;
 		}
-
 	}
 
 	private void dropPieceSound() {
