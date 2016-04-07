@@ -80,19 +80,19 @@ public class BoardPanel extends JPanel {
 
 		final ExecutorService service = Executors.newFixedThreadPool(1);
 		final Future<Integer> task = service.submit(new ComputerAI(board.getCups()));
-
+		Integer move = 0;
 		try {
-			// waits the 3 seconds for the Callable.call to finish.
-			final Integer move = task.get();
+			move = task.get();
 			System.out.println(move);
-			return move;
+
 		} catch (final InterruptedException ex) {
 			ex.printStackTrace();
 		} catch (final ExecutionException ex) {
 			ex.printStackTrace();
 		}
+
 		service.shutdownNow();
-		return 0;
+		return move;
 	}
 
 	private void winner() {

@@ -1,15 +1,14 @@
 package mancala;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-//TODO Fix Logic
 public class ComputerAI implements Callable<Integer> {
-
 	List<Cup> cups;
 	Map<Cup, Integer> cupAmounts;
 
@@ -20,26 +19,32 @@ public class ComputerAI implements Callable<Integer> {
 			cupsList.add(cupsArray[i]);
 		}
 		cups = cupsList.subList(cupsList.indexOf(cupsList.get(7)), cupsList.indexOf(cupsList.get(13)));
-		 Collections.reverse(cups);
+		Collections.reverse(cups);
 		cupAmounts = new HashMap<Cup, Integer>();
 	}
 
+	/**First Choice: Land in goal- If number of marbles in the cup  is equal to the index
+	 *  of the cup +1, then the marbles will land in the goal.
+	 *  Second Choice: Drop marble in goal, but move the least amount of pieces to the other side-
+	 *  Move the cup that has the least amount of marbles, but  the quantity still >index of cup. 
+	 *  If cup has no marbles in it, keep repeating choice 2.   **/
+	
 	public Integer call() {
 		try {
-			// sleep for 3 seconds
-			Thread.sleep(2 * 1000);
+			Thread.sleep(1 * 1000);
 		} catch (final InterruptedException ex) {
 			ex.printStackTrace();
 		}
-
 		List<Integer> counts = new ArrayList<Integer>();
 		int move = 0;
+		boolean returned = false;
 
 		for (int i = 0; i < cups.size(); i++) {
 			Cup cupIndx = cups.get(i);
 			cupAmounts.put(cupIndx, cupIndx.getCount());
 
 			if (cupIndx.getCount() == cups.indexOf(cupIndx) + 1) {
+				returned = true;
 				return switchMove(i);
 
 			} else if (cupIndx.getCount() > i && cupIndx.getCount() > 0) {
@@ -48,18 +53,15 @@ public class ComputerAI implements Callable<Integer> {
 
 				for (Map.Entry entry : cupAmounts.entrySet()) {
 					if (counts.get(0).equals(entry.getValue())) {
+						if (entry.getValue().equals(0)) {
+							break;
+						}
 						move = cups.indexOf((Cup) entry.getKey());
 					}
 				}
 			}
 		}
-
-		System.out.println(counts + "b4");
-		Collections.sort(counts);
-		System.out.println(counts + "after");
-		return
-
-		switchMove(move);
+		return switchMove(move);
 	}
 
 	private int switchMove(int move) {
