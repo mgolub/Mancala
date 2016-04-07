@@ -35,7 +35,7 @@ public class BoardPanel extends JPanel {
 	// called by action listener
 	public void turn(int index) {
 		boolean goalTurn = board.distribute(index);
-		animation.animate(12, 14);
+		animation.animate(index, 4);
 		// returns true if landed in a goal
 		setPlayersEnabled();
 		repaint();

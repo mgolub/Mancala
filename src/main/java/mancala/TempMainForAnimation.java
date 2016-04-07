@@ -28,7 +28,7 @@ public class TempMainForAnimation {
 		
 		
 		PieceAnimation animation = new PieceAnimation();
-		animation.animate(12, 19);
+		animation.animate(12, 4);
 		JFrame app = new JFrame();
 		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		app.add(animation);
