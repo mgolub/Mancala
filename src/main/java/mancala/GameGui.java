@@ -89,6 +89,7 @@ public class GameGui extends JFrame {
 		}
 		setGlassPane(animation);
 		getGlassPane().setVisible(true);
+		animation.setOpaque(false);
 		getGlassPane().repaint();
 		//repaint();
 		pack();
