@@ -55,6 +55,7 @@ public class PieceAnimation extends JPanel {
 		super.paintComponent(g);
 
 		for (int i = 0; i < pieceAmount; i++) {
+			
 		
 			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
 
