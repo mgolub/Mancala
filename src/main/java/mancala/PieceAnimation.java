@@ -30,7 +30,7 @@ public class PieceAnimation extends JPanel {
 		this.cupComponents = cups;
 		// cupComponents[cupNumber].cupsMarbles();
 		this.pieceAmount = pieceAmount;
-
+		this.cupNumber = cupNumberIndex;
 		switch (this.cupNumber) {
 		case 0:
 			xAxis = 215;
@@ -92,21 +92,17 @@ public class PieceAnimation extends JPanel {
 		ActionListener animater = new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				repaint();
 			}
-
 		};
 		timer = new Timer(2, animater);
 		timer.start();
-
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (int i = 0; i < pieceAmount; i++) {
-
 			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
 			setOpaque(false);
 
@@ -196,7 +192,6 @@ public class PieceAnimation extends JPanel {
 				if (board.currentPlayersGoal(position)) {
 					board.setPiecesWon(board.getPiecesWon() + 1);
 					((Goal) this.cupComponents[position]).addPiece(pieces[i]);
-
 				} else {
 					i--;
 				}
@@ -208,9 +203,6 @@ public class PieceAnimation extends JPanel {
 				position = -1;// 0 after increment
 			}
 		} // pieces done being distributed
-
 		return board.checkTurn();
-
 	}
-
 }
