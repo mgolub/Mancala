@@ -1,15 +1,18 @@
 package mancala;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
+
 import javax.swing.JComponent;
 
 public class Cup extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	protected ArrayList<Image> cupsMarbles;
 	protected int count;
 	protected int x;
@@ -28,7 +31,6 @@ public class Cup extends JComponent {
 		this.y = y;
 	}
 
-	
 	public void setCount(int count) {
 		this.count = count;
 		repaint();
@@ -43,6 +45,11 @@ public class Cup extends JComponent {
 	protected void paintComponent(Graphics g) {
 
 		int piecesDrawn = 0, piecesPerRow = 4, location = 0, rows = 1;
+		// g.drawRect(25, 90, this.getWidth()/2, this.getHeight()/14);
+		g.fillRoundRect(20, 89, this.getWidth()/2, this.getHeight()/14, 12, 10);
+		g.setColor(Color.GREEN);
+		g.setFont(new Font("Arial", Font.BOLD , 18));
+		g.drawString(String.valueOf(this.cupsMarbles.size()), 42, 105);
 		for (int i = 0; i < count; i++) {
 			if (piecesDrawn % piecesPerRow == 0) {
 				rows++;
@@ -69,8 +76,8 @@ public class Cup extends JComponent {
 
 	public Image[] removePieces() {
 		Image[] pieces = new Image[count];
-		int upTo =0;
-		for(Image marble: cupsMarbles){
+		int upTo = 0;
+		for (Image marble : cupsMarbles) {
 			pieces[upTo++] = marble;
 		}
 		count = 0;
@@ -80,17 +87,14 @@ public class Cup extends JComponent {
 
 	public void reset() {
 		count = 4;
-		if(cupsMarbles.size() != 4){
+		if (cupsMarbles.size() != 4) {
 			System.out.println("in methodd reset of sups");
-		//	cupsMarbles.clear();
-	//		cupsMarbles.add();
-		//	cupsMarbles.add();
-			//cupsMarbles.add();
-			//cupsMarbles.add();
+			// cupsMarbles.clear();
+			// cupsMarbles.add();
+			// cupsMarbles.add();
+			// cupsMarbles.add();
+			// cupsMarbles.add();
 		}
-		
-		
-		
 
 	}
 

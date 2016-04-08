@@ -1,6 +1,8 @@
 package mancala;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -16,6 +18,10 @@ public class Goal extends Cup {
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		g.fillRoundRect(0, 230, this.getWidth()/2, this.getHeight()/24, 12, 10);
+		g.setColor(Color.GREEN);
+		g.setFont(new Font("Arial", Font.BOLD , 18));
+		g.drawString(String.valueOf(this.cupsMarbles.size()), 20, 245);
 		int piecesDrawn = 0, piecesPerRow = 10, location = 0, rows = 1;
 		for (int i = 0; i < count; i++) {
 			if (piecesDrawn % piecesPerRow == 0) {

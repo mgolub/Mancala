@@ -7,7 +7,9 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -20,6 +22,8 @@ public class BoardPanel extends JPanel {
 	private int winner;
 	private String turnDescriptioin;
 
+	// private JLabel[] cupAmounts;
+
 	public BoardPanel(Players players) {
 		this.players = players;
 		this.setLayout(new BorderLayout());
@@ -27,7 +31,6 @@ public class BoardPanel extends JPanel {
 		formatComponetents();
 		addComponets();
 		this.changeDescription(1);
-
 	}
 
 	// called by action listener
@@ -73,7 +76,8 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void setPlayersEnabled() {
-		//if its playeres 1s turn first 6 are enabled if its players 2s turn second 6 are enabled
+		// if its playeres 1s turn first 6 are enabled if its players 2s turn
+		// second 6 are enabled
 		boolean enabled = (players.currentPlayerNum() == 1);
 		for (int i = 0; i < 6; i++) {
 			board.getCup(i).setEnabled(enabled);
@@ -92,6 +96,7 @@ public class BoardPanel extends JPanel {
 		goalPanel1 = new JPanel(new GridBagLayout());
 		goalPanel2 = new JPanel(new GridBagLayout());
 		board = new Board(players);
+		
 		addCups();
 
 	}
@@ -105,6 +110,7 @@ public class BoardPanel extends JPanel {
 		for (int i = 12; i >= 7; i--) {
 
 			cupPanel2.add(board.getCup(i));
+
 		}
 
 	}
@@ -194,10 +200,10 @@ public class BoardPanel extends JPanel {
 				board.getGoal(i).setCount(board.getContent(i));
 			}
 		}
-		for (int i = 0; i < 14; i++) {
+		/*for (int i = 0; i < 14; i++) {
 			board.getCup(i).setToolTipText(
 					Integer.toString(board.getContent(i)));
-		}
+		}*/
 		repaint();
 	}
 

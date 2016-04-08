@@ -5,11 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -23,6 +19,12 @@ public class PieceAnimation extends JPanel {
 	private int xAxis;
 	private int yAxisTemp;
 	private Timer timer;
+
+	// my testing
+	private int xA;
+	private int yA;
+	private Image otherPiece;
+
 	private Image piece;
 
 	public PieceAnimation(Cup[] cupComponents, int cupNumber, int pieceAmount) {
@@ -35,6 +37,11 @@ public class PieceAnimation extends JPanel {
 		xAxis += cupComponents[cupNumber].getComponentY();
 		yAxis = cupComponents[cupNumber].getY() + 200;
 		yAxisTemp = yAxis;
+		// my test
+		xA = cupComponents[cupNumber].getComponentX();
+		yA = cupComponents[cupNumber].getComponentY();
+		otherPiece = new ImageIcon(getClass().getResource("/YellowMarble.png"))
+				.getImage();
 		repaint();
 
 		ActionListener animater = new ActionListener() {
@@ -55,8 +62,7 @@ public class PieceAnimation extends JPanel {
 		super.paintComponent(g);
 
 		for (int i = 0; i < pieceAmount; i++) {
-			
-		
+
 			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
 
 			// if marbles reach next cup to the left(assume each cup is 100

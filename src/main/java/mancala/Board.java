@@ -33,7 +33,7 @@ public class Board {
 					cups[i] = new Cup(639, 1560, marbles);
 				}
 			}
-			cups[i].setToolTipText(Integer.toString(getContent(i)));
+		//	cups[i].setToolTipText(Integer.toString(getContent(i)));
 
 		}
 	}
