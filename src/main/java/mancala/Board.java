@@ -3,8 +3,6 @@ package mancala;
 import java.awt.Image;
 import java.util.Arrays;
 
-
-
 //logic of a computer mancala game 
 
 public class Board {
@@ -67,54 +65,45 @@ public class Board {
 		return cups[i].getCount();
 	}
 
-	public boolean distribute(int startPosit) {
-		start = startPosit;
-		Image[] pieces = cups[start].removePieces();
-
-		for (int i = 0, position = start + 1; i < pieces.length; i++, position++) {
-			if (position != GOAL1 && position != GOAL2) {
-				cups[position].addPiece(pieces[i]);
-			} else {
-				if (currentPlayersGoal(position)) {
-					piecesWon++;
-					((Goal) cups[position]).addPiece(pieces[i]);
-
-				} else {
-					i--;
-				}
-				// board[position].repaint();
-			}
-
-			start = position;
-			if (position == cups.length - 1) {
-				position = -1;// 0 after increment
-			}
-		} // pieces done being distributed
-
-		return checkTurn();
+	public boolean distribute(int startPosit, PieceAnimation animator) {
+		/*
+		 * start = startPosit; Image[] pieces = cups[start].removePieces();
+		 * 
+		 * for (int i = 0, position = start + 1; i < pieces.length; i++,
+		 * position++) { if (position != GOAL1 && position != GOAL2) {
+		 * cups[position].addPiece(pieces[i]); } else { if
+		 * (currentPlayersGoal(position)) { piecesWon++; ((Goal)
+		 * cups[position]).addPiece(pieces[i]);
+		 * 
+		 * } else { i--; } // board[position].repaint(); }
+		 * 
+		 * start = position; if (position == cups.length - 1) { position = -1;//
+		 * 0 after increment } } // pieces done being distributed
+		 * 
+		 * return checkTurn();
+		 */
+		return animator.distibute(start, this);
+		
 	}
 
-	private boolean currentPlayersGoal(int position) {
+	public boolean currentPlayersGoal(int position) {
 		return (position == GOAL1 && players.currentPlayerNum() == 1)
 				|| (position == GOAL2 && players.currentPlayerNum() == 2);
 	}
 
 	// checks to see if landed in a goal our landed in an empty cup
-	private boolean checkTurn() {
-		
+	public boolean checkTurn() {
+
 		if (getContent(start) == 1) {
 			if (start > -1 && start < 6 && players.currentPlayerNum() == 1) {
 				Image[] pieces = cups[start].removePieces();
 				Image[] otherPieces = cups[Math.abs(start - 12)].removePieces();
-				Image[] allPieces = Arrays.copyOf(pieces, pieces.length
-						+ otherPieces.length);
-				System.arraycopy(otherPieces, 0, allPieces, pieces.length,
-						otherPieces.length);
+				Image[] allPieces = Arrays.copyOf(pieces, pieces.length + otherPieces.length);
+				System.arraycopy(otherPieces, 0, allPieces, pieces.length, otherPieces.length);
 				// System.out.println("amount is " + amount);
 				piecesWon = piecesWon + allPieces.length;
 				((Goal) cups[6]).addToGoal(allPieces);
-			} else if (start > 6 && start < 13
-					&& players.currentPlayerNum() == 2) {
+			} else if (start > 6 && start < 13 && players.currentPlayerNum() == 2) {
 				Image[] pieces = cups[start].removePieces();
 				Image[] otherPieces = cups[Math.abs(start - 12)].removePieces();
 				Image[] allPieces = this.combineTwoArrays(pieces, otherPieces);
@@ -180,10 +169,8 @@ public class Board {
 	}
 
 	private Image[] combineTwoArrays(Image[] pieces, Image[] otherPieces) {
-		Image[] allPieces = Arrays.copyOf(pieces, pieces.length
-				+ otherPieces.length);
-		System.arraycopy(otherPieces, 0, allPieces, pieces.length,
-				otherPieces.length);
+		Image[] allPieces = Arrays.copyOf(pieces, pieces.length + otherPieces.length);
+		System.arraycopy(otherPieces, 0, allPieces, pieces.length, otherPieces.length);
 		return allPieces;
 
 	}
@@ -201,10 +188,24 @@ public class Board {
 	}
 
 	public void disableAllCups() {
-		
-		for(Cup cup: cups){
-			cup.setEnabled(false);;
+
+		for (Cup cup : cups) {
+			cup.setEnabled(false);
+			;
 		}
-		
+
 	}
+
+	public int getPiecesWon() {
+		return this.piecesWon;
+	}
+
+	public void setPiecesWon(int value) {
+		this.piecesWon = value;
+	}
+
+	public Cup[] getCups() {
+		return this.cups;
+	}
+
 }

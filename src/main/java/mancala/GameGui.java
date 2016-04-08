@@ -87,6 +87,46 @@ public class GameGui extends JFrame {
 				});
 			}
 		}
+		
+		
+		/*
+		board.addMouseListener(new MouseListener(){
+	
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("X = " + e.getX());
+				System.out.println("Y = " + e.getY());
+			}
+
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+				System.out.println("X = " + e.getX());
+				System.out.println("Y = " + e.getY());
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+				System.out.println("X = " + e.getX());
+				System.out.println("Y = " + e.getY());
+				
+			}
+			
+		});*/
+		
+		
+		
+		
 		setGlassPane(animation);
 		getGlassPane().setVisible(true);
 		animation.setOpaque(false);
@@ -158,6 +198,7 @@ public class GameGui extends JFrame {
 				rulesFrame.setVisible(true);
 			}
 		});
+
 
 	}
 

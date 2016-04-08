@@ -34,8 +34,9 @@ public class BoardPanel extends JPanel {
 
 	// called by action listener
 	public void turn(int index) {
-		boolean goalTurn = board.distribute(index);
-		animation.animate(index, 4);
+	
+		animation.animate(board.getCups(),index, 4);
+		boolean goalTurn = board.distribute(index,animation);
 		// returns true if landed in a goal
 		setPlayersEnabled();
 		repaint();
@@ -133,6 +134,8 @@ public class BoardPanel extends JPanel {
 		super.paintComponent(g);
 		BoardImgPanel imgPanel = new BoardImgPanel();
 		g.drawImage(imgPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
+		
+		
 	}
 
 	private void addComponets() {
@@ -174,7 +177,7 @@ public class BoardPanel extends JPanel {
 	}
 
 	public boolean distributePieces(int startCup) {
-		return board.distribute(startCup);
+		return board.distribute(startCup,animation);
 	}
 
 	public int checkForMoves() {
