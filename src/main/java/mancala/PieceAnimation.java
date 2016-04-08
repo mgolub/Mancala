@@ -148,7 +148,8 @@ public class PieceAnimation extends JPanel {
 		// if in cup 2-6 or 9-13 just move left/right
 		if (cupNumber <12 && cupNumber > 7) {
 			yAxis -= 4;
-		} else if (cupNumber > 0 && cupNumber >6) {
+		} 
+		else if (cupNumber > 0 && cupNumber >6) {
 			yAxis += 4;
 		}
 		// if in goal1 move upper left
@@ -160,13 +161,12 @@ public class PieceAnimation extends JPanel {
 		else if (cupNumber == 13) {
 			yAxis += 4;
 			xAxis += 4;
-
+			cupNumber = 0;
 		}
 		// if in cup one move lower left
-		else if (cupNumber == 13) {
+		else if (cupNumber == 12) {
 			yAxis -= 4;
 			xAxis += 4;
-			cupNumber = 0;
 		}
 		// if in cup eight move upper right
 		else if (cupNumber == 6) {

@@ -93,7 +93,6 @@ public class GameGui extends JFrame {
 		board.addMouseListener(new MouseListener(){
 	
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
 				System.out.println("X = " + e.getX());
 				System.out.println("Y = " + e.getY());
 			}
