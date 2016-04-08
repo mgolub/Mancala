@@ -142,14 +142,14 @@ public class PieceAnimation extends JPanel {
 
 		// if its not the last marble need to move marble(s)
 		// if in cup 2-6 or 9-13 just move left/right
-		if (cupNumber <12 && cupNumber > 7) {
+		if (cupNumber < 12 && cupNumber > 6) {
 			yAxis -= 4;
 		} 
-		else if (cupNumber > 0 && cupNumber >6) {
+		else if (cupNumber >= 0 && cupNumber > 5) {
 			yAxis += 4;
 		}
 		// if in goal1 move upper left
-		else if (cupNumber == 7) {
+		else if (cupNumber == 6) {
 			yAxis -= 4;
 			xAxis -= 4;
 		}
