@@ -46,7 +46,7 @@ public class BoardPanel extends JPanel implements ComputerAI.ComputerMoveListene
 
 	// called by action listener
 	public void turn(int index) {
-		boolean winner=	winner();
+		boolean winner = winner();
 		boolean goalTurn = false;
 
 		if (players.getCurrentPlayer() == 0) {
@@ -63,18 +63,17 @@ public class BoardPanel extends JPanel implements ComputerAI.ComputerMoveListene
 					"Left over peices added to " + players.playersName(piecesAdded) + "'s goal!!");
 			repaint();
 		}
-
-	if(!winner){
-		if (goalTurn) {
-			goalTurn();
-		} else if (!goalTurn) {
-			goAgain = false;
-			players.switchPlayers();
-			mouseEnabled = true;
+		if (!winner) {
+			if (goalTurn) {
+				goalTurn();
+			} else if (!goalTurn) {
+				goAgain = false;
+				players.switchPlayers();
+				mouseEnabled = true;
+			}
+			changeDescription(1);
+			disableCups();
 		}
-		changeDescription(1);
-		disableCups();
-	}	
 	}
 
 	private void goalTurn() {
@@ -112,10 +111,10 @@ public class BoardPanel extends JPanel implements ComputerAI.ComputerMoveListene
 			case 2:
 				players.increaseWins(2);
 				displayWinner();
-		return true;
+				return true;
 			}
 			repaint();
-		
+
 		}
 		return false;
 	}
