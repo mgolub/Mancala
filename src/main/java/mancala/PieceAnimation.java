@@ -212,7 +212,7 @@ public class PieceAnimation extends JPanel {
 		if (position - 1 == Board.GOAL1 || position == 0) {
 			return true;
 		}
-		return board.checkEmptyCup(start );
+		return board.checkEmptyCup(start);
 
 	}
 
