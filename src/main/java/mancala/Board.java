@@ -82,7 +82,7 @@ public class Board {
 		 * 
 		 * return checkTurn();
 		 */
-		return animator.distibute(start, this);
+		return animator.distibute(startPosit, this);
 		
 	}
 

@@ -18,15 +18,16 @@ public class PieceAnimation extends JPanel {
 	private int xAxis;
 	private int yAxisTemp;
 	private Timer timer;
-	private Image piece;
+	//private Image piece;
 	private Cup[] cupComponents;
+	private Image[] pieces;
 
 	public PieceAnimation() {
 
 	}
 
 	public void animate(Cup[] cups, int cupNumberIndex, int pieceAmount) {
-		piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
+		//piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
 		this.cupComponents = cups;
 		// cupComponents[cupNumber].cupsMarbles();
 		this.pieceAmount = pieceAmount;
@@ -103,7 +104,8 @@ public class PieceAnimation extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (int i = 0; i < pieceAmount; i++) {
-			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
+			
+			g.drawImage(pieces[i], yAxis, (i * 15) + xAxis, this);
 			setOpaque(false);
 
 			if (cupNumber == 12 && yAxis == yAxisTemp + 100) {
@@ -183,7 +185,7 @@ public class PieceAnimation extends JPanel {
 
 	public boolean distibute(int start, Board board) {
 
-		Image[] pieces = this.cupComponents[start].removePieces();
+		this.pieces = this.cupComponents[start].removePieces();
 
 		for (int i = 0, position = start + 1; i < pieces.length; i++, position++) {
 			if (position != Board.GOAL1 && position != Board.GOAL2) {
