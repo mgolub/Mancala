@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -18,6 +19,7 @@ public class PieceAnimation extends JPanel {
 	private int xAxis;
 	private int yAxisTemp;
 	private Timer timer;
+
 	private Cup[] cupComponents;
 	private Image[] pieces;
 
@@ -102,14 +104,15 @@ public class PieceAnimation extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (int i = 0; i < pieceAmount; i++) {
-			
+
 			g.drawImage(pieces[i], yAxis, (i * 15) + xAxis, this);
 			setOpaque(false);
 
 			if (cupNumber == 12 && yAxis == yAxisTemp + 100) {
 				pieceAmount--;
-				//add piece to goal
-				((Goal) this.cupComponents[6]).addPiece(cupComponents[3].removePieces()[1]);
+				// add piece to goal
+				((Goal) this.cupComponents[6]).addPiece(cupComponents[3]
+						.removePieces()[1]);
 				yAxisTemp -= 100;
 				dropPieceSound();
 			}
@@ -119,7 +122,8 @@ public class PieceAnimation extends JPanel {
 				yAxisTemp -= 112;
 				pieceAmount--;
 
-				((Goal) this.cupComponents[6]).addPiece(cupComponents[3].removePieces()[1]);
+				((Goal) this.cupComponents[6]).addPiece(cupComponents[3]
+						.removePieces()[1]);
 				cupNumber++;
 				dropPieceSound();
 
@@ -144,8 +148,7 @@ public class PieceAnimation extends JPanel {
 		// if in cup 2-6 or 9-13 just move left/right
 		if (cupNumber < 12 && cupNumber > 6) {
 			yAxis -= 4;
-		} 
-		else if (cupNumber >= 0 && cupNumber > 5) {
+		} else if (cupNumber >= 0 && cupNumber > 5) {
 			yAxis += 4;
 		}
 		// if in goal1 move upper left
@@ -176,7 +179,8 @@ public class PieceAnimation extends JPanel {
 		new Thread(new Runnable() {
 
 			public void run() {
-				Applet.newAudioClip(getClass().getResource("/marbleDrop.wav")).play();
+				Applet.newAudioClip(getClass().getResource("/marbleDrop.wav"))
+						.play();
 			}
 		}).start();
 	}
@@ -184,8 +188,8 @@ public class PieceAnimation extends JPanel {
 	public boolean distibute(int start, Board board) {
 
 		this.pieces = this.cupComponents[start].removePieces();
-
-		for (int i = 0, position = start + 1; i < pieces.length; i++, position++) {
+		int position = start + 1;
+		for (int i = 0; i < pieces.length; i++) {
 			if (position != Board.GOAL1 && position != Board.GOAL2) {
 				this.cupComponents[position].addPiece(pieces[i]);
 			} else {
@@ -195,14 +199,21 @@ public class PieceAnimation extends JPanel {
 				} else {
 					i--;
 				}
-				// board[position].repaint();
 			}
 
 			start = position;
 			if (position == this.cupComponents.length - 1) {
 				position = -1;// 0 after increment
 			}
+			position++;
+
 		} // pieces done being distributed
-		return board.checkTurn();
+			// check if the person should go again
+		if (position - 1 == Board.GOAL1 || position == 0) {
+			return true;
+		}
+		return board.checkEmptyCup(start );
+
 	}
+
 }
