@@ -53,10 +53,7 @@ public class ComputerAI extends Thread {
 				listener.onMove(switchMove(i));
 				System.out.println("called onmove");
 				return;
-
-			}
-
-			else if (cupIndx.getCount() > i && cupIndx.getCount() > 0) {
+			} else if (cupIndx.getCount() > i && cupIndx.getCount() > 0) {
 				counts.add(cupIndx.getCount());
 
 				for (Map.Entry entry : cupAmounts.entrySet()) {
@@ -67,15 +64,14 @@ public class ComputerAI extends Thread {
 			} else if (counts.isEmpty()) {
 				Random rand = new Random();
 				do {
-					move = rand.nextInt(5);
+					move = rand.nextInt(6);
+					System.out.println("called random");
 				} while (cups.get(move).getCount() == 0);
 			}
 		}
 		System.out.println(counts);
-
 		int bestMove = switchMove(move);
 		System.out.println(bestMove);
-
 		listener.onMove(bestMove);
 	}
 

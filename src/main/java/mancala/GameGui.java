@@ -85,9 +85,9 @@ public class GameGui extends JFrame {
 						}
 						board.turn(humanIndex);
 						descriptionLabel.setText(board.description());
-					if(!board.goAgain()){
-						new Timer().schedule(new DelayTask(), 500);
-					}
+						if (!board.goAgain()) {
+							new Timer().schedule(new DelayTask(), 670);
+						}
 					}
 				});
 			}
@@ -98,9 +98,9 @@ public class GameGui extends JFrame {
 		@Override
 		public void run() {
 			board.turn(1);
-			 descriptionLabel.setText(board.description());
+			descriptionLabel.setText(board.description());
 			System.out.println("called timer task");
-	}
+		}
 	}
 
 	private void setPanels() {
