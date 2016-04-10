@@ -19,7 +19,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class BoardPanel extends JPanel {
+public class BoardPanel extends JPanel implements ComputerAI.ComputerMoveListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel cupPanel1, cupPanel2, cupsPanel, goalPanel1, goalPanel2;
@@ -28,6 +28,9 @@ public class BoardPanel extends JPanel {
 	private int winner;
 	private String turnDescription;
 	private boolean mouseEnabled;
+	boolean goAgain;
+	private ComputerAI computerAI;
+	private int computerMove;
 
 	public BoardPanel(Players players) {
 		this.players = players;
@@ -37,15 +40,24 @@ public class BoardPanel extends JPanel {
 		addComponents();
 		this.changeDescription(1);
 		this.mouseEnabled = true;
-
+		this.goAgain = false;
+		this.computerAI = new ComputerAI(board.getCups(), this);
 	}
 
 	// called by action listener
 	public void turn(int index) {
 
-		boolean goalTurn = board.distribute(index);
+		boolean goalTurn = false;
+	
+		if (players.getCurrentPlayer() == 0) {
+			goalTurn = board.distribute(index);
 
-		repaint();
+			repaint();
+		} else if (players.getCurrentPlayer() == 1) {
+			mouseEnabled = false;
+			computerAI.run();
+			board.distribute(getCompMove());
+		}
 
 		int piecesAdded = board.checkForMoves();
 		if (piecesAdded != 0) {
@@ -53,46 +65,58 @@ public class BoardPanel extends JPanel {
 					"Left over peices added to " + players.playersName(piecesAdded) + "'s goal!!");
 			repaint();
 		}
+
 		winner();
 
-		if (goalTurn) {
-			changeDescription(3);
+		if (goalTurn){
+		
 			if (mouseEnabled == false) {
-				index = computerAI();
-				board.distribute(index);
+				computerAI.start();
+				board.distribute(getCompMove());
+			}
+			else {
+				changeDescription(3);
+		       goAgain	= true;
+				System.out.println("player one goes again");
+				return;
+	            
 			}
 		} else if (!goalTurn) {
-
+            goAgain= false;
 			players.switchPlayers();
 			mouseEnabled = true;
 
-			if (players.getCurrentPlayer() == 1) {
-				mouseEnabled = false;
-			}
 		}
+
 		changeDescription(1);
 		disableCups();
 
 	}
 
-	public int computerAI() {
+	public void onMove(int move) {
 		// To ensure that the task finishes before the value is returned
 
-		final ExecutorService service = Executors.newFixedThreadPool(1);
-		final Future<Integer> task = service.submit(new ComputerAI(board.getCups()));
-		Integer move = 0;
-		try {
-			move = task.get();
-			System.out.println(move);
+		// final ExecutorService service = Executors.newFixedThreadPool(1);
+		// final Future<Integer> task = service.submit(new
+		// ComputerAI(board.getCups(), this));
+		// Integer move = 0;
+		// try {
+		// move = task.get();
+		// System.out.println(move);
+		//
+		// } catch (final InterruptedException ex) {
+		// ex.printStackTrace();
+		// } catch (final ExecutionException ex) {
+		// ex.printStackTrace();
+		// }
 
-		} catch (final InterruptedException ex) {
-			ex.printStackTrace();
-		} catch (final ExecutionException ex) {
-			ex.printStackTrace();
-		}
+		// service.shutdownNow();
+		
+		this.computerMove = move;
+	}
 
-		service.shutdownNow();
-		return move;
+	public int getCompMove() {
+		return this.computerMove;
 	}
 
 	private void winner() {
@@ -113,7 +137,6 @@ public class BoardPanel extends JPanel {
 			}
 			repaint();
 			return;
-
 		}
 	}
 
@@ -301,6 +324,10 @@ public class BoardPanel extends JPanel {
 
 	public boolean isMouseEnabled() {
 		return this.mouseEnabled;
+	}
+	
+	public boolean goAgain(){
+		return this.goAgain;
 	}
 
 	public void setMouseEnabled(boolean isEnabled) {

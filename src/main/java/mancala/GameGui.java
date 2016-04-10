@@ -20,6 +20,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameGui extends JFrame {
 
@@ -31,6 +33,7 @@ public class GameGui extends JFrame {
 	private JPanel optionsPanel, statsPanel;
 	private JButton newGameButton, rulesButton;
 	private JLabel statsLabel1, statsLabel2, descriptionLabel;
+	private ComputerAI computerAI;
 
 	private Players players;
 	private BoardPanel board;
@@ -78,48 +81,27 @@ public class GameGui extends JFrame {
 						Cup cup = (Cup) event.getSource();
 						int humanIndex = (Integer) cup.getClientProperty("index");
 						if ((!cup.isEnabled() || board.getQtyMarbles(humanIndex) == 0)) {
-							return;	}
+							return;
+						}
 						board.turn(humanIndex);
 						descriptionLabel.setText(board.description());
-						int compIndex = board.computerAI();
-						board.turn(compIndex);
-						descriptionLabel.setText(board.description());
+					if(!board.goAgain()){
+						new Timer().schedule(new DelayTask(),500);
+					}
 					}
 				});
 			}
 		}
 	}
 
-	/*
-	 * board.addMouseListener(new MouseListener() {
-	 * 
-	 * @Override public void mouseClicked(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void mouseEntered(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void mouseExited(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void mousePressed(MouseEvent e) { System.out.print("X "
-	 * +e.getX()); System.out.println(" Y " +e.getY());
-	 * 
-	 * }
-	 * 
-	 * @Override public void mouseReleased(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * }); }
-	 */
+	class DelayTask extends TimerTask {
+		@Override
+		public void run() {
+			board.turn(1);
+			 descriptionLabel.setText(board.description());
+			System.out.println("called timer task");
+	}
+	}
 
 	private void setPanels() {
 		optionsPanel = new JPanel();
