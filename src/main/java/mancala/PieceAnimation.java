@@ -18,7 +18,6 @@ public class PieceAnimation extends JPanel {
 	private int xAxis;
 	private int yAxisTemp;
 	private Timer timer;
-	//private Image piece;
 	private Cup[] cupComponents;
 	private Image[] pieces;
 
@@ -27,10 +26,9 @@ public class PieceAnimation extends JPanel {
 	}
 
 	public void animate(Cup[] cups, int cupNumberIndex, int pieceAmount) {
-		//piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
 		this.cupComponents = cups;
 		// cupComponents[cupNumber].cupsMarbles();
-		this.pieceAmount = pieceAmount;
+		this.pieceAmount = cups[cupNumberIndex].getCount();
 		this.cupNumber = cupNumberIndex;
 		switch (this.cupNumber) {
 		case 0:
