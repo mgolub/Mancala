@@ -48,49 +48,44 @@ public class BoardPanel extends JPanel implements ComputerAI.ComputerMoveListene
 	public void turn(int index) {
 
 		boolean goalTurn = false;
-	
+
 		if (players.getCurrentPlayer() == 0) {
 			goalTurn = board.distribute(index);
-
 			repaint();
 		} else if (players.getCurrentPlayer() == 1) {
 			mouseEnabled = false;
 			computerAI.run();
-			board.distribute(getCompMove());
+			goalTurn = board.distribute(getCompMove());
 		}
-
 		int piecesAdded = board.checkForMoves();
 		if (piecesAdded != 0) {
 			JOptionPane.showMessageDialog(null,
 					"Left over peices added to " + players.playersName(piecesAdded) + "'s goal!!");
 			repaint();
 		}
-
 		winner();
-
-		if (goalTurn){
-		
-			if (mouseEnabled == false) {
-				computerAI.start();
-				board.distribute(getCompMove());
-			}
-			else {
-				changeDescription(3);
-		       goAgain	= true;
-				System.out.println("player one goes again");
-				return;
-	            
-			}
+		if (goalTurn) {
+			goalTurn();
 		} else if (!goalTurn) {
-            goAgain= false;
+			goAgain = false;
 			players.switchPlayers();
 			mouseEnabled = true;
-
 		}
-
 		changeDescription(1);
 		disableCups();
+	}
 
+	private void goalTurn() {
+		if (mouseEnabled == false) {
+			computerAI.run();
+			board.distribute(getCompMove());
+			players.switchPlayers();
+		} else {
+			changeDescription(3);
+			goAgain = true;
+			System.out.println("player one goes again");
+			return;
+		}
 	}
 
 	public void onMove(int move) {
@@ -307,8 +302,8 @@ public class BoardPanel extends JPanel implements ComputerAI.ComputerMoveListene
 	public boolean isMouseEnabled() {
 		return this.mouseEnabled;
 	}
-	
-	public boolean goAgain(){
+
+	public boolean goAgain() {
 		return this.goAgain;
 	}
 

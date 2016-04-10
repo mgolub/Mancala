@@ -14,9 +14,9 @@ public class ComputerAI extends Thread {
 		public void onMove(int cupNumber);
 	}
 
-	List<Cup> cups;
-	Map<Cup, Integer> cupAmounts;
-	ComputerMoveListener listener;
+	private List<Cup> cups;
+	private Map<Cup, Integer> cupAmounts;
+	private ComputerMoveListener listener;
 
 	public ComputerAI(Cup[] cupsArray, ComputerMoveListener listener) {
 
@@ -40,7 +40,7 @@ public class ComputerAI extends Thread {
 	 **/
 	@Override
 	public void run() {
-	
+
 		List<Integer> counts = new ArrayList<Integer>();
 		int move = 0;
 		boolean returned = false;
@@ -51,23 +51,28 @@ public class ComputerAI extends Thread {
 
 			if (cupIndx.getCount() == cups.indexOf(cupIndx) + 1) {
 				listener.onMove(switchMove(i));
-
 				System.out.println("called onmove");
 				return;
-			} else if (cupIndx.getCount() > i && cupIndx.getCount() > 0) {
+
+			}
+
+			else if (cupIndx.getCount() > i && cupIndx.getCount() > 0) {
 				counts.add(cupIndx.getCount());
 
 				for (Map.Entry entry : cupAmounts.entrySet()) {
 					if (counts.get(0).equals(entry.getValue())) {
-						if (entry.getValue().equals(0)) {
-							break;
-						}
 						move = cups.indexOf((Cup) entry.getKey());
 					}
 				}
+			} else if (counts.isEmpty()) {
+				Random rand = new Random();
+				do {
+					move = rand.nextInt(5);
+				} while (cups.get(move).getCount() == 0);
 			}
 		}
 		System.out.println(counts);
+
 		int bestMove = switchMove(move);
 		System.out.println(bestMove);
 

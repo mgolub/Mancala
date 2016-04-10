@@ -86,7 +86,7 @@ public class GameGui extends JFrame {
 						board.turn(humanIndex);
 						descriptionLabel.setText(board.description());
 					if(!board.goAgain()){
-						new Timer().schedule(new DelayTask(), 600);
+						new Timer().schedule(new DelayTask(), 500);
 					}
 					}
 				});
