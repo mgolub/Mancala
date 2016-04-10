@@ -94,24 +94,6 @@ public class BoardPanel extends JPanel implements ComputerAI.ComputerMoveListene
 	}
 
 	public void onMove(int move) {
-		// To ensure that the task finishes before the value is returned
-
-		// final ExecutorService service = Executors.newFixedThreadPool(1);
-		// final Future<Integer> task = service.submit(new
-		// ComputerAI(board.getCups(), this));
-		// Integer move = 0;
-		// try {
-		// move = task.get();
-		// System.out.println(move);
-		//
-		// } catch (final InterruptedException ex) {
-		// ex.printStackTrace();
-		// } catch (final ExecutionException ex) {
-		// ex.printStackTrace();
-		// }
-
-		// service.shutdownNow();
-		
 		this.computerMove = move;
 	}
 
