@@ -14,9 +14,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -189,12 +191,11 @@ public class BoardPanel extends JPanel implements
 
 	private void formatComponents() {
 		cupsPanel.setLayout(new BoxLayout(cupsPanel, BoxLayout.Y_AXIS));
-		Dimension cupPanelDimension = new Dimension(700, 20);
 		cupsPanel.setOpaque(false);
 		cupPanel1.setOpaque(false);
 		cupPanel2.setOpaque(false);
-		cupPanel1.setPreferredSize(cupPanelDimension);
-		cupPanel2.setPreferredSize(cupPanelDimension);
+		cupPanel1.setPreferredSize(new Dimension(700,50));
+		cupPanel2.setPreferredSize(new Dimension(700,80));
 		goalPanel1.setOpaque(false);
 		goalPanel2.setOpaque(false);
 		goalPanel1.setMinimumSize(new Dimension(150, 700));
@@ -204,19 +205,21 @@ public class BoardPanel extends JPanel implements
 		description.setHorizontalAlignment(SwingConstants.CENTER);
 		this.decriptionPanel.setBackground(Color.BLACK);
 
+
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-		BoardImgPanel imgPanel = new BoardImgPanel();
-		g.drawImage(imgPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
+		g.drawImage(
+				new ImageIcon(getClass().getResource("/MancalaBoardFinal.jpg"))
+						.getImage(), 0, 0, getWidth(), getHeight(), this);
 	}
 
 	private void addComponents() {
 		GridBagConstraints c = new GridBagConstraints();
-		addSpaceHolder(cupsPanel, 200, 190);
+		addSpaceHolder(cupsPanel, 200, 243);
 		cupsPanel.add(cupPanel2, BorderLayout.SOUTH);
 		cupsPanel.add(cupPanel1, BorderLayout.CENTER);
 		addSpaceHolder(cupsPanel, 200, 10);
@@ -226,21 +229,22 @@ public class BoardPanel extends JPanel implements
 		JPanel west = new JPanel();
 		west.setLayout(new GridBagLayout());
 		west.setOpaque(false);
-		c.insets = new Insets(380, 150, 0, 0);
+		c.insets = new Insets(450, 150, 0, 0);
 		west.setPreferredSize(new Dimension(152, 700));
 		west.add(goalPanel2, c);
 
 		JPanel east = new JPanel();
 		east.setLayout(new GridBagLayout());
 		east.setOpaque(false);
-		c.insets = new Insets(380, 0, 0, 20);
+		c.insets = new Insets(450, 0, 0, 20);
 		east.add(goalPanel1, c);
-		
+
 		this.decriptionPanel.add(this.description);
 		add(east, BorderLayout.EAST);
 		add(west, BorderLayout.WEST);
 		add(cupsPanel, BorderLayout.CENTER);
 		add(this.decriptionPanel, BorderLayout.SOUTH);
+		// this.setBackground(Color.RED);
 	}
 
 	private void addSpaceHolder(JPanel panel, int width, int height) {
@@ -302,18 +306,19 @@ public class BoardPanel extends JPanel implements
 	public void changeDescription(int code) {
 		switch (code) {
 		case 1:
-			this.description.setText( players.currentPlayersName() + "'s Turn...");
+			this.description.setText(players.currentPlayersName()
+					+ "'s Turn...");
 			break;
 		case 2:
-			this.description.setText ( "**** GREAT JOB " + players.playersName(winner)
-					+ "!!! ****");
+			this.description.setText("**** GREAT JOB "
+					+ players.playersName(winner) + "!!! ****");
 			break;
 		case 3:
 			this.description.setText(players.currentPlayersName()
 					+ " landed in the goal - player goes again");
 			break;
 		case 4:
-			this.description.setText( "Tie Game - no one wins!");
+			this.description.setText("Tie Game - no one wins!");
 		}
 		resetCups();
 	}
@@ -331,8 +336,6 @@ public class BoardPanel extends JPanel implements
 		// statsLabel2.setText(players.playersName(2) + " Wins: " +
 		// players.gamesWon(2));
 	}
-
-
 
 	public Cup getCup(int cupNum) {
 		return board.getCup(cupNum);

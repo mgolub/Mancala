@@ -32,8 +32,8 @@ public class GameGui extends JFrame {
 
 	private JPanel optionsPanel, statsPanel;
 	private JButton newGameButton, rulesButton;
-	private JLabel statsLabel1, statsLabel2;//, descriptionLabel;
-	private ComputerAI computerAI;
+	//private JLabel statsLabel1, statsLabel2;//, descriptionLabel;
+	//private ComputerAI computerAI;
 	private PieceAnimation animation;
 	private Players players;
 	private BoardPanel board;
