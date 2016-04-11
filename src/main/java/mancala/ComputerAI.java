@@ -44,7 +44,7 @@ public class ComputerAI extends Thread {
 		Integer bestCup = null;
 		Random rand = new Random();
 		// find cup that goes into goal
-		for (int i = 12; i > 7; i--) {
+		for (int i = 7; i <13; i++) {
 			if (i + cups[i].getCount() == Board.GOAL2) {
 				bestCup = i;
 				break;
@@ -58,6 +58,7 @@ public class ComputerAI extends Thread {
 				for (int j = 12; j > 7; j--) {
 					if (cups[j].getCount() == ((j + i) - counter) && cups[j].getCount() != 0) {
 						bestCup = j;
+						System.out.println("went into logic");
 					}
 					counter += 2;
 				}
@@ -73,7 +74,6 @@ public class ComputerAI extends Thread {
 		}
 		System.out.println(bestCup);
 		goAgain = animation.distibute(bestCup, this.board);
-
 	}
 
 	public boolean goAgain() {
