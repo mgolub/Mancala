@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 
 import com.google.inject.Inject;
 
-
 public class StartButtonsPanel extends JPanel{
 
 	private JButton twoPlayers;

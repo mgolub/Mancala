@@ -24,11 +24,9 @@ public class GameGui extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private JPanel optionsPanel, statsPanel;
 	private JButton newGameButton, rulesButton;
 	private JLabel statsLabel1, statsLabel2, descriptionLabel;
-
 	private Players players;
 	private BoardPanel board;
 
@@ -45,20 +43,11 @@ public class GameGui extends JFrame {
 		players = new Players(name1, name2);
 		board = new BoardPanel(this.players);
 		statsPanel = new JPanel(new BorderLayout());
-
-		setPanels();
-
 		newGameButton = new JButton("New Game");
 		rulesButton = new JButton("Rules");
-		// statsLabel1 = new JLabel(players.playersName(1) + " Wins: "
-		// + players.gamesWon(1));
-		// statsLabel2 = new JLabel(players.playersName(2) + " Wins: "
-		// + players.gamesWon(2));
 		descriptionLabel = new JLabel(board.description());
-
-		this.setIconImage(new ImageIcon(getClass().getResource(
-				"/MancalaBoard.png")).getImage());
-
+		
+		setPanels();
 		add();
 		format();
 		addActionListeners();
@@ -87,37 +76,6 @@ public class GameGui extends JFrame {
 		}
 	}
 
-	/*
-	 * board.addMouseListener(new MouseListener() {
-	 * 
-	 * @Override public void mouseClicked(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void mouseEntered(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void mouseExited(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * @Override public void mousePressed(MouseEvent e) { System.out.print("X "
-	 * +e.getX()); System.out.println(" Y " +e.getY());
-	 * 
-	 * }
-	 * 
-	 * @Override public void mouseReleased(MouseEvent arg0) { // TODO
-	 * Auto-generated method stub
-	 * 
-	 * }
-	 * 
-	 * }); }
-	 */
-
 	private void setPanels() {
 		optionsPanel = new JPanel();
 		statsPanel = new JPanel(new BorderLayout());
@@ -127,25 +85,17 @@ public class GameGui extends JFrame {
 		Font font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 28);
 		Font font2 = new Font("Calibri", Font.PLAIN, 38);
 		optionsPanel.setBackground(Color.BLACK);
-		optionsPanel.setPreferredSize(new Dimension(1000, 40));
+		optionsPanel.setPreferredSize(new Dimension(1000, 50));
 		newGameButton.setFont(font1);
 		newGameButton.setBackground(Color.black);
-		newGameButton.setForeground(Color.red);
+		newGameButton.setForeground(Color.GREEN);
 		rulesButton.setFont(font1);
 		rulesButton.setBackground(Color.black);
-		rulesButton.setForeground(Color.red);
-
+		rulesButton.setForeground(Color.GREEN);
 		statsPanel.setBackground(Color.BLACK);
-		statsPanel.setPreferredSize(new Dimension(1000, 40));
-
-		// statsLabel1.setFont(font1);
-		// statsLabel1.setForeground(Color.MAGENTA);
-		// statsLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-		// statsLabel2.setFont(font1);
-		// statsLabel2.setForeground(Color.MAGENTA);
-		// statsLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+		statsPanel.setPreferredSize(new Dimension(1000, 45));
 		descriptionLabel.setFont(font2);
-		descriptionLabel.setForeground(Color.BLUE);
+		descriptionLabel.setForeground(Color.GREEN);
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 	}
@@ -154,11 +104,7 @@ public class GameGui extends JFrame {
 		optionsPanel.add(newGameButton);
 		optionsPanel.add(rulesButton);
 		add(optionsPanel, BorderLayout.NORTH);
-
 		add(board, BorderLayout.CENTER);
-
-		// statsPanel.add(statsLabel1, BorderLayout.EAST);
-		// statsPanel.add(statsLabel2, BorderLayout.WEST);
 		statsPanel.add(descriptionLabel, BorderLayout.NORTH);
 		add(statsPanel, BorderLayout.SOUTH);
 	}
@@ -170,7 +116,6 @@ public class GameGui extends JFrame {
 				board.resetBoard();
 				board.resetCups();
 			}
-
 		});
 		rulesButton.addActionListener(new ActionListener() {
 			// @Override
@@ -179,13 +124,10 @@ public class GameGui extends JFrame {
 				rulesFrame.setVisible(true);
 			}
 		});
-
 	}
 
 	public static void main(String[] args) {
 		GameGui test = new GameGui("one", "two");
 		test.setVisible(true);
-
 	}
-
 }
