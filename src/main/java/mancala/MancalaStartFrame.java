@@ -16,24 +16,27 @@ public class MancalaStartFrame extends JFrame {
 
 	@Inject
 	public MancalaStartFrame(InsertNamesPanel playersPanel, JLabel backgroundLabel) {
-		setTitle("Players");
-		setSize(900, 500);
+		setTitle("Mancala Start");
+		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		StartScreenPanel panel = null;
+		StartScreenPanel startPanel = null;
+
 		try {
-			panel = new StartScreenPanel(getClass().getResource("/MancalaStartScreen.png").openStream());
+			startPanel = new StartScreenPanel(getClass().getResource("/MancalaStartScreen.png").openStream());
 		} catch (IOException e) {
 		}
 
-		// backgroundLabel = new JLabel(new
-		// ImageIcon(getClass().getResource("/MancalaStartScreen.png")));
-		// backgroundLabel.setLayout(new BorderLayout());
+		// StartButtonsPanel buttons = new StartButtonsPanel(new
+		// ImageIcon(getClass().getResource("/2PButton.png")),
+		// new ImageIcon(getClass().getResource("/VsComputerButton.png")));
 
-		add(panel, BorderLayout.CENTER);
-		add(playersPanel, BorderLayout.PAGE_END);
+		// StartButtonsPanel buttons = new StartButtonsPanel();
+		add(startPanel, BorderLayout.CENTER);
+		// add(buttons, BorderLayout.WEST);
+		add(playersPanel, BorderLayout.SOUTH);
 	}
 }

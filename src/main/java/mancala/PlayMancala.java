@@ -9,7 +9,5 @@ public class PlayMancala {
 		Injector injector = Guice.createInjector(new MancalaModule());
 		MancalaStartFrame f = injector.getInstance(MancalaStartFrame.class);
 		f.setVisible(true);
-
-	 }
-
+	}
 }

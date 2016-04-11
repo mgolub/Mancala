@@ -10,10 +10,11 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import com.google.inject.Inject;
 
-public class StartScreenPanel extends JPanel{
+public class StartScreenPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
+
 	@Inject
 	public StartScreenPanel(InputStream background) {
 
@@ -34,4 +35,3 @@ public class StartScreenPanel extends JPanel{
 		return this.image;
 	}
 }
-
