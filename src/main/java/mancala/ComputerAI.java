@@ -50,7 +50,21 @@ public class ComputerAI extends Thread {
 				break;
 			}
 		}
-		// Otherwise choose a random cup
+
+		// Choose the spot that will land in an empty spot-
+		int counter = 0;
+		for (int i = 0; i < 6; i++) {
+			if (cups[i].getCount() == 0) {
+				for (int j = 12; j > 7; j--) {
+					if (cups[j].getCount() == ((j + i) - counter) && cups[j].getCount() != 0) {
+						bestCup = j;
+					}
+					counter += 2;
+				}
+				break;
+			}
+		}
+		// Otherwise choose a random c up
 		while (bestCup == null) {
 			bestCup = rand.nextInt(6) + 7;
 			if (cups[bestCup].getCount() == 0) {
@@ -59,6 +73,7 @@ public class ComputerAI extends Thread {
 		}
 		System.out.println(bestCup);
 		goAgain = animation.distibute(bestCup, this.board);
+
 	}
 
 	public boolean goAgain() {
