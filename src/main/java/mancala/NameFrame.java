@@ -1,6 +1,8 @@
+
 package mancala;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -21,13 +23,17 @@ public class NameFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		backgroundLabel = new JLabel(new ImageIcon(getClass().getResource("/startBackground.png")));
+		StartScreenPanel panel = null;
+		try {
+			panel = new StartScreenPanel(getClass().getResource("/MancalaStartScreen.png").openStream());
+		} catch (IOException e) {
+		}
 
-		backgroundLabel.setLayout(new BorderLayout());
-
-		backgroundLabel.add(playersPanel, BorderLayout.PAGE_END);
-		add(backgroundLabel);
-
+		// backgroundLabel = new JLabel(new
+		// ImageIcon(getClass().getResource("/MancalaStartScreen.png")));
+		// backgroundLabel.setLayout(new BorderLayout());
+		
+		add(panel, BorderLayout.CENTER);
+		add(playersPanel, BorderLayout.PAGE_END);
 	}
-
 }
