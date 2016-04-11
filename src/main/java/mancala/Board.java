@@ -187,7 +187,6 @@ public class Board {
 
 		for (Cup cup : cups) {
 			cup.setEnabled(false);
-			;
 		}
 
 	}

@@ -97,13 +97,11 @@ public class BoardPanel extends JPanel implements
 		if (mouseEnabled == false) {
 			computerAI.run();
 			goAgain = computerAI.goAgain();
-
 			System.out.println("computer goes again");
 			players.switchPlayers();
 
 		} else {
 			goAgain = true;
-
 			System.out.println("player one goes again");
 			return;
 		}

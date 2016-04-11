@@ -32,8 +32,8 @@ public class GameGui extends JFrame {
 
 	private JPanel optionsPanel, statsPanel;
 	private JButton newGameButton, rulesButton;
-	//private JLabel statsLabel1, statsLabel2;//, descriptionLabel;
-	//private ComputerAI computerAI;
+	// private JLabel statsLabel1, statsLabel2;//, descriptionLabel;
+	// private ComputerAI computerAI;
 	private PieceAnimation animation;
 	private Players players;
 	private BoardPanel board;
@@ -51,7 +51,7 @@ public class GameGui extends JFrame {
 		players = new Players(name1, name2);
 		animation = new PieceAnimation();
 		board = new BoardPanel(this.players, animation);
-	//	descriptionLabel = new JLabel(board.description());
+		// descriptionLabel = new JLabel(board.description());
 
 		statsPanel = new JPanel(new BorderLayout());
 
@@ -64,8 +64,7 @@ public class GameGui extends JFrame {
 		// statsLabel2 = new JLabel(players.playersName(2) + " Wins: "
 		// + players.gamesWon(2));
 
-		this.setIconImage(new ImageIcon(getClass().getResource(
-				"/MancalaBoard.png")).getImage());
+		this.setIconImage(new ImageIcon(getClass().getResource("/MancalaBoard.png")).getImage());
 
 		add();
 		format();
@@ -82,23 +81,19 @@ public class GameGui extends JFrame {
 					@Override
 					public void mouseClicked(MouseEvent event) {
 						Cup cup = (Cup) event.getSource();
-						int humanIndex = (Integer) cup
-								.getClientProperty("index");
-						if ((!cup.isEnabled() || board
-								.getQtyMarbles(humanIndex) == 0)) {
+						int humanIndex = (Integer) cup.getClientProperty("index");
+						if ((!cup.isEnabled() || board.getQtyMarbles(humanIndex) == 0)) {
 							return;
 						}
 						board.disableAllCups();
 						board.turn(humanIndex);
-					//	descriptionLabel.setText(board.description());
+						// descriptionLabel.setText(board.description());
 						if (!board.goAgain()) {
 							new Timer().schedule(new DelayTask(), 670);
 						}
 					}
-
 				});
 			}
-
 		}
 
 		/*
@@ -110,10 +105,9 @@ public class GameGui extends JFrame {
 		 * <<<<<<< HEAD class DelayTask extends TimerTask {
 		 * 
 		 * @Override public void run() { board.turn(1);
-		 * descriptionLabel.setText(board.description());
-		 * System.out.println("called timer task"); } } ======= public void
-		 * mouseEntered(MouseEvent arg0) { // TODO Auto-generated method stub }
-		 * >>>>>>> animation
+		 * descriptionLabel.setText(board.description()); System.out.println(
+		 * "called timer task"); } } ======= public void mouseEntered(MouseEvent
+		 * arg0) { // TODO Auto-generated method stub } >>>>>>> animation
 		 * 
 		 * public void mouseExited(MouseEvent arg0) { // TODO Auto-generated
 		 * method stub
@@ -121,9 +115,8 @@ public class GameGui extends JFrame {
 		 * }
 		 * 
 		 * public void mousePressed(MouseEvent e) { // TODO Auto-generated
-		 * method stub // TODO Auto-generated method stub
-		 * System.out.println("X = " + e.getX()); System.out.println("Y = " +
-		 * e.getY()); }
+		 * method stub // TODO Auto-generated method stub System.out.println(
+		 * "X = " + e.getX()); System.out.println("Y = " + e.getY()); }
 		 * 
 		 * public void mouseReleased(MouseEvent e) { // TODO Auto-generated
 		 * method stub
@@ -168,9 +161,9 @@ public class GameGui extends JFrame {
 		// statsLabel2.setFont(font1);
 		// statsLabel2.setForeground(Color.MAGENTA);
 		// statsLabel2.setHorizontalAlignment(SwingConstants.CENTER);
-	//	descriptionLabel.setFont(font2);
-	//	descriptionLabel.setForeground(Color.BLUE);
-	//	descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		// descriptionLabel.setFont(font2);
+		// descriptionLabel.setForeground(Color.BLUE);
+		// descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 	}
 
@@ -187,8 +180,8 @@ public class GameGui extends JFrame {
 
 		// statsPanel.add(statsLabel1, BorderLayout.EAST);
 		// statsPanel.add(statsLabel2, BorderLayout.WEST);
-	//	statsPanel.add(descriptionLabel, BorderLayout.NORTH);
-	//	add(statsPanel, BorderLayout.SOUTH);
+		// statsPanel.add(descriptionLabel, BorderLayout.NORTH);
+		// add(statsPanel, BorderLayout.SOUTH);
 	}
 
 	public void addActionListeners() {
@@ -207,7 +200,6 @@ public class GameGui extends JFrame {
 				rulesFrame.setVisible(true);
 			}
 		});
-
 	}
 
 	public static void main(String[] args) {
@@ -220,7 +212,7 @@ public class GameGui extends JFrame {
 		@Override
 		public void run() {
 			board.turn(1);
-			//descriptionLabel.setText(board.description());
+			// descriptionLabel.setText(board.description());
 			System.out.println("called timer task");
 		}
 	}
