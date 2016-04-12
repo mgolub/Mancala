@@ -38,27 +38,27 @@ public class PieceAnimation extends JPanel {
 		switch (this.cupNumber) {
 		case 0:
 			yAxis = 216;
-			xAxis = 460;
+			xAxis = 450;
 			break;
 		case 1:
 			yAxis = 328;
-			xAxis = 460;
+			xAxis = 450;
 			break;
 		case 2:
 			yAxis = 442;
-			xAxis = 460;
+			xAxis = 450;
 			break;
 		case 3:
 			yAxis = 554;
-			xAxis = 460;
+			xAxis = 450;
 			break;
 		case 4:
 			yAxis = 668;
-			xAxis = 460;
+			xAxis = 450;
 			break;
 		case 5:
 			yAxis = 780;
-			xAxis = 460;
+			xAxis = 450;
 			break;
 		case 6: // goal
 			xAxis = 880;
@@ -104,7 +104,7 @@ public class PieceAnimation extends JPanel {
 		if (cupNumber+pieceAmount == Board.GOAL1 || cupNumber +pieceAmount == board.GOAL2) {
 			return true;
 		}
-		return board.checkEmptyCup(cupNumberIndex);
+		return board.checkEmptyCup(cupNumber);
 	}
 
 	@Override
