@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -21,7 +20,6 @@ public class PieceAnimation extends JPanel {
 	private Timer timer;
 	private Cup[] cupComponents;
 	private Image[] pieces;
-	private Image piece;
 
 	public PieceAnimation() {
 
@@ -36,7 +34,6 @@ public class PieceAnimation extends JPanel {
 		pieces = cupComponents[cupNumber].removePieces();
 
 		
-		piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
 		switch (this.cupNumber) {
 		case 0:
 			yAxis = 216;
@@ -103,8 +100,7 @@ public class PieceAnimation extends JPanel {
 		};
 		timer = new Timer(2, animater);
 		timer.start();
-		//return (cupNumber == 6 || cupNumber == 13);
-		if (cupNumber+pieceAmount == Board.GOAL1 || cupNumber-1+pieceAmount == 0) {
+		if (cupNumber+pieceAmount == Board.GOAL1 || cupNumber +pieceAmount == board.GOAL2) {
 			return true;
 		}
 		return board.checkEmptyCup(cupNumberIndex);
@@ -118,7 +114,7 @@ public class PieceAnimation extends JPanel {
 			//	return;
 			//}
 			//keep this line you need it for animation i commented it out for testing
-			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
+			g.drawImage(pieces[i], yAxis, (i * 15) + xAxis, this);
 			setOpaque(false);
 
 			// if marbles reach next cup to the left(assume each cup is 100
@@ -132,9 +128,9 @@ public class PieceAnimation extends JPanel {
 				}
 				dropPieceSound();
 				if (cupNumber != 6 && cupNumber != 13) {
-					(this.cupComponents[cupNumber]).addPiece(piece);
+					(this.cupComponents[cupNumber]).addPiece(pieces[i]);
 				} else {
-					((Goal) this.cupComponents[cupNumber]).addPiece(piece);
+					((Goal) this.cupComponents[cupNumber]).addPiece(pieces[i]);
 				}
 				
 
@@ -149,9 +145,9 @@ public class PieceAnimation extends JPanel {
 				}
 				dropPieceSound();
 				if (cupNumber != 6 && cupNumber != 13) {
-					(this.cupComponents[cupNumber]).addPiece(piece);
+					(this.cupComponents[cupNumber]).addPiece(pieces[i]);
 				} else {
-					((Goal) this.cupComponents[cupNumber]).addPiece(piece);
+					((Goal) this.cupComponents[cupNumber]).addPiece(pieces[i]);
 				}
 			}
 

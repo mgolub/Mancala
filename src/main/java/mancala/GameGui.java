@@ -135,7 +135,7 @@ public class GameGui extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		GameGui test = new GameGui("one", "two");
+		GameGui test = new GameGui("your", "computer");
 		test.setVisible(true);
 	}
 
