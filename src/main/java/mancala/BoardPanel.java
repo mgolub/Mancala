@@ -1,45 +1,78 @@
 package mancala;
 
 import java.awt.BorderLayout;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-public class BoardPanel extends JPanel {
+public class BoardPanel extends JPanel implements
+		ComputerAI.ComputerMoveListener {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel cupPanel1, cupPanel2, cupsPanel, goalPanel1, goalPanel2;
+	private JPanel cupPanel1, cupPanel2, cupsPanel, goalPanel1, goalPanel2,
+			decriptionPanel;
 	private Board board;
 	private Players players;
 	private int winner;
-	private String turnDescriptioin;
+	private boolean mouseEnabled;
+	boolean goAgain;
+	private ComputerAI computerAI;
+	private int computerMove;
 	private PieceAnimation animation;
-	
+	private JLabel description;
+
 	public BoardPanel(Players players, PieceAnimation animate) {
 		this.players = players;
 		this.animation = animate;
 		this.setLayout(new BorderLayout());
 		createComponents();
-		formatComponetents();
-		addComponets();
+		formatComponents();
+		addComponents();
 		this.changeDescription(1);
+
+		this.mouseEnabled = true;
+		this.goAgain = false;
+		this.computerAI = new ComputerAI(animation, board);
 
 	}
 
 	// called by action listener
 	public void turn(int index) {
-	
-		animation.animate(board.getCups(),index);
-		boolean goalTurn = board.distribute(index,animation);
-		// returns true if landed in a goal
-		setPlayersEnabled();
-		repaint();
+
+
+		boolean winner = winner();
+		animation.animate(board.getCups(), index, board);
+		// setPlayersEnabled();
+
+		if (players.getCurrentPlayer() == 0) {
+			goAgain = animation.animate(board.getCups(), index, board);
+			setPlayersEnabled();
+			repaint();
+		} else if (players.getCurrentPlayer() == 1) {
+			mouseEnabled = false;
+			computerAI.run();
+			goAgain = computerAI.goAgain();
+
+		}
 
 		int piecesAdded = board.checkForMoves();
 		if (piecesAdded != 0) {
@@ -47,6 +80,44 @@ public class BoardPanel extends JPanel {
 					+ players.playersName(piecesAdded) + "'s goal!!");
 			repaint();
 		}
+		if (!winner) {
+			if (goAgain) {
+				changeDescription(3);
+				goalTurn();
+			} else if (!goAgain) {
+				goAgain = false;
+				players.switchPlayers();
+				mouseEnabled = true;
+			}
+			changeDescription(1);
+		}
+	}
+
+	private void goalTurn() {
+		// changeDescription(3);
+		if (mouseEnabled == false) {
+			computerAI.run();
+			goAgain = computerAI.goAgain();
+			System.out.println("computer goes again");
+			players.switchPlayers();
+
+		} else {
+			goAgain = true;
+			System.out.println("player one goes again");
+			return;
+		}
+	}
+
+	public void onMove(int move) {
+		this.computerMove = move;
+	}
+
+	public int getCompMove() {
+		return this.computerMove;
+	}
+
+	private boolean winner() {
+
 		if (board.checkGame()) {
 			winner = board.calculateWinner();
 			switch (winner) {
@@ -56,28 +127,28 @@ public class BoardPanel extends JPanel {
 			case 1:
 				players.increaseWins(1);
 				displayWinner();
-				break;
+				return true;
 			case 2:
 				players.increaseWins(2);
 				displayWinner();
-				break;
+				return true;
 			}
 			repaint();
-			return;
-		}
-		if (!goalTurn) {
-			players.switchPlayers();
-			changeDescription(1);
-			setPlayersEnabled();
-			repaint();
-			return;
-		}
 
-		changeDescription(3);
+			if (!goAgain) {
+				players.switchPlayers();
+				changeDescription(1);
+				setPlayersEnabled();
+				repaint();
+			}
+			return true;
+		}
+		return false;
 	}
 
 	private void setPlayersEnabled() {
-		//if its playeres 1s turn first 6 are enabled if its players 2s turn second 6 are enabled
+		// if its playeres 1s turn first 6 are enabled if its players 2s turn
+		// second 6 are enabled
 		boolean enabled = (players.currentPlayerNum() == 1);
 		for (int i = 0; i < 6; i++) {
 			board.getCup(i).setEnabled(enabled);
@@ -96,6 +167,9 @@ public class BoardPanel extends JPanel {
 		goalPanel1 = new JPanel(new GridBagLayout());
 		goalPanel2 = new JPanel(new GridBagLayout());
 		board = new Board(players);
+		description = new JLabel(" ");
+		this.changeDescription(1);
+		decriptionPanel = new JPanel();
 		addCups();
 
 	}
@@ -109,22 +183,27 @@ public class BoardPanel extends JPanel {
 		for (int i = 12; i >= 7; i--) {
 
 			cupPanel2.add(board.getCup(i));
+
 		}
 
 	}
 
-	private void formatComponetents() {
+	private void formatComponents() {
 		cupsPanel.setLayout(new BoxLayout(cupsPanel, BoxLayout.Y_AXIS));
-		Dimension cupPanelDimension = new Dimension(700, 20);
 		cupsPanel.setOpaque(false);
 		cupPanel1.setOpaque(false);
 		cupPanel2.setOpaque(false);
-		cupPanel1.setPreferredSize(cupPanelDimension);
-		cupPanel2.setPreferredSize(cupPanelDimension);
+		cupPanel1.setPreferredSize(new Dimension(700,50));
+		cupPanel2.setPreferredSize(new Dimension(700,80));
 		goalPanel1.setOpaque(false);
 		goalPanel2.setOpaque(false);
 		goalPanel1.setMinimumSize(new Dimension(150, 700));
 		goalPanel2.setMinimumSize(new Dimension(120, 700));
+		description.setFont(new Font("Calibri", Font.PLAIN, 38));
+		description.setForeground(Color.BLUE);
+		description.setHorizontalAlignment(SwingConstants.CENTER);
+		this.decriptionPanel.setBackground(Color.BLACK);
+
 
 	}
 
@@ -132,15 +211,14 @@ public class BoardPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-		BoardImgPanel imgPanel = new BoardImgPanel();
-		g.drawImage(imgPanel.getImage(), 0, 0, getWidth(), getHeight(), this);
-		
-		
+		g.drawImage(
+				new ImageIcon(getClass().getResource("/MancalaBoardFinal.jpg"))
+						.getImage(), 0, 0, getWidth(), getHeight(), this);
 	}
 
-	private void addComponets() {
+	private void addComponents() {
 		GridBagConstraints c = new GridBagConstraints();
-		addSpaceHolder(cupsPanel, 200, 190);
+		addSpaceHolder(cupsPanel, 200, 243);
 		cupsPanel.add(cupPanel2, BorderLayout.SOUTH);
 		cupsPanel.add(cupPanel1, BorderLayout.CENTER);
 		addSpaceHolder(cupsPanel, 200, 10);
@@ -150,18 +228,22 @@ public class BoardPanel extends JPanel {
 		JPanel west = new JPanel();
 		west.setLayout(new GridBagLayout());
 		west.setOpaque(false);
-		c.insets = new Insets(380, 150, 0, 0);
+		c.insets = new Insets(450, 150, 0, 0);
 		west.setPreferredSize(new Dimension(152, 700));
 		west.add(goalPanel2, c);
 
 		JPanel east = new JPanel();
 		east.setLayout(new GridBagLayout());
 		east.setOpaque(false);
-		c.insets = new Insets(380, 0, 0, 20);
+		c.insets = new Insets(450, 0, 0, 20);
 		east.add(goalPanel1, c);
+
+		this.decriptionPanel.add(this.description);
 		add(east, BorderLayout.EAST);
 		add(west, BorderLayout.WEST);
 		add(cupsPanel, BorderLayout.CENTER);
+		add(this.decriptionPanel, BorderLayout.SOUTH);
+		// this.setBackground(Color.RED);
 	}
 
 	private void addSpaceHolder(JPanel panel, int width, int height) {
@@ -177,7 +259,7 @@ public class BoardPanel extends JPanel {
 	}
 
 	public boolean distributePieces(int startCup) {
-		return board.distribute(startCup,animation);
+		return board.distribute(startCup, animation);
 	}
 
 	public int checkForMoves() {
@@ -199,10 +281,6 @@ public class BoardPanel extends JPanel {
 			} else {
 				board.getGoal(i).setCount(board.getContent(i));
 			}
-		}
-		for (int i = 0; i < 14; i++) {
-			board.getCup(i).setToolTipText(
-					Integer.toString(board.getContent(i)));
 		}
 		repaint();
 	}
@@ -227,18 +305,19 @@ public class BoardPanel extends JPanel {
 	public void changeDescription(int code) {
 		switch (code) {
 		case 1:
-			turnDescriptioin = players.currentPlayersName() + "'s Turn...";
+			this.description.setText(players.currentPlayersName()
+					+ "'s Turn...");
 			break;
 		case 2:
-			turnDescriptioin = "**** GREAT JOB " + players.playersName(winner)
-					+ "!!! ****";
+			this.description.setText("**** GREAT JOB "
+					+ players.playersName(winner) + "!!! ****");
 			break;
 		case 3:
-			turnDescriptioin = players.currentPlayersName()
-					+ " landed in the goal - player goes again";
+			this.description.setText(players.currentPlayersName()
+					+ " landed in the goal - player goes again");
 			break;
 		case 4:
-			turnDescriptioin = "Tie Game - no one wins!";
+			this.description.setText("Tie Game - no one wins!");
 		}
 		resetCups();
 	}
@@ -257,12 +336,20 @@ public class BoardPanel extends JPanel {
 		// players.gamesWon(2));
 	}
 
-	public String description() {
-		return this.turnDescriptioin;
-	}
-
 	public Cup getCup(int cupNum) {
 		return board.getCup(cupNum);
+	}
+
+	public boolean isMouseEnabled() {
+		return this.mouseEnabled;
+	}
+
+	public boolean goAgain() {
+		return this.goAgain;
+	}
+
+	public void setMouseEnabled(boolean isEnabled) {
+		this.mouseEnabled = isEnabled;
 	}
 
 	// disable all cups when a turn is in progress so no events can happen

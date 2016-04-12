@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -18,19 +19,24 @@ public class PieceAnimation extends JPanel {
 	private int xAxis;
 	private int yAxisTemp;
 	private Timer timer;
-	private Image piece;
 	private Cup[] cupComponents;
+	private Image[] pieces;
+	private Image piece;
 
 	public PieceAnimation() {
 
 	}
 
-	public void animate(Cup[] cups, int cupNumberIndex) {
-		piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
+
+
+	public boolean animate(Cup[] cups, int cupNumberIndex, Board board) {
 		this.cupComponents = cups;
-		// cupComponents[cupNumber].cupsMarbles();
-		this.pieceAmount = cupComponents[cupNumberIndex].getCount();
+		this.pieceAmount = cups[cupNumberIndex].getCount();
 		this.cupNumber = cupNumberIndex;
+		pieces = cupComponents[cupNumber].removePieces();
+
+		
+		piece = new ImageIcon(getClass().getResource("/BlueMarble.png")).getImage();
 		switch (this.cupNumber) {
 		case 0:
 			yAxis = 216;
@@ -97,12 +103,21 @@ public class PieceAnimation extends JPanel {
 		};
 		timer = new Timer(2, animater);
 		timer.start();
+		//return (cupNumber == 6 || cupNumber == 13);
+		if (cupNumber == Board.GOAL1 || cupNumber-1 == 0) {
+			return true;
+		}
+		return board.checkEmptyCup(cupNumberIndex);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (int i = 0; i < pieceAmount; i++) {
+			//if(pieces.length ==0){
+			//	return;
+			//}
+			//keep this line you need it for animation i commented it out for testing
 			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
 			setOpaque(false);
 
@@ -143,9 +158,11 @@ public class PieceAnimation extends JPanel {
 			// if this is the last marble stop timer
 			if (pieceAmount == 0) {
 				timer.stop();
+			
 			}
 		}
 		// if its not the last marble need to move marble(s)
+		// if in cup 2-6 or 9-13 just move left/right
 
 		// if in goal1 move upper left
 		if (cupNumber == 6) {
@@ -168,7 +185,7 @@ public class PieceAnimation extends JPanel {
 			xAxis --;//-= 2;
 		} else if (cupNumber < 12 && cupNumber > 6) {
 			yAxis -= 2;
-		} else if (cupNumber >= 0 && cupNumber > 5) {
+		} else if (cupNumber >= 0 && cupNumber < 5) {
 			yAxis += 2;
 		}
 
@@ -179,16 +196,17 @@ public class PieceAnimation extends JPanel {
 		new Thread(new Runnable() {
 
 			public void run() {
-				Applet.newAudioClip(getClass().getResource("/marbleDrop.wav")).play();
+				Applet.newAudioClip(getClass().getResource("/marbleDrop.wav"))
+						.play();
 			}
 		}).start();
 	}
 
 	/*public boolean distibute(int start, Board board) {
 
-		Image[] pieces = this.cupComponents[start].removePieces();
-
-		for (int i = 0, position = start + 1; i < pieces.length; i++, position++) {
+		this.pieces = this.cupComponents[start].removePieces();
+		int position = start + 1;
+		for (int i = 0; i < pieces.length; i++) {
 			if (position != Board.GOAL1 && position != Board.GOAL2) {
 				this.cupComponents[position].addPiece(pieces[i]);
 			} else {
@@ -198,14 +216,23 @@ public class PieceAnimation extends JPanel {
 				} else {
 					i--;
 				}
-				// board[position].repaint();
 			}
 
 			start = position;
 			if (position == this.cupComponents.length - 1) {
 				position = -1;// 0 after increment
 			}
+			position++;
+
 		} // pieces done being distributed
-		return board.checkTurn();
+
+			// check if the person should go again
+		if (position - 1 == Board.GOAL1 || position == 0) {
+			return true;
+		}
+		return board.checkEmptyCup(start);
+
 	}*/
+
+
 }

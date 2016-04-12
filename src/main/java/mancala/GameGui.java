@@ -19,17 +19,20 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class GameGui extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private JPanel optionsPanel, statsPanel;
 	private JButton newGameButton, rulesButton;
-	private JLabel statsLabel1, statsLabel2, descriptionLabel;
 	private PieceAnimation animation;
+	//private JLabel statsLabel1, statsLabel2, descriptionLabel;
 	private Players players;
 	private BoardPanel board;
 
@@ -46,92 +49,50 @@ public class GameGui extends JFrame {
 		players = new Players(name1, name2);
 		animation = new PieceAnimation();
 		board = new BoardPanel(this.players, animation);
-		statsPanel = new JPanel(new BorderLayout());
-		
-		setPanels();
-
 		newGameButton = new JButton("New Game");
 		rulesButton = new JButton("Rules");
-		// statsLabel1 = new JLabel(players.playersName(1) + " Wins: "
-		// + players.gamesWon(1));
-		// statsLabel2 = new JLabel(players.playersName(2) + " Wins: "
-		// + players.gamesWon(2));
-		descriptionLabel = new JLabel(board.description());
+		this.setIconImage(new ImageIcon(getClass().getResource("/MancalaBoard.png")).getImage());
 
-		this.setIconImage(new ImageIcon(getClass().getResource(
-				"/MancalaBoard.png")).getImage());
-
+		//descriptionLabel = new JLabel(board.description());
+		
+		setPanels();
 		add();
 		format();
 		addActionListeners();
 		board.resetBoard();
 
+		final Random rand = new Random();
 		for (int i = 0; i < 14; i++) {
 			if ((i != Board.GOAL1) && (i != Board.GOAL2)) {
 
 				board.getCup(i).putClientProperty("index", i);
 				board.getCup(i).addMouseListener(new MouseAdapter() {
+
 					@Override
 					public void mouseClicked(MouseEvent event) {
 						Cup cup = (Cup) event.getSource();
-						int index = (Integer) cup.getClientProperty("index");
-						if (!cup.isEnabled()
-								|| (board.getQtyMarbles(index) == 0)) {
+						int humanIndex = (Integer) cup.getClientProperty("index");
+						if ((!cup.isEnabled() || board.getQtyMarbles(humanIndex) == 0)) {
 							return;
 						}
 						board.disableAllCups();
-						board.turn(index);
-						descriptionLabel.setText(board.description());
-
+						board.turn(humanIndex);
+						// descriptionLabel.setText(board.description());
+						if (!board.goAgain()) {
+							new Timer().schedule(new DelayTask(), 2000);
+						}
 					}
 				});
 			}
 		}
-		
-		
-		/*
-		board.addMouseListener(new MouseListener(){
-	
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("X = " + e.getX());
-				System.out.println("Y = " + e.getY());
-			}
 
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				// TODO Auto-generated method stub
-				System.out.println("X = " + e.getX());
-				System.out.println("Y = " + e.getY());
-			}
-
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-				System.out.println("X = " + e.getX());
-				System.out.println("Y = " + e.getY());
-				
-			}
-			
-		});*/
-		
-		
-		
-		
 		setGlassPane(animation);
 		getGlassPane().setVisible(true);
 		animation.setOpaque(false);
 		repaint();
 		pack();
 	}
+
 	private void setPanels() {
 		optionsPanel = new JPanel();
 		statsPanel = new JPanel(new BorderLayout());
@@ -139,45 +100,26 @@ public class GameGui extends JFrame {
 
 	public void format() {
 		Font font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 28);
-		Font font2 = new Font("Calibri", Font.PLAIN, 38);
 		optionsPanel.setBackground(Color.BLACK);
-		optionsPanel.setPreferredSize(new Dimension(1000, 40));
+		optionsPanel.setPreferredSize(new Dimension(1000, 50));
 		newGameButton.setFont(font1);
 		newGameButton.setBackground(Color.black);
-		newGameButton.setForeground(Color.red);
+		newGameButton.setForeground(Color.GREEN);
 		rulesButton.setFont(font1);
 		rulesButton.setBackground(Color.black);
-		rulesButton.setForeground(Color.red);
-
+		rulesButton.setForeground(Color.GREEN);
 		statsPanel.setBackground(Color.BLACK);
-		statsPanel.setPreferredSize(new Dimension(1000, 40));
-
-		// statsLabel1.setFont(font1);
-		// statsLabel1.setForeground(Color.MAGENTA);
-		// statsLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-		// statsLabel2.setFont(font1);
-		// statsLabel2.setForeground(Color.MAGENTA);
-		// statsLabel2.setHorizontalAlignment(SwingConstants.CENTER);
-		descriptionLabel.setFont(font2);
-		descriptionLabel.setForeground(Color.BLUE);
-		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
+		statsPanel.setPreferredSize(new Dimension(1000, 30));
 	}
 
 	public void add() {
 		optionsPanel.add(newGameButton);
 		optionsPanel.add(rulesButton);
 		add(optionsPanel, BorderLayout.NORTH);
-
-		//JLayeredPane boardMid = new JLayeredPane();
 		JPanel boardMid = new JPanel();
-		//boardMid.add(animation);
-		//boardMid.add(board);
 		add(board, BorderLayout.CENTER);
-		
-		// statsPanel.add(statsLabel1, BorderLayout.EAST);
-		// statsPanel.add(statsLabel2, BorderLayout.WEST);
-		statsPanel.add(descriptionLabel, BorderLayout.NORTH);
+		add(board, BorderLayout.CENTER);
+	//	statsPanel.add(descriptionLabel, BorderLayout.NORTH);
 		add(statsPanel, BorderLayout.SOUTH);
 	}
 
@@ -188,7 +130,6 @@ public class GameGui extends JFrame {
 				board.resetBoard();
 				board.resetCups();
 			}
-
 		});
 		rulesButton.addActionListener(new ActionListener() {
 			// @Override
@@ -197,15 +138,21 @@ public class GameGui extends JFrame {
 				rulesFrame.setVisible(true);
 			}
 		});
-
-
 	}
 
 	public static void main(String[] args) {
 		GameGui test = new GameGui("one", "two");
 		test.setVisible(true);
-	
+	}
 
+
+	class DelayTask extends TimerTask {
+		@Override
+		public void run() {
+			board.turn(1);
+			// descriptionLabel.setText(board.description());
+			System.out.println("called timer task");
+		}
 	}
 
 }
