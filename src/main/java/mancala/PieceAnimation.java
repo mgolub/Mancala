@@ -101,10 +101,16 @@ public class PieceAnimation extends JPanel {
 		};
 		timer = new Timer(2, animater);
 		timer.start();
-		if (cupNumber+pieceAmount == Board.GOAL1 || cupNumber +pieceAmount == board.GOAL2) {
+		int landGoal = cupNumber+pieceAmount;
+		while(landGoal >13){
+			landGoal -=13;
+		}
+		if ( landGoal== Board.GOAL1 || landGoal == Board.GOAL2) {
 			return true;
 		}
-		return board.checkEmptyCup(cupNumberIndex);
+		
+		//not sure what to pass in 
+		return board.checkEmptyCup(landGoal);
 	}
 
 	@Override
@@ -129,9 +135,10 @@ public class PieceAnimation extends JPanel {
 				}
 				dropPieceSound();
 				if (cupNumber != 6 && cupNumber != 13) {
-					(this.cupComponents[cupNumber]).addPiece(pieces[i]);
+					System.out.println(pieceAmount);
+					(this.cupComponents[cupNumber]).addPiece(pieces[pieceAmount]);
 				} else {
-					((Goal) this.cupComponents[cupNumber]).addPiece(pieces[i]);
+					((Goal) this.cupComponents[cupNumber]).addPiece(pieces[pieceAmount]);
 				}
 				
 
@@ -146,9 +153,9 @@ public class PieceAnimation extends JPanel {
 				}
 				dropPieceSound();
 				if (cupNumber != 6 && cupNumber != 13) {
-					(this.cupComponents[cupNumber]).addPiece(pieces[i]);
+					(this.cupComponents[cupNumber]).addPiece(pieces[pieceAmount]);
 				} else {
-					((Goal) this.cupComponents[cupNumber]).addPiece(pieces[i]);
+					((Goal) this.cupComponents[cupNumber]).addPiece(pieces[pieceAmount]);
 				}
 			}
 

@@ -113,7 +113,6 @@ public class GameGui extends JFrame {
 		JPanel boardMid = new JPanel();
 		add(board, BorderLayout.CENTER);
 		add(board, BorderLayout.CENTER);
-	//	statsPanel.add(descriptionLabel, BorderLayout.NORTH);
 		add(statsPanel, BorderLayout.SOUTH);
 	}
 

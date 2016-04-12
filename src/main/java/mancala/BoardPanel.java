@@ -53,8 +53,6 @@ public class BoardPanel extends JPanel implements
 
 
 		boolean winner = winner();
-		//animation.animate(board.getCups(), index, board);
-		// setPlayersEnabled();
 
 		if (players.getCurrentPlayer() == 0) {
 			goAgain = animation.animate(board.getCups(), index, board);
@@ -77,6 +75,7 @@ public class BoardPanel extends JPanel implements
 			if (goAgain) {
 				changeDescription(3);
 				goalTurn();
+
 			} else if (!goAgain) {
 				goAgain = false;
 				players.switchPlayers();
@@ -87,16 +86,13 @@ public class BoardPanel extends JPanel implements
 	}
 
 	private void goalTurn() {
-		// changeDescription(3);
 		if (mouseEnabled == false) {
 			computerAI.run();
 			goAgain = computerAI.goAgain();
-			System.out.println("computer goes again");
 			players.switchPlayers();
 
 		} else {
 			goAgain = true;
-			System.out.println("player one goes again");
 			return;
 		}
 	}
@@ -323,10 +319,7 @@ public class BoardPanel extends JPanel implements
 						+ " points\n" + players.playersName(2) + ": "
 						+ board.getContent(13) + " points\n\n"
 						+ players.playersName(winner) + " won!!");
-		// statsLabel1.setText(players.playersName(1) + " Wins: " +
-		// players.gamesWon(1));
-		// statsLabel2.setText(players.playersName(2) + " Wins: " +
-		// players.gamesWon(2));
+		
 	}
 
 	public Cup getCup(int cupNum) {
