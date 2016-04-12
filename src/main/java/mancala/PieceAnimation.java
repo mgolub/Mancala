@@ -21,6 +21,7 @@ public class PieceAnimation extends JPanel {
 	private Cup[] cupComponents;
 	private Image[] pieces;
 
+
 	public PieceAnimation() {
 
 	}
@@ -33,7 +34,7 @@ public class PieceAnimation extends JPanel {
 		this.cupNumber = cupNumberIndex;
 		pieces = cupComponents[cupNumber].removePieces();
 
-		
+
 		switch (this.cupNumber) {
 		case 0:
 			yAxis = 216;
@@ -163,7 +164,6 @@ public class PieceAnimation extends JPanel {
 		// if in goal1 move upper left
 		if (cupNumber == 6) {
 			yAxis -= 2;
-			xAxis --;//-= 2;
 		}
 		// if in goal2 move lower right
 		else if (cupNumber == 13) {
