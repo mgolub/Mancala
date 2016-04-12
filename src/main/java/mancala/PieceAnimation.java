@@ -19,66 +19,122 @@ public class PieceAnimation extends JPanel {
 	private int xAxis;
 	private int yAxisTemp;
 	private Timer timer;
+	private Cup[] cupComponents;
+	private Image[] pieces;
 
-	// my testing
-	private int xA;
-	private int yA;
-	private Image otherPiece;
+	public PieceAnimation() {
 
-	private Image piece;
+	}
 
-	public PieceAnimation(Cup[] cupComponents, int cupNumber, int pieceAmount) {
+	public void animate(Cup[] cups, int cupNumberIndex, int pieceAmount) {
+		this.cupComponents = cups;
+		// cupComponents[cupNumber].cupsMarbles();
+		this.pieceAmount = cups[cupNumberIndex].getCount();
+		this.cupNumber = cupNumberIndex;
+		switch (this.cupNumber) {
+		case 0:
+			xAxis = 215;
+			yAxis = 423;
+			break;
+		case 1:
+			xAxis = 328;
+			yAxis = 423;
+			break;
+		case 2:
+			xAxis = 441;
+			yAxis = 423;
+			break;
+		case 3:
+			xAxis = 554;
+			yAxis = 423;
+			break;
+		case 4:
+			xAxis = 667;
+			yAxis = 423;
+			break;
+		case 5:
+			xAxis = 780;
+			yAxis = 423;
+			break;
+		case 6: // goal
+			xAxis = 880;
+		case 7:
+			xAxis = 780;
+			yAxis = 290;
+			break;
+		case 8:
+			xAxis = 667;
+			yAxis = 290;
+			break;
+		case 9:
+			xAxis = 554;
+			yAxis = 290;
+			break;
+		case 10:
+			xAxis = 441;
+			yAxis = 290;
+			break;
+		case 11:
+			xAxis = 328;
+			yAxis = 290;
+			break;
+		case 12:
+			xAxis = 215;
+			yAxis = 290;
+			break;
+		case 13:// goal 2
+			xAxis = 115;
+		}
 
-		piece = new ImageIcon(getClass().getResource("/BlueMarble.png"))
-				.getImage();
-		this.cupNumber = cupNumber + 1;// assume cupNumber starts at 0
-		this.pieceAmount = pieceAmount;
-		xAxis = cupComponents[cupNumber].getX();
-		xAxis += cupComponents[cupNumber].getComponentY();
-		yAxis = cupComponents[cupNumber].getY() + 200;
 		yAxisTemp = yAxis;
-		// my test
-		xA = cupComponents[cupNumber].getComponentX();
-		yA = cupComponents[cupNumber].getComponentY();
-		otherPiece = new ImageIcon(getClass().getResource("/YellowMarble.png"))
-				.getImage();
 		repaint();
 
 		ActionListener animater = new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				repaint();
 			}
-
 		};
-		timer = new Timer(10, animater);
+		timer = new Timer(2, animater);
 		timer.start();
-
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		for (int i = 0; i < pieceAmount; i++) {
+			if(pieces.length ==0){
+				return;
+			}
+			//keep this line you need it for animation i commented it out for testing
+		//	g.drawImage(pieces[i], yAxis, (i * 15) + xAxis, this);
+			setOpaque(false);
 
-			g.drawImage(piece, yAxis, (i * 15) + xAxis, this);
-
+			if (cupNumber == 12 && yAxis == yAxisTemp + 100) {
+				pieceAmount--;
+				// add piece to goal
+				((Goal) this.cupComponents[6]).addPiece(cupComponents[3]
+						.removePieces()[1]);
+				yAxisTemp -= 100;
+				dropPieceSound();
+			}
 			// if marbles reach next cup to the left(assume each cup is 100
 			// away)
-			if (yAxis == yAxisTemp - 113) {
-				yAxisTemp -= 100;
+			if (yAxis == yAxisTemp - 112) {
+				yAxisTemp -= 112;
 				pieceAmount--;
-				cupNumber--;
+
+				((Goal) this.cupComponents[6]).addPiece(cupComponents[3]
+						.removePieces()[1]);
+				cupNumber++;
 				dropPieceSound();
 
-			}// if marbles reach next cup to the right (assume each cup is 100
+			} // if marbles reach next cup to the right (assume each cup is 100
 				// away)
-			else if (yAxis == yAxisTemp + 113) {
-				yAxisTemp += 100;
+			else if (yAxis == yAxisTemp + 112) {
+				yAxisTemp += 112;
 				pieceAmount--;
-				cupNumber--;
+				cupNumber++;
 				dropPieceSound();
 
 			}
@@ -92,32 +148,32 @@ public class PieceAnimation extends JPanel {
 
 		// if its not the last marble need to move marble(s)
 		// if in cup 2-6 or 9-13 just move left/right
-		if (cupNumber > 1 && cupNumber < 7) {
-			yAxis--;
-		} else if (cupNumber > 8 && cupNumber < 14) {
-			yAxis++;
+		if (cupNumber < 12 && cupNumber > 6) {
+			yAxis -= 4;
+		} else if (cupNumber >= 0 && cupNumber > 5) {
+			yAxis += 4;
 		}
 		// if in goal1 move upper left
-		else if (cupNumber == 7) {
-			yAxis--;
-			xAxis--;
+		else if (cupNumber == 6) {
+			yAxis -= 4;
+			xAxis -= 4;
 		}
 		// if in goal2 move lower right
-		else if (cupNumber == 14) {
-			yAxis++;
-			xAxis++;
+		else if (cupNumber == 13) {
+			yAxis += 4;
+			xAxis += 4;
+			cupNumber = 0;
 		}
 		// if in cup one move lower left
-		else if (cupNumber == 1) {
-			yAxis--;
-			xAxis++;
+		else if (cupNumber == 12) {
+			yAxis -= 4;
+			xAxis += 4;
 		}
 		// if in cup eight move upper right
-		else if (cupNumber == 8) {
-			yAxis++;
-			xAxis--;
+		else if (cupNumber == 6) {
+			yAxis += 4;
+			xAxis -= 4;
 		}
-
 	}
 
 	private void dropPieceSound() {
@@ -129,6 +185,37 @@ public class PieceAnimation extends JPanel {
 						.play();
 			}
 		}).start();
+	}
+
+	public boolean distibute(int start, Board board) {
+
+		this.pieces = this.cupComponents[start].removePieces();
+		int position = start + 1;
+		for (int i = 0; i < pieces.length; i++) {
+			if (position != Board.GOAL1 && position != Board.GOAL2) {
+				this.cupComponents[position].addPiece(pieces[i]);
+			} else {
+				if (board.currentPlayersGoal(position)) {
+					board.setPiecesWon(board.getPiecesWon() + 1);
+					((Goal) this.cupComponents[position]).addPiece(pieces[i]);
+				} else {
+					i--;
+				}
+			}
+
+			start = position;
+			if (position == this.cupComponents.length - 1) {
+				position = -1;// 0 after increment
+			}
+			position++;
+
+		} // pieces done being distributed
+			// check if the person should go again
+		if (position - 1 == Board.GOAL1 || position == 0) {
+			return true;
+		}
+		return board.checkEmptyCup(start);
+
 	}
 
 }
