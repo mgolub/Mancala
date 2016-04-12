@@ -1,12 +1,6 @@
 package mancala;
 
 import java.awt.BorderLayout;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -14,7 +8,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.BoxLayout;
@@ -60,7 +53,7 @@ public class BoardPanel extends JPanel implements
 
 
 		boolean winner = winner();
-		animation.animate(board.getCups(), index, board);
+		//animation.animate(board.getCups(), index, board);
 		// setPlayersEnabled();
 
 		if (players.getCurrentPlayer() == 0) {

@@ -104,7 +104,7 @@ public class PieceAnimation extends JPanel {
 		timer = new Timer(2, animater);
 		timer.start();
 		//return (cupNumber == 6 || cupNumber == 13);
-		if (cupNumber == Board.GOAL1 || cupNumber-1 == 0) {
+		if (cupNumber+pieceAmount == Board.GOAL1 || cupNumber-1+pieceAmount == 0) {
 			return true;
 		}
 		return board.checkEmptyCup(cupNumberIndex);
