@@ -82,8 +82,8 @@ public class Board {
 		 * 
 		 * return checkTurn();
 		 */
-		return animator.distibute(start, this);
-		
+		 animator.animate(this.cups, start);
+		return false;
 	}
 
 	public boolean currentPlayersGoal(int position) {
