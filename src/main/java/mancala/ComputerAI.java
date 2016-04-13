@@ -37,7 +37,7 @@ public class ComputerAI extends Thread {
 	@Override
 	public void run() {
 		try {
-			Thread.sleep(900);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -73,7 +73,9 @@ public class ComputerAI extends Thread {
 			}
 		}
 		System.out.println(bestCup);
-		goAgain = animation.distibute(bestCup, this.board);
+		
+		goAgain = animation.animate(cups, bestCup, board);
+		//goAgain = animation.distibute(bestCup, this.board);
 	}
 
 	public boolean goAgain() {

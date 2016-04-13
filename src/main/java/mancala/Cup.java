@@ -89,11 +89,7 @@ public class Cup extends JComponent {
 		count = 4;
 		if (cupsMarbles.size() != 4) {
 			System.out.println("in methodd reset of sups");
-			// cupsMarbles.clear();
-			// cupsMarbles.add();
-			// cupsMarbles.add();
-			// cupsMarbles.add();
-			// cupsMarbles.add();
+			
 		}
 
 	}

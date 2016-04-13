@@ -1,12 +1,6 @@
 package mancala;
 
 import java.awt.BorderLayout;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -14,7 +8,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.BoxLayout;
@@ -58,12 +51,11 @@ public class BoardPanel extends JPanel implements
 	// called by action listener
 	public void turn(int index) {
 
+
 		boolean winner = winner();
-		animation.animate(board.getCups(), index, 4);
-		// setPlayersEnabled();
 
 		if (players.getCurrentPlayer() == 0) {
-			goAgain = animation.distibute(index, board);
+			goAgain = animation.animate(board.getCups(), index, board);
 			setPlayersEnabled();
 			repaint();
 		} else if (players.getCurrentPlayer() == 1) {
@@ -83,6 +75,7 @@ public class BoardPanel extends JPanel implements
 			if (goAgain) {
 				changeDescription(3);
 				goalTurn();
+
 			} else if (!goAgain) {
 				goAgain = false;
 				players.switchPlayers();
@@ -93,16 +86,13 @@ public class BoardPanel extends JPanel implements
 	}
 
 	private void goalTurn() {
-		// changeDescription(3);
 		if (mouseEnabled == false) {
 			computerAI.run();
 			goAgain = computerAI.goAgain();
-			System.out.println("computer goes again");
 			players.switchPlayers();
 
 		} else {
 			goAgain = true;
-			System.out.println("player one goes again");
 			return;
 		}
 	}
@@ -329,10 +319,7 @@ public class BoardPanel extends JPanel implements
 						+ " points\n" + players.playersName(2) + ": "
 						+ board.getContent(13) + " points\n\n"
 						+ players.playersName(winner) + " won!!");
-		// statsLabel1.setText(players.playersName(1) + " Wins: " +
-		// players.gamesWon(1));
-		// statsLabel2.setText(players.playersName(2) + " Wins: " +
-		// players.gamesWon(2));
+		
 	}
 
 	public Cup getCup(int cupNum) {

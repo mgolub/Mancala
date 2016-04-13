@@ -65,23 +65,8 @@ public class Board {
 	}
 
 	public boolean distribute(int startPosit, PieceAnimation animator) {
-		/*
-		 * start = startPosit; Image[] pieces = cups[start].removePieces();
-		 * 
-		 * for (int i = 0, position = start + 1; i < pieces.length; i++,
-		 * position++) { if (position != GOAL1 && position != GOAL2) {
-		 * cups[position].addPiece(pieces[i]); } else { if
-		 * (currentPlayersGoal(position)) { piecesWon++; ((Goal)
-		 * cups[position]).addPiece(pieces[i]);
-		 * 
-		 * } else { i--; } // board[position].repaint(); }
-		 * 
-		 * start = position; if (position == cups.length - 1) { position = -1;//
-		 * 0 after increment } } // pieces done being distributed
-		 * 
-		 * return checkTurn();
-		 */
-		return animator.distibute(startPosit, this);
+				 
+		return animator.animate(this.cups, startPosit, this);
 
 	}
 
@@ -102,7 +87,6 @@ public class Board {
 						+ otherPieces.length);
 				System.arraycopy(otherPieces, 0, allPieces, pieces.length,
 						otherPieces.length);
-				// System.out.println("amount is " + amount);
 				piecesWon = piecesWon + allPieces.length;
 				((Goal) cups[6]).addToGoal(allPieces);
 			} else if (landedSpot > 6 && landedSpot < 13

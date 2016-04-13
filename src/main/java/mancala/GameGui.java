@@ -2,26 +2,20 @@ package mancala;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameGui extends JFrame {
 
@@ -41,7 +35,7 @@ public class GameGui extends JFrame {
 		setTitle("Mancala");
 		setSize(1000, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		//setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 
@@ -79,7 +73,7 @@ public class GameGui extends JFrame {
 						board.turn(humanIndex);
 						// descriptionLabel.setText(board.description());
 						if (!board.goAgain()) {
-							new Timer().schedule(new DelayTask(), 670);
+							new Timer().schedule(new DelayTask(), 2000);
 						}
 					}
 				});
@@ -119,7 +113,6 @@ public class GameGui extends JFrame {
 		JPanel boardMid = new JPanel();
 		add(board, BorderLayout.CENTER);
 		add(board, BorderLayout.CENTER);
-	//	statsPanel.add(descriptionLabel, BorderLayout.NORTH);
 		add(statsPanel, BorderLayout.SOUTH);
 	}
 
@@ -141,7 +134,7 @@ public class GameGui extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		GameGui test = new GameGui("one", "two");
+		GameGui test = new GameGui("your", "computer");
 		test.setVisible(true);
 	}
 
