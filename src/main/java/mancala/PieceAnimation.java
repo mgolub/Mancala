@@ -24,6 +24,7 @@ public class PieceAnimation extends JPanel {
 	private Timer timer;
 	private Cup[] cupComponents;
 	private Image[] pieces;
+	private Board board;
 
 	@Inject
 	public PieceAnimation() {
@@ -35,6 +36,7 @@ public class PieceAnimation extends JPanel {
 		this.pieceAmount = cups[cupNumberIndex].getCount();
 		this.cupNumber = cupNumberIndex;
 		pieces = cupComponents[cupNumber].removePieces();
+		this.board = board;
 
 		switch (this.cupNumber) {
 		case 0:
@@ -128,26 +130,16 @@ public class PieceAnimation extends JPanel {
 
 			// if marbles reach next cup to the left(assume each cup is 100
 			// away)
+			int cup = cupNumber;
+			boolean set = false;
 			if (yAxis == yAxisTemp - 112) {
 				yAxisTemp -= 112;
-				pieceAmount--;
-				cupNumber++;
-				if (cupNumber == 14) {
-					cupNumber = 0;
-				}
-				dropPieceSound();
-				if (cupNumber != 6 && cupNumber != 13) {
-					(this.cupComponents[cupNumber])
-							.addPiece(pieces[pieceAmount]);
-				} else {
-					((Goal) this.cupComponents[cupNumber])
-							.addPiece(pieces[pieceAmount]);
-				}
-
-			} // if marbles reach next cup to the right (assume each cup is 100
-				// away)
-			else if (yAxis == yAxisTemp + 112) {
+				set = true;
+			} else if (yAxis == yAxisTemp + 112) {
 				yAxisTemp += 112;
+				set = true;
+			}
+			if (set) {
 				pieceAmount--;
 				cupNumber++;
 				if (cupNumber == 14) {
@@ -158,8 +150,11 @@ public class PieceAnimation extends JPanel {
 					(this.cupComponents[cupNumber])
 							.addPiece(pieces[pieceAmount]);
 				} else {
-					((Goal) this.cupComponents[cupNumber])
-							.addPiece(pieces[pieceAmount]);
+					System.out.println("cup " +cup++);
+					if (board.currentPlayersGoal(cup)) {
+						((Goal) this.cupComponents[cupNumber])
+								.addPiece(pieces[pieceAmount]);
+					}
 				}
 			}
 
