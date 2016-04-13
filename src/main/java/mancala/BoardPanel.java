@@ -296,7 +296,7 @@ public class BoardPanel extends JPanel implements
 		switch (code) {
 		case 1:
 			this.description.setText(players.currentPlayersName()
-					+ "'s Turn...");
+					+ "  Turn...");
 			break;
 		case 2:
 			this.description.setText("**** GREAT JOB "

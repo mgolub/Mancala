@@ -132,7 +132,6 @@ public class GameGui extends JFrame {
 		@Override
 		public void run() {
 			board.turn(1);
-			System.out.println("called timer task");
 		}
 	}
 

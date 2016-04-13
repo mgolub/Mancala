@@ -9,7 +9,7 @@ public class Player {
 	public Player(String name, int number) {
 		this.name = name;
 		this.number = number;
-		gamesWon = 0;
+		this.gamesWon = 0;
 	}
 
 	public String getName() {

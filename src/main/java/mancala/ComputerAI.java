@@ -58,7 +58,6 @@ public class ComputerAI extends Thread {
 					if (cups[j].getCount() == ((j + i) - counter)
 							&& cups[j].getCount() != 0) {
 						bestCup = j;
-						// System.out.println("went into logic");
 					}
 					counter += 2;
 				}
@@ -72,8 +71,6 @@ public class ComputerAI extends Thread {
 				bestCup = null;
 			}
 		}
-		System.out.println(bestCup);
-
 		goAgain = animation.animate(cups, bestCup, board);
 	}
 
