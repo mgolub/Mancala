@@ -29,12 +29,12 @@ public class GameGui extends JFrame {
 	private BoardPanel board;
 
 	@Inject
-	public GameGui(Players players, PieceAnimation animation, BoardPanel board) {
+	public GameGui(Players players, PieceAnimation animation, final BoardPanel board) {
 
 		setTitle("Mancala");
 		setSize(1000, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		setResizable(true);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 
@@ -60,7 +60,7 @@ public class GameGui extends JFrame {
 
 					@Override
 					public void mouseClicked(MouseEvent event) {
-						Cup cup = (Cup) event.getSource();
+					Cup cup = (Cup) event.getSource();
 						int humanIndex = (Integer) cup
 								.getClientProperty("index");
 						if ((!cup.isEnabled() || board
