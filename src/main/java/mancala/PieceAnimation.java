@@ -130,7 +130,6 @@ public class PieceAnimation extends JPanel {
 
 			// if marbles reach next cup to the left(assume each cup is 100
 			// away)
-			int cup = cupNumber;
 			boolean set = false;
 			if (yAxis == yAxisTemp - 112) {
 				yAxisTemp -= 112;
@@ -150,11 +149,9 @@ public class PieceAnimation extends JPanel {
 					(this.cupComponents[cupNumber])
 							.addPiece(pieces[pieceAmount]);
 				} else {
-					System.out.println("cup " +cup++);
-					if (board.currentPlayersGoal(cup)) {
-						((Goal) this.cupComponents[cupNumber])
-								.addPiece(pieces[pieceAmount]);
-					}
+					((Goal) this.cupComponents[cupNumber])
+							.addPiece(pieces[pieceAmount]);
+
 				}
 			}
 
