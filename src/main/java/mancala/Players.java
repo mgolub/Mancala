@@ -1,9 +1,16 @@
 package mancala;
 
+import com.google.inject.Inject;
+
 public class Players {
 
 	private Player[] players;
 	private int currentPlayer;
+
+	@Inject
+	public Players() {
+		this("your", "computer");
+	}
 
 	public Players(String player1Name, String player2Name) {
 		players = new Player[2];
@@ -25,9 +32,10 @@ public class Players {
 		currentPlayer = currentPlayer == 1 ? 0 : 1;
 	}
 
-	public int getCurrentPlayer(){
+	public int getCurrentPlayer() {
 		return this.currentPlayer;
 	}
+
 	/*
 	 * @return 1 or 2 to show which players turn it is
 	 */

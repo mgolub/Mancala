@@ -1,13 +1,18 @@
 package mancala;
 
+import java.util.Properties;
+
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.google.inject.name.Names;
 
 public class MancalaModule implements Module {
 
-	public void configure(Binder arg0) {
-		// TODO Auto-generated method stub
+	private Binder binder;
+	
 
+	public void configure(Binder binder) {
+		this.binder = binder;
 	}
 
 }

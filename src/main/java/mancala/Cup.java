@@ -55,6 +55,9 @@ public class Cup extends JComponent {
 				rows++;
 				location = 0;
 			}
+			if(cupsMarbles.size() ==0){
+				return;
+			}
 			g.drawImage(this.cupsMarbles.get(piecesDrawn), rows * 10,
 					location * 15, this);
 			piecesDrawn++;

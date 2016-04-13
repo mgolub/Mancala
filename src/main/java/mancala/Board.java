@@ -3,8 +3,12 @@ package mancala;
 import java.awt.Image;
 import java.util.Arrays;
 
-//logic of a computer mancala game 
+import javax.inject.Singleton;
 
+import com.google.inject.Inject;
+
+//logic of a computer mancala game 
+@Singleton
 public class Board {
 
 	private Cup[] cups;
@@ -13,8 +17,10 @@ public class Board {
 	protected static final int GOAL1 = 6;
 	protected static final int GOAL2 = 13;
 	private Marbles marbles;
-
+	private boolean midTurn;
+	@Inject
 	public Board(Players players) {
+		midTurn = false;
 		this.players = players;
 		piecesWon = 0;
 		marbles = new Marbles();
@@ -30,7 +36,6 @@ public class Board {
 					cups[i] = new Cup(639, 1560, marbles);
 				}
 			}
-			// cups[i].setToolTipText(Integer.toString(getContent(i)));
 
 		}
 	}
@@ -65,7 +70,7 @@ public class Board {
 	}
 
 	public boolean distribute(int startPosit, PieceAnimation animator) {
-				 
+		midTurn = true;
 		return animator.animate(this.cups, startPosit, this);
 
 	}
@@ -80,9 +85,11 @@ public class Board {
 	public boolean checkEmptyCup(int landedSpot) {
 
 		if (getContent(landedSpot) == 1) {
-			if (landedSpot > -1 && landedSpot < 6 && players.currentPlayerNum() == 1) {
+			if (landedSpot > -1 && landedSpot < 6
+					&& players.currentPlayerNum() == 1) {
 				Image[] pieces = cups[landedSpot].removePieces();
-				Image[] otherPieces = cups[Math.abs(landedSpot - 12)].removePieces();
+				Image[] otherPieces = cups[Math.abs(landedSpot - 12)]
+						.removePieces();
 				Image[] allPieces = Arrays.copyOf(pieces, pieces.length
 						+ otherPieces.length);
 				System.arraycopy(otherPieces, 0, allPieces, pieces.length,
@@ -92,7 +99,8 @@ public class Board {
 			} else if (landedSpot > 6 && landedSpot < 13
 					&& players.currentPlayerNum() == 2) {
 				Image[] pieces = cups[landedSpot].removePieces();
-				Image[] otherPieces = cups[Math.abs(landedSpot - 12)].removePieces();
+				Image[] otherPieces = cups[Math.abs(landedSpot - 12)]
+						.removePieces();
 				Image[] allPieces = this.combineTwoArrays(pieces, otherPieces);
 				piecesWon = piecesWon + allPieces.length;
 				((Goal) cups[13]).addToGoal(allPieces);
@@ -156,9 +164,6 @@ public class Board {
 		return cups[cupNum];
 	}
 
-	
-	
-
 	public Goal getGoal(int cupNum) {
 		if (cupNum == GOAL1 || cupNum == GOAL2) {
 			return (Goal) cups[cupNum];
@@ -185,6 +190,14 @@ public class Board {
 
 	public Cup[] getCups() {
 		return this.cups;
+	}
+
+	public boolean turnInProgress() {
+		return midTurn;
+	}
+
+	public void turnFinished() {
+		midTurn = false;
 	}
 
 }

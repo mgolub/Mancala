@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.google.inject.Inject;
+
 public class BoardPanel extends JPanel implements
 		ComputerAI.ComputerMoveListener {
 
@@ -33,6 +35,7 @@ public class BoardPanel extends JPanel implements
 	private PieceAnimation animation;
 	private JLabel description;
 
+	@Inject
 	public BoardPanel(Players players, PieceAnimation animate) {
 		this.players = players;
 		this.animation = animate;
@@ -50,7 +53,6 @@ public class BoardPanel extends JPanel implements
 
 	// called by action listener
 	public void turn(int index) {
-
 
 		boolean winner = winner();
 
@@ -182,8 +184,8 @@ public class BoardPanel extends JPanel implements
 		cupsPanel.setOpaque(false);
 		cupPanel1.setOpaque(false);
 		cupPanel2.setOpaque(false);
-		cupPanel1.setPreferredSize(new Dimension(700,50));
-		cupPanel2.setPreferredSize(new Dimension(700,80));
+		cupPanel1.setPreferredSize(new Dimension(700, 50));
+		cupPanel2.setPreferredSize(new Dimension(700, 70));
 		goalPanel1.setOpaque(false);
 		goalPanel2.setOpaque(false);
 		goalPanel1.setMinimumSize(new Dimension(150, 700));
@@ -192,7 +194,6 @@ public class BoardPanel extends JPanel implements
 		description.setForeground(Color.BLUE);
 		description.setHorizontalAlignment(SwingConstants.CENTER);
 		this.decriptionPanel.setBackground(Color.BLACK);
-
 
 	}
 
@@ -207,7 +208,7 @@ public class BoardPanel extends JPanel implements
 
 	private void addComponents() {
 		GridBagConstraints c = new GridBagConstraints();
-		addSpaceHolder(cupsPanel, 200, 243);
+		addSpaceHolder(cupsPanel, 200, 220);
 		cupsPanel.add(cupPanel2, BorderLayout.SOUTH);
 		cupsPanel.add(cupPanel1, BorderLayout.CENTER);
 		addSpaceHolder(cupsPanel, 200, 10);
@@ -319,7 +320,7 @@ public class BoardPanel extends JPanel implements
 						+ " points\n" + players.playersName(2) + ": "
 						+ board.getContent(13) + " points\n\n"
 						+ players.playersName(winner) + " won!!");
-		
+
 	}
 
 	public Cup getCup(int cupNum) {

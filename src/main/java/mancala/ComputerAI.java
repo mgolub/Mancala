@@ -1,12 +1,8 @@
 package mancala;
 
-import java.util.ArrayList;
 import java.util.Random;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.Callable;
+
+import com.google.inject.Inject;
 
 public class ComputerAI extends Thread {
 
@@ -19,6 +15,7 @@ public class ComputerAI extends Thread {
 	private Board board;
 	private boolean goAgain;
 
+	@Inject
 	public ComputerAI(PieceAnimation animator, Board board) {
 		this.cups = board.getCups();
 		this.goAgain = false;
@@ -37,14 +34,16 @@ public class ComputerAI extends Thread {
 	@Override
 	public void run() {
 		try {
-			Thread.sleep(2000);
+			while (board.turnInProgress()) {
+				Thread.sleep(2000);
+			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		Integer bestCup = null;
 		Random rand = new Random();
 		// find cup that goes into goal
-		for (int i = 7; i <13; i++) {
+		for (int i = 7; i < 13; i++) {
 			if (i + cups[i].getCount() == Board.GOAL2) {
 				bestCup = i;
 				break;
@@ -56,9 +55,10 @@ public class ComputerAI extends Thread {
 		for (int i = 0; i < 6; i++) {
 			if (cups[i].getCount() == 0) {
 				for (int j = 12; j > 7; j--) {
-					if (cups[j].getCount() == ((j + i) - counter) && cups[j].getCount() != 0) {
+					if (cups[j].getCount() == ((j + i) - counter)
+							&& cups[j].getCount() != 0) {
 						bestCup = j;
-						System.out.println("went into logic");
+						// System.out.println("went into logic");
 					}
 					counter += 2;
 				}
@@ -73,9 +73,8 @@ public class ComputerAI extends Thread {
 			}
 		}
 		System.out.println(bestCup);
-		
+
 		goAgain = animation.animate(cups, bestCup, board);
-		//goAgain = animation.distibute(bestCup, this.board);
 	}
 
 	public boolean goAgain() {
