@@ -19,17 +19,15 @@ import javax.swing.SwingConstants;
 
 import com.google.inject.Inject;
 
-public class BoardPanel extends JPanel implements
-		ComputerAI.ComputerMoveListener {
+public class BoardPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel cupPanel1, cupPanel2, cupsPanel, goalPanel1, goalPanel2,
-			decriptionPanel;
+	private JPanel cupPanel1, cupPanel2, cupsPanel, goalPanel1, goalPanel2, decriptionPanel;
 	private Board board;
 	private Players players;
 	private int winner;
 	private boolean mouseEnabled;
-	boolean goAgain;
+	private boolean goAgain;
 	private ComputerAI computerAI;
 	private int computerMove;
 	private PieceAnimation animation;
@@ -64,7 +62,6 @@ public class BoardPanel extends JPanel implements
 			mouseEnabled = false;
 			computerAI.run();
 			goAgain = computerAI.goAgain();
-
 		}
 
 		int piecesAdded = board.checkForMoves();
@@ -147,7 +144,6 @@ public class BoardPanel extends JPanel implements
 		for (int i = 7; i < 13; i++) {
 			board.getCup(i).setEnabled(!enabled);
 		}
-
 	}
 
 	private void createComponents() {
@@ -174,9 +170,7 @@ public class BoardPanel extends JPanel implements
 		for (int i = 12; i >= 7; i--) {
 
 			cupPanel2.add(board.getCup(i));
-
 		}
-
 	}
 
 	private void formatComponents() {
@@ -233,7 +227,6 @@ public class BoardPanel extends JPanel implements
 		add(west, BorderLayout.WEST);
 		add(cupsPanel, BorderLayout.CENTER);
 		add(this.decriptionPanel, BorderLayout.SOUTH);
-		// this.setBackground(Color.RED);
 	}
 
 	private void addSpaceHolder(JPanel panel, int width, int height) {

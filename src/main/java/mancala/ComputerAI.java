@@ -6,10 +6,6 @@ import com.google.inject.Inject;
 
 public class ComputerAI extends Thread {
 
-	public interface ComputerMoveListener {
-		public void onMove(int cupNumber);
-	}
-
 	private Cup[] cups;
 	private PieceAnimation animation;
 	private Board board;

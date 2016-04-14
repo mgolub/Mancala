@@ -104,7 +104,7 @@ public class GameGui extends JFrame {
 	}
 
 	public void add() {
-		//optionsPanel.add(newGameButton);
+		optionsPanel.add(newGameButton);
 		optionsPanel.add(rulesButton);
 		add(optionsPanel, BorderLayout.NORTH);
 		add(board, BorderLayout.CENTER);
@@ -115,8 +115,10 @@ public class GameGui extends JFrame {
 	public void addActionListeners() {
 		newGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				board.resetBoard();
 				board = new BoardPanel(new Players("your", "computer"),
 						new PieceAnimation());
+			
 				repaint();
 			}
 		});
