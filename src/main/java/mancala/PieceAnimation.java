@@ -112,7 +112,8 @@ public class PieceAnimation extends JPanel {
 			return true;
 		}
 		board.turnFinished();
-		return board.checkEmptyCup(landGoal);
+		//return board.checkEmptyCup(landGoal)
+				return false;
 
 	}
 

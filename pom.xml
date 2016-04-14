@@ -4,7 +4,7 @@
 
 	<groupId>Mancala</groupId>
 	<artifactId>Mancala</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>Mancala</name>
@@ -21,11 +21,13 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>Mancala.PlayMancala</mainClass>
+							<mainClass>mancala.PlayMancala</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
+						<descriptorRef>
+							jar-with-dependencies
+						</descriptorRef>
 					</descriptorRefs>
 				</configuration>
 			</plugin>
