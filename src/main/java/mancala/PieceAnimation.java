@@ -151,7 +151,9 @@ public class PieceAnimation extends JPanel {
 				} else {
 					System.out.println(currentPlayer);
 					if (board.currentPlayersGoal(cupNumber, currentPlayer)) {
-						((Goal) this.cupComponents[cupNumber]).addPiece(pieces[pieceAmount]);
+												((Goal) this.cupComponents[cupNumber]).addPiece(pieces[pieceAmount]);
+					}else{
+						pieceAmount++;
 					}
 				}
 			}
