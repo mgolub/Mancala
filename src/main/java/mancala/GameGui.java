@@ -25,7 +25,7 @@ public class GameGui extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel optionsPanel, statsPanel;
-	private JButton newGameButton, rulesButton;
+	private JButton rulesButton;
 	private BoardPanel board;
 
 	@Inject
@@ -41,10 +41,8 @@ public class GameGui extends JFrame {
 		optionsPanel = new JPanel();
 		this.board = board;
 
-		newGameButton = new JButton("New Game");
 		rulesButton = new JButton("Rules");
-		this.setIconImage(new ImageIcon(getClass().getResource(
-				"/MancalaBoard.png")).getImage());
+		this.setIconImage(new ImageIcon(getClass().getResource("/MancalaBoard.png")).getImage());
 
 		setPanels();
 		add();
@@ -60,18 +58,24 @@ public class GameGui extends JFrame {
 
 					@Override
 					public void mouseClicked(MouseEvent event) {
-					Cup cup = (Cup) event.getSource();
-						int humanIndex = (Integer) cup
-								.getClientProperty("index");
-						if ((!cup.isEnabled() || board
-								.getQtyMarbles(humanIndex) == 0)) {
+						Cup cup = (Cup) event.getSource();
+						int humanIndex = (Integer) cup.getClientProperty("index");
+
+						if (invalidCupChoice(board, cup, humanIndex)) {
 							return;
 						}
+						// while turn is in progress no cups can be clicked
 						board.disableAllCups();
+						// set the turn to next player
 						board.turn(humanIndex);
+						
 						if (!board.goAgain()) {
 							new Timer().schedule(new DelayTask(), 3000);
 						}
+					}
+
+					private boolean invalidCupChoice(final BoardPanel board, Cup cup, int humanIndex) {
+						return !cup.isEnabled() || board.getQtyMarbles(humanIndex) == 0;
 					}
 				});
 			}
@@ -93,9 +97,7 @@ public class GameGui extends JFrame {
 		Font font1 = new Font("Rockwell Extra Bold", Font.PLAIN, 28);
 		optionsPanel.setBackground(Color.BLACK);
 		optionsPanel.setPreferredSize(new Dimension(1000, 50));
-		newGameButton.setFont(font1);
-		newGameButton.setBackground(Color.black);
-		newGameButton.setForeground(Color.GREEN);
+
 		rulesButton.setFont(font1);
 		rulesButton.setBackground(Color.black);
 		rulesButton.setForeground(Color.GREEN);
@@ -104,7 +106,7 @@ public class GameGui extends JFrame {
 	}
 
 	public void add() {
-		optionsPanel.add(newGameButton);
+
 		optionsPanel.add(rulesButton);
 		add(optionsPanel, BorderLayout.NORTH);
 		add(board, BorderLayout.CENTER);
@@ -113,15 +115,7 @@ public class GameGui extends JFrame {
 	}
 
 	public void addActionListeners() {
-		newGameButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				board.resetBoard();
-				board = new BoardPanel(new Players("your", "computer"),
-						new PieceAnimation());
-			
-				repaint();
-			}
-		});
+
 		rulesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RulesFrame rulesFrame = new RulesFrame();
@@ -132,8 +126,14 @@ public class GameGui extends JFrame {
 
 	class DelayTask extends TimerTask {
 		@Override
+
 		public void run() {
-			board.turn(1);
+			boolean successfullTurn  = board.turn(1);
+			while(!successfullTurn){
+				successfullTurn  = board.turn(1) ; 
+				//System.out.println("try to go");
+			}
+			//System.out.println("went");
 		}
 	}
 

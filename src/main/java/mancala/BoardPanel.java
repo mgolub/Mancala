@@ -50,30 +50,45 @@ public class BoardPanel extends JPanel {
 	}
 
 	// called by action listener
-	public void turn(int index) {
+	/*
+	 * try to go if midturn return false
+	 */
+	public boolean turn(int index) {
+
+		if (midTurn()) {
+			System.out.println("can go yet still moving pices");
+			return false;
+		}
 
 		boolean winner = winner();
 
 		if (players.getCurrentPlayer() == 0) {
 			goAgain = animation.animate(board.getCups(), index, board);
+
 			setPlayersEnabled();
 			repaint();
 		} else if (players.getCurrentPlayer() == 1) {
 			mouseEnabled = false;
 			computerAI.run();
+
 			goAgain = computerAI.goAgain();
+
 		}
 
 		int piecesAdded = board.checkForMoves();
 		if (piecesAdded != 0) {
-			JOptionPane.showMessageDialog(null, "Left over peices added to "
-					+ players.playersName(piecesAdded) + "'s goal!!");
+			JOptionPane.showMessageDialog(null,
+					"Left over peices added to " + players.playersName(piecesAdded) + "'s goal!!");
 			repaint();
 		}
 		if (!winner) {
 			if (goAgain) {
 				changeDescription(3);
-				goalTurn();
+				boolean successTurn = goalTurn();
+				while (!successTurn) {
+					successTurn = goalTurn();
+					waiting();
+				}
 
 			} else if (!goAgain) {
 				goAgain = false;
@@ -82,18 +97,29 @@ public class BoardPanel extends JPanel {
 			}
 			changeDescription(1);
 		}
+		return true;
 	}
 
-	private void goalTurn() {
+	private void waiting() {
+		for (int i = 0; i < 1000; i++) {
+
+		}
+	}
+
+	private boolean goalTurn() {
 		if (mouseEnabled == false) {
+			if (animation.piecesMoving()) {
+				return false;
+			}
 			computerAI.run();
 			goAgain = computerAI.goAgain();
 			players.switchPlayers();
 
 		} else {
 			goAgain = true;
-			return;
+			return true;
 		}
+		return true;
 	}
 
 	public void onMove(int move) {
@@ -195,9 +221,8 @@ public class BoardPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-		g.drawImage(
-				new ImageIcon(getClass().getResource("/MancalaBoardFinal.jpg"))
-						.getImage(), 0, 0, getWidth(), getHeight(), this);
+		g.drawImage(new ImageIcon(getClass().getResource("/MancalaBoardFinal.jpg")).getImage(), 0, 0, getWidth(),
+				getHeight(), this);
 	}
 
 	private void addComponents() {
@@ -239,10 +264,6 @@ public class BoardPanel extends JPanel {
 
 	public int getQtyMarbles(int cup) {
 		return board.getContent(cup);
-	}
-
-	public boolean distributePieces(int startCup) {
-		return board.distribute(startCup, animation);
 	}
 
 	public int checkForMoves() {
@@ -288,16 +309,13 @@ public class BoardPanel extends JPanel {
 	public void changeDescription(int code) {
 		switch (code) {
 		case 1:
-			this.description.setText(players.currentPlayersName()
-					+ "  Turn...");
+			this.description.setText(players.currentPlayersName() + "  Turn...");
 			break;
 		case 2:
-			this.description.setText("**** GREAT JOB "
-					+ players.playersName(winner) + "!!! ****");
+			this.description.setText("**** GREAT JOB " + players.playersName(winner) + "!!! ****");
 			break;
 		case 3:
-			this.description.setText(players.currentPlayersName()
-					+ " landed in the goal - player goes again");
+			this.description.setText(players.currentPlayersName() + " landed in the goal - player goes again");
 			break;
 		case 4:
 			this.description.setText("Tie Game - no one wins!");
@@ -307,12 +325,9 @@ public class BoardPanel extends JPanel {
 
 	public void displayWinner() {
 		changeDescription(2);
-		JOptionPane.showMessageDialog(
-				null,
-				players.playersName(1) + ": " + board.getContent(6)
-						+ " points\n" + players.playersName(2) + ": "
-						+ board.getContent(13) + " points\n\n"
-						+ players.playersName(winner) + " won!!");
+		JOptionPane.showMessageDialog(null,
+				players.playersName(1) + ": " + board.getContent(6) + " points\n" + players.playersName(2) + ": "
+						+ board.getContent(13) + " points\n\n" + players.playersName(winner) + " won!!");
 
 	}
 
@@ -336,4 +351,10 @@ public class BoardPanel extends JPanel {
 	public void disableAllCups() {
 		board.disableAllCups();
 	}
+
+	public boolean midTurn() {
+		return animation.piecesMoving();
+	}
+
+	
 }

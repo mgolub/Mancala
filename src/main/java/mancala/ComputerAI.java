@@ -29,13 +29,7 @@ public class ComputerAI extends Thread {
 
 	@Override
 	public void run() {
-		try {
-			while (board.turnInProgress()) {
-				Thread.sleep(2000);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		
 		Integer bestCup = null;
 		Random rand = new Random();
 		// find cup that goes into goal
@@ -46,7 +40,7 @@ public class ComputerAI extends Thread {
 			}
 		}
 
-		// Choose the spot that will land in an empty spot-
+	/*	// Choose the spot that will land in an empty spot-
 		int counter = 0;
 		for (int i = 0; i < 6; i++) {
 			if (cups[i].getCount() == 0) {
@@ -59,7 +53,7 @@ public class ComputerAI extends Thread {
 				}
 				break;
 			}
-		}
+		}*/
 		// Otherwise choose a random c up
 		while (bestCup == null) {
 			bestCup = rand.nextInt(6) + 7;
@@ -72,5 +66,9 @@ public class ComputerAI extends Thread {
 
 	public boolean goAgain() {
 		return goAgain;
+	}
+
+	public boolean piecesMoving() {
+		return animation.piecesMoving();
 	}
 }

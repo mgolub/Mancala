@@ -2,6 +2,7 @@ package mancala;
 
 import java.awt.Image;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Singleton;
 
@@ -17,10 +18,10 @@ public class Board {
 	protected static final int GOAL1 = 6;
 	protected static final int GOAL2 = 13;
 	private Marbles marbles;
-	private boolean midTurn;
+	//private boolean midTurn;
 	@Inject
 	public Board(Players players) {
-		midTurn = false;
+		//midTurn = false;
 		this.players = players;
 		piecesWon = 0;
 		marbles = new Marbles();
@@ -69,15 +70,15 @@ public class Board {
 		return cups[i].getCount();
 	}
 
-	public boolean distribute(int startPosit, PieceAnimation animator) {
-		midTurn = true;
-		return animator.animate(this.cups, startPosit, this);
 
+
+	public boolean currentPlayersGoal(int position, int currentPlayer) {
+		return (position == GOAL1 && currentPlayer == 1)
+				|| (position == GOAL2 && currentPlayer == 2);
 	}
-
-	public boolean currentPlayersGoal(int position) {
-		return (position == GOAL1 && players.currentPlayerNum() == 1)
-				|| (position == GOAL2 && players.currentPlayerNum() == 2);
+	
+	public int getCurrentPlayer(){
+		return players.currentPlayerNum();
 	}
 
 	// checks to see if landed in a goal or landed in an empty cup
@@ -192,12 +193,5 @@ public class Board {
 		return this.cups;
 	}
 
-	public boolean turnInProgress() {
-		return midTurn;
-	}
-
-	public void turnFinished() {
-		midTurn = false;
-	}
 
 }

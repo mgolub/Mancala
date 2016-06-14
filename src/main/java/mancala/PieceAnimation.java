@@ -25,13 +25,17 @@ public class PieceAnimation extends JPanel {
 	private Cup[] cupComponents;
 	private Image[] pieces;
 	private Board board;
+	private int currentPlayer;
 
 	@Inject
 	public PieceAnimation() {
+		this.timer = null;
+		currentPlayer = -1;
 
 	}
 
 	public boolean animate(Cup[] cups, int cupNumberIndex, Board board) {
+		this.currentPlayer = board.getCurrentPlayer();
 		this.cupComponents = cups;
 		this.pieceAmount = cups[cupNumberIndex].getCount();
 		this.cupNumber = cupNumberIndex;
@@ -94,7 +98,6 @@ public class PieceAnimation extends JPanel {
 		}
 
 		yAxisTemp = yAxis;
-		repaint();
 
 		ActionListener animater = new ActionListener() {
 
@@ -108,12 +111,13 @@ public class PieceAnimation extends JPanel {
 		while (landGoal > 13) {
 			landGoal -= 13;
 		}
+
 		if (landGoal == Board.GOAL1 || landGoal == Board.GOAL2) {
 			return true;
 		}
-		board.turnFinished();
-		//return board.checkEmptyCup(landGoal)
-				return false;
+		// return board.checkEmptyCup(landGoal)
+
+		return false;
 
 	}
 
@@ -121,11 +125,7 @@ public class PieceAnimation extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (int i = 0; i < pieceAmount; i++) {
-			// if(pieces.length ==0){
-			// return;
-			// }
-			// keep this line you need it for animation i commented it out for
-			// testing
+
 			g.drawImage(pieces[i], yAxis, (i * 15) + xAxis, this);
 			setOpaque(false);
 
@@ -147,12 +147,12 @@ public class PieceAnimation extends JPanel {
 				}
 				dropPieceSound();
 				if (cupNumber != 6 && cupNumber != 13) {
-					(this.cupComponents[cupNumber])
-							.addPiece(pieces[pieceAmount]);
+					(this.cupComponents[cupNumber]).addPiece(pieces[pieceAmount]);
 				} else {
-					((Goal) this.cupComponents[cupNumber])
-							.addPiece(pieces[pieceAmount]);
-
+					System.out.println(currentPlayer);
+					if (board.currentPlayersGoal(cupNumber, currentPlayer)) {
+						((Goal) this.cupComponents[cupNumber]).addPiece(pieces[pieceAmount]);
+					}
 				}
 			}
 
@@ -196,10 +196,14 @@ public class PieceAnimation extends JPanel {
 		new Thread(new Runnable() {
 
 			public void run() {
-				Applet.newAudioClip(getClass().getResource("/marbleDrop.wav"))
-						.play();
+				Applet.newAudioClip(getClass().getResource("/marbleDrop.wav")).play();
 			}
 		}).start();
+	}
+
+	public boolean piecesMoving() {
+
+		return timer == null ? false : timer.isRunning();
 	}
 
 }
